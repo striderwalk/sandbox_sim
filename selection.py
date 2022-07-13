@@ -15,7 +15,7 @@ class Selection:
         size = LOWER_BOARDER-5
         for i, obj in enumerate(particles):
 
-            x = size*i+size/2
+            x = size*i
             y = HEIGHT-LOWER_BOARDER+5
             self.buttons.append(Button(x,y,size, obj.__name__, obj.colour))
 

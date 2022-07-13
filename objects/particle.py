@@ -1,5 +1,5 @@
 from random import randint
-from math import sqrt
+import numpy as np
 
 class Particle:
     """
@@ -19,6 +19,15 @@ class Particle:
         self.life_len = 0
         self.static = static
 
+    def choice(self, options):
+        probs = [1/len(options) for _ in options]
+        x = np.random.rand()
+        cum = 0
+        for i,p in enumerate(probs):
+            cum += p
+            if x < cum:
+                break
+        return options[i]
         
     def update_colour(self):
         self.colour = tuple(type(self).colour)
@@ -31,43 +40,45 @@ class Particle:
        
     
 
-    def get_neighbours(self, board, xdis, ydis=-1) -> list:
-        # find all neigbours in box(xrange, yrange) -> [vals]
+    def get_neighbours(self, board, dis) -> list:
+        # find all neigbours in box(dis, dis) -> [vals]
         # both ranges are ± from self.pos 
-        if ydis < 0: ydis = xdis
-        # faster that get_neighbours but not circle :(
-        neighbours = []
-        for i in range(ydis+1):
-            for j in range(xdis+1):
-                # avoid self
-                if i+j == 0:
-                     continue
-                # will check self gets removed later
+        # fast but not circle :(
 
-                # all cases
-                if self.y > i-1 and self.x > j: # up left
-                    neighbours.append(board[self.y-i][self.x-j])
-                if self.y > i-1 and self.x < len(board[self.y])-j: # up right
-                    neighbours.append(board[self.y-i][self.x+j])
-                if self.y < len(board)-i and self.x > j: # down left
-                    neighbours.append(board[self.y+i][self.x-j])
-                if self.y < len(board)-i  and self.x < len(board[self.y])-j:# down right
-                    neighbours.append(board[self.y+i][self.x+j])
-        return neighbours
+        # find box x
+        minx = max(0, self.x-dis+1)
+        miny = max(0, self.y-dis+1)
+        
+        # find box y
+        maxx = min(len(board[0]), self.x+dis)
+        maxy = min(len(board), self.y+dis)
 
-   
-
+        # go though la box
+        for y, i in enumerate(board[miny:maxy]):
+            for x, j in enumerate(i[minx:maxx]):
+                yield (x,y), j
+                
     def moveTo(self, board, x,y):
         # to not move stone/wood
-        if board[y][x].static == True: return
+        if board[y, x].static == True: return
         # update others pos
-        board[y][x].x = self.x
-        board[y][x].y = self.y
+        board[y, x].x = self.x
+        board[y, x].y = self.y
         # swap pos
-        board[self.y][self.x], board[y][x] = board[y][x], board[self.y][self.x]
+        board[self.y, self.x], board[y, x] = board[y, x], board[self.y, self.x]
         # set self pos
         self.x = x
         self.y = y
+
+
+    def check_self(self,board):
+        for _ ,other in self.get_neighbours(board, 2):
+            if type(other) != type(self):
+                return False
+
+        return True
+
+
 
     def __repr__(self): return f"{type(self).__name__} at {self.x}, {self.y}"# with mass of {self.mass}"
     
