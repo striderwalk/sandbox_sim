@@ -1,12 +1,12 @@
 from .particle import Particle
 
-class Sand(Particle):
+class Ash(Particle):
     """
     a Partical that will fall
-     - down 
+     - down
     """
 
-    colour = (222, 207, 111)
+    colour = (54,69,79)
 
     def __init__(self, x,y):
         super().__init__(x, y, mass=20)
@@ -17,7 +17,7 @@ class Sand(Particle):
         # check if upade needed
         if self.check_self(board):
             return
-
+            
         # time since created
         self.life_len += 1
         

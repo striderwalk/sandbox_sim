@@ -1,10 +1,7 @@
 import pygame
+from objects import Air
 from conts import * 
-from inspect import getmembers, isclass
-import objects
 
-particles = [i[1] for i in getmembers(objects, isclass)]
-particles.remove(objects.Particle)
 
 class Mouse:
     """
@@ -32,7 +29,7 @@ class Mouse:
         board.add_particle(x,y, obj,strict=keep) 
 
         # set neighbours
-        for other in board.board[y][x].get_neighbours(board.board, self.size):
+        for _, other in board.board[y][x].get_neighbours(board.board, self.size):
             board.add_particle(other.x,other.y, obj,strict=keep)
 
     def get_pos(self):
@@ -45,16 +42,21 @@ class Mouse:
 
 
 
-    def draw_mouse(self, win):
+    def draw_mouse(self, win, obj):
+        if obj == Air:
+            print("hi")
+            colour = (0,0,0)
+        else:
+            colour = obj.colour
         pygame.mouse.set_visible(False)
         state,x,y = self.get_pos()
         if state == "CORD":
             pygame.mouse.set_visible(True)
             return
 
-        pygame.draw.rect(win, (227, 107, 9), [x*CELL_WIDTH,y*CELL_HEIGHT,CELL_WIDTH,CELL_HEIGHT])
+        pygame.draw.rect(win, (226, 233, 16), [(x-0.5)*CELL_WIDTH,(y-0.5)*CELL_HEIGHT,CELL_WIDTH*2,CELL_HEIGHT*2])
 
-        pygame.draw.rect(win, (227, 107, 9), [CELL_WIDTH*x-(self.size-1)*CELL_WIDTH,
+        pygame.draw.rect(win, colour, [CELL_WIDTH*x-(self.size-1)*CELL_WIDTH,
                                               CELL_HEIGHT*y-(self.size-1)*CELL_HEIGHT,
                                               (self.size*2-1)*CELL_WIDTH, 
                                               (self.size*2-1)*CELL_HEIGHT],
@@ -76,4 +78,4 @@ class Mouse:
 
 
 
-        self.draw_mouse(win)
+        self.draw_mouse(win, particles[index])
