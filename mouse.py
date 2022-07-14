@@ -44,7 +44,6 @@ class Mouse:
 
     def draw_mouse(self, win, obj):
         if obj == Air:
-            print("hi")
             colour = (0,0,0)
         else:
             colour = obj.colour
@@ -64,12 +63,21 @@ class Mouse:
 
 
     def update(self, win, board, index):
-        #print(self.size)
+        
+        self.draw_mouse(win, particles[index])
+
         # check for input
         if pygame.mouse.get_pressed()[0]:
             pos = self.get_pos()
             if pos[0] == "BOX" :
                 self.press(board, *pos[1:], particles[index])
+
+        if pygame.mouse.get_pressed()[1]:
+            pos = self.get_pos()
+            if pos[0] == "BOX" :
+                x, y = pos[1:]
+                print(particles.index(type(board.board[y, x])))
+                return particles.index(type(board.board[y, x]))
 
         if pygame.mouse.get_pressed()[2]:
             pos = self.get_pos() 
@@ -78,4 +86,3 @@ class Mouse:
 
 
 
-        self.draw_mouse(win, particles[index])

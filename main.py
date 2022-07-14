@@ -49,9 +49,10 @@ def main(RAIN=True, index=0, size=3, timeing=False):
     for fnum in counter:
         # print(board.debug())
 
-        index = selection.update(win, index)
         board.update(win, fnum)
-        mouse.update(win, board, index)
+        if type(val := mouse.update(win, board, index)) == int:
+            index = val
+        index = selection.update(win, index)
 
 
         for event in pygame.event.get():
