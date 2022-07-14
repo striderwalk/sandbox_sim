@@ -42,6 +42,8 @@ class Wood(Particle):
                 other.fire_count += 0.3
         
     def update(self, board):
+        # age
+        self.life_len += 1
         # check if upade needed
         if self.check_self(board):
             return
@@ -54,7 +56,8 @@ class Wood(Particle):
             self.fire_count = 0
 
         # rot self
-        self.rot(board)
+        if self.life_len % 10 == 1:
+            self.rot(board)
 
        # burning
         if self.fire_count != 0:
