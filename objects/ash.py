@@ -1,4 +1,5 @@
 from .particle import Particle
+from .smoke import Smoke
 
 class Ash(Particle):
     """
@@ -18,6 +19,9 @@ class Ash(Particle):
         if self.check_self(board):
             return
             
+        # if on top of wood turn to smoke
+        if self.y < len(board)-1 and board[self.y+1][self.x].flamable:
+            return Smoke
         # time since created
         self.life_len += 1
         

@@ -1,6 +1,8 @@
 from .particle import Particle
 from .air import Air
+from .water import Water
 from .smoke import Smoke
+from .steam import Steam
 from random import random, randint, choice
 from colour import Color
 
@@ -24,11 +26,23 @@ class Fire(Particle):
     colour = (252, 152, 3)
     colours = list(Color(base_colour).range_to(Color("#fc0b03"), 5))
     def __init__(self, x,y, player_made=True):
-        super().__init__(x, y, mass=-1, static=False)
+        super().__init__(x, y, mass=-1, static=False, flamable=True)
         self.life_lim = randint(15,36)
         self.colour = [i*255 for i in self.colours[0].rgb]
         self.colours = Fire.colours
         self.player_made = player_made
+
+    def check_water(self, board):
+        # check for water
+        if type(board[self.y+1][self.x]) == Water: # check below 
+            return Steam 
+        if type(board[self.y-1][self.x]) == Water: # check above if not on top
+            return Steam 
+        if self.x !=0 and type(board[self.y][self.x-1]) == Water: # check right if not on edge
+            return Steam 
+        if self.x < len(board)-1 and type(board[self.y][self.x+1]) == Water: # check left if not on edge
+            return Steam
+
 
     def check_wood(self, board):
         # import here to stop circular import
@@ -65,8 +79,8 @@ class Fire(Particle):
     def update(self,board):
         # check for wood to BURN!!
         self.check_wood(board)
-
-
+        if (val := self.check_water(board)):
+            return val
         # time since created
         self.life_len += 1
 

@@ -11,13 +11,14 @@ class Particle:
     """
 
 
-    def __init__(self, x,y, mass = 0, static=False):
+    def __init__(self, x,y, mass = 0, static=False, flamable=False):
         self.x = x
         self.y = y
         self.count = 0
         self.mass = mass
         self.life_len = 0
         self.static = static
+        self.flamable = flamable
 
     def choice(self, options):
         probs = [1/len(options) for _ in options]
@@ -72,11 +73,14 @@ class Particle:
 
 
     def check_self(self,board):
-        for _ ,other in self.get_neighbours(board, 2):
-            if type(other) != type(self):
-                return False
-
-        return True
+        if self.y > 0 and type(board[self.y-1, self.x]) != type(self):
+            return False
+        if self.x > 0 and type(board[self.y, self.x-1]) != type(self):
+            return False
+        if self.y < len(board)-1 and type(board[self.y+1, self.x]) != type(self):
+            return False
+        if self.x < len(board[self.y])-1  and type(board[self.y, self.x+1]) != type(self):
+            return False
 
 
 
