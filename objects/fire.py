@@ -34,7 +34,7 @@ class Fire(Particle):
 
     def check_water(self, board):
         # check for water
-        if type(board[self.y+1][self.x]) == Water: # check below 
+        if self.y < len(board)-1 and type(board[self.y+1][self.x]) == Water: # check below 
             return Steam 
         if type(board[self.y-1][self.x]) == Water: # check above if not on top
             return Steam 
