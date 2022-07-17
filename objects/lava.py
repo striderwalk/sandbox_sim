@@ -29,7 +29,7 @@ class Lava(Particle, Liquid):
         self.wetness = 5
 
         # if -1 move self if 1 move right
-        self.direct = -1
+        self.direct = choice([-1,1])
 
 
     def check_water(self, board):
