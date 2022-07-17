@@ -27,19 +27,52 @@ class Wood(Particle):
 
     def rot(self, board):
         # if neighbour is water start to rot
-        for _, other in self.get_neighbours(board, 2):
-            if type(other) == Water:
-                self.colour = (self.colour[0], self.colour[1] + 2, self.colour[2])
+        if self.y > 0 and type(board[self.y-1, self.x]) == Water:
+            self.colour = (self.colour[0], self.colour[1] + 2, self.colour[2])
+            return 
+        if self.x > 0 and type(board[self.y, self.x-1]) == Water:
+            self.colour = (self.colour[0], self.colour[1] + 2, self.colour[2])
+            return 
+        if self.y < len(board)-1 and type(board[self.y+1, self.x])  == Water:
+            self.colour = (self.colour[0], self.colour[1] + 2, self.colour[2])
+            return 
+        if self.x < len(board[self.y])-1  and type(board[self.y, self.x+1])  == Water:
+            self.colour = (self.colour[0], self.colour[1] + 2, self.colour[2])
+            return 
 
     def check_lava(self, board):
+
+
+
         if self.fire_count > 0:
             return
-            
-        for _, other in self.get_neighbours(board, 2):
-            if type(other) == Lava:
+
+        if self.y > 0: # above
+
+            if type(board[self.y-1, self.x]) == Lava:
                 self.fire_count += 2
-            elif self.fire_count > 0 and type(other) == Wood:
-                other.fire_count += 0.3
+            elif self.fire_count > 0 and type(board[self.y-1, self.x] ) == Wood:
+                board[self.y-1, self.x] .fire_count += 0.3
+
+        if self.x > 0: # left
+            if type(board[self.y, self.x-1]) == Lava:
+                self.fire_count += 2
+            elif self.fire_count > 0 and type(board[self.y, self.x-1]) == Wood:
+                board[self.y, self.x-1].fire_count += 0.3
+
+        if self.y < len(board)-1: # below
+            if type(board[self.y+1, self.x]) == Lava:
+                self.fire_count += 2
+            elif self.fire_count > 0 and type(board[self.y+1, self.x]) == Wood:
+                board[self.y+1, self.x].fire_count += 0.3
+
+        if self.x < len(board[self.y])-1: # right
+            if type(board[self.y, self.x+1]) == Lava:
+                self.fire_count += 2
+            elif self.fire_count > 0 and type(board[self.y, self.x+1]) == Wood:
+                board[self.y, self.x+1].fire_count += 0.3
+
+            
         
     def update(self, board):
         # age

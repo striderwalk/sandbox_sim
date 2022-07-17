@@ -61,7 +61,7 @@ def main(RAIN=True, index=0, size=3, timeing=False):
                 if timeing: 
                     return 
                 else:
-                    return exit()
+                    exit()
 
             if event.type == pygame.KEYDOWN:
 
