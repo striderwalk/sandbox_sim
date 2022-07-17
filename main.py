@@ -1,10 +1,9 @@
-import objects
+from  objects.fountain import Fountain
 from mouse import Mouse
 from selection import Selection
 import itertools
 import pygame
 from pygame.locals import *
-from inspect import getmembers, isclass
 from random import randint
 from sandbox import Box
 
@@ -83,6 +82,16 @@ def main(RAIN=True, index=0, size=3, timeing=False):
                     if val[0] == "BOX":
                         x, y = val[1:]
                         print(board.board[y, x], (x,y))
+
+                # debuging tool
+                if event.key == pygame.K_e:
+                    val = mouse.get_pos()
+                    if val[0] == "BOX":
+                        x, y= val[1:]
+                        board.board[y][x] = Fountain(x, y, particles[index])
+                        # set neighbours
+                        for _, other in board.board[y][x].get_neighbours(board.board, mouse.size):
+                            board.board[other.y][other.x] = Fountain(other.x, other.y, particles[index])
                     
                         
                 # select next item
@@ -92,8 +101,7 @@ def main(RAIN=True, index=0, size=3, timeing=False):
                 if event.key == pygame.K_LCTRL:
                     index = (index - 1) % len(particles)
 
-
-            #scrolling
+            # change press size
             if event.type == pygame.MOUSEBUTTONDOWN:
                 # up 
                 if event.button == 4:
