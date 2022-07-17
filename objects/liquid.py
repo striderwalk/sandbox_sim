@@ -29,21 +29,17 @@ class Liquid():
             left = left and self.x > i and type(board[self.y, self.x-i]) in [type(self), Air]
             right = right and self.x < len(board[self.y])-i and type(board[self.y, self.x+i]) in [type(self), Air]
 
+            # check right
+            if right and self._check_pos(board,self.x+i,self.y):
+                    moves.append((self.x+i,self.y))
+            
             # check left
-            if left and self.x > i:
-                if self._check_pos(board,self.x-i,self.y):
+            if left and self._check_pos(board,self.x-i,self.y):
                     moves.append((self.x-i,self.y))
 
-            # check right
-            if right and self.x < len(board[self.y])-i:
-                if self._check_pos(board,self.x+i,self.y):
-                    moves.append((self.x+i,self.y))
 
             if len(moves) > 0:
-                break
-
-        if len(moves) > 0:
-            return moves[0]
+                return moves[0]
 
         return False
 
@@ -53,7 +49,7 @@ class Liquid():
             if self._check_pos(board, self.x, self.y+1):
                 moves.append((self.x,self.y+1))
 
-        elif self.x !=0 and board[self.y+1, self.x-1].mass < self.mass: # left
+        elif self.x > 0 and board[self.y+1, self.x-1].mass < self.mass: # left
             if self._check_pos(board, self.x-1, self.y+1):
                 moves.append((self.x-1,self.y+1))
 
