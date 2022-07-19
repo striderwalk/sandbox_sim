@@ -22,6 +22,7 @@ class Lava(Particle, Liquid):
     """
 
     colour = (245 , 134 , 70)
+    directer = 2
 
     def __init__(self, x,y):
         super().__init__(x, y, mass=1)
@@ -29,8 +30,8 @@ class Lava(Particle, Liquid):
         self.wetness = 5
 
         # if -1 move self if 1 move right
-        self.direct = choice([-1,1])
-
+        self.direct = Lava.directer
+        Lava.directer *= -1
 
     def check_water(self, board):
         if type(board[self.y-1, self.x]) == Water and self.y != 0: # check above if not on top

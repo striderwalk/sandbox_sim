@@ -54,10 +54,13 @@ class Particle:
         maxx = min(len(board[0]), self.x+dis)
         maxy = min(len(board), self.y+dis)
 
-        # go though la box
-        for y, i in enumerate(board[miny:maxy]):
-            for x, j in enumerate(i[minx:maxx]):
-                yield (x,y), j
+        others = []
+        # go though le box
+        for y in range(miny, maxy):
+            for x in range(minx, maxx):
+                others.append(((x,y), board[y, x]))
+
+        return others
                 
     def moveTo(self, board, x,y):
         # to not move stone/wood

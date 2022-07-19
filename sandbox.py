@@ -1,7 +1,7 @@
 from conts import *
 import objects
 import pygame
-import pygame.gfxdraw
+# import pygame.gfxdraw
 import numpy as np
 
 
@@ -22,11 +22,8 @@ class Box:
     def draw_particals(self, win):
         for i, row in enumerate(self.board):
             for j, val in enumerate(row):
-                try:
-                    pygame.gfxdraw.box(win,[j*CELL_WIDTH,i*CELL_HEIGHT,CELL_WIDTH,CELL_HEIGHT], val.colour)
-                except Exception as e:
-                    print(val.colour, val)
-                    raise e
+                pygame.draw.rect(win, val.colour, [j*CELL_WIDTH,i*CELL_HEIGHT,CELL_WIDTH,CELL_HEIGHT])
+                # pygame.gfxdraw.box(win,[j*CELL_WIDTH,i*CELL_HEIGHT,CELL_WIDTH,CELL_HEIGHT], val.colour)
 
                 
                 
