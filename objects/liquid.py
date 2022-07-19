@@ -43,6 +43,7 @@ class Liquid():
 
         return False
 
+
     def move(self, board):
         moves = []
         if board[self.y+1, self.x].mass < self.mass: # down
@@ -58,6 +59,6 @@ class Liquid():
                 moves.append((self.x+1,self.y+1))
         
         if len(moves) != 0: # pick random move
-            return moves[self.direct % len(moves)]
+            return choice(moves)
 
         return False

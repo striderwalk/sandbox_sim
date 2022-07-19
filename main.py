@@ -93,7 +93,12 @@ def main(RAIN=True, index=0, size=3, timeing=False):
                         for _, other in board.board[y][x].get_neighbours(board.board, mouse.size):
                             board.board[other.y][other.x] = Fountain(other.x, other.y, particles[index])
                     
-                        
+                if event.key == pygame.K_t:
+                    val = mouse.get_pos()
+                    if val[0] == "BOX":
+                        x, y= val[1:]
+                        board.add_particle(x, y , objects.Water)
+                    
                 # select next item
                 if event.key == pygame.K_TAB:
                     index = (index + 1) % len(particles)

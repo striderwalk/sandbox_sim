@@ -3,9 +3,9 @@ from .steam import Steam
 from .stone import Stone
 from .air import Air
 from .liquid import Liquid
+import time
 
 from random import random, randint, choice
-
 class Water(Particle, Liquid):
     """
     a Partical that will fall
@@ -21,13 +21,17 @@ class Water(Particle, Liquid):
     """
 
     colour = (64, 154, 245)
+    directer = 1
 
     def __init__(self, x,y):
         super().__init__(x, y, mass=1)
         self.update_colour()
         self.wetness = 6
         # if -1 move self if 1 move right
-        self.direct = choice([-1,1])
+        self.direct = Water.directer
+        Water.directer *= -1
+
+
 
     def check_lava(self, board):
         # import here to avoid circular impor
@@ -51,7 +55,7 @@ class Water(Particle, Liquid):
         # check if upade needed
         if self.check_self(board):
             return
-
+        self.direct *= -1
         # time since created
         self.life_len += 1
         
