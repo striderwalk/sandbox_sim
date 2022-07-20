@@ -55,6 +55,7 @@ class Water(Particle, Liquid):
         # check if upade needed
         if self.check_self(board):
             return
+        # swich direction
         self.direct *= -1
         # time since created
         self.life_len += 1
