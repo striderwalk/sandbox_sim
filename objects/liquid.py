@@ -7,6 +7,7 @@ class Liquid():
     """
     a base class for all liquids
      - handle flowing
+     - moving
     """
 
     def _check_pos(self, board, x, y):
@@ -18,8 +19,8 @@ class Liquid():
         return False
 
     def flow(self, board):
-        # if similer particle not on top return or on top of similer particle
 
+        # if similer particle not on top return or on top of similer particle
         left = (self.direct == -1) and (self.x > 0) and (type(board[self.y, self.x-1]) in [type(self), Air])
         right = (self.direct == 1) and (self.x < len(board[self.y])-1) and (type(board[self.y, self.x+1]) in [type(self), Air])
 

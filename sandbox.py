@@ -4,6 +4,8 @@ import pygame
 # import pygame.gfxdraw
 import numpy as np
 
+from objects.liquid import Liquid
+
 
 class Box:
     """
@@ -41,6 +43,8 @@ class Box:
         for row in self.board[::-1]:
             for item in row:
                 if item.count != fnum and item.mass > 0: # fnum same mean allready updated
+
+                    
                     # check for death in particle
                     if (result := item.update(self.board)) == "dies":
                         self.board[item.y, item.x] = objects.Air(item.x, item.y)
