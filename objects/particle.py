@@ -1,7 +1,7 @@
 from random import randint
 import numpy as np
 
-class Particle:
+class Particle():
     """
     base class for all particles
      - stores pos
@@ -21,8 +21,6 @@ class Particle:
         self.flamable = flamable
         self.i_d = Particle.i_d
         Particle.i_d += 1
-
-        self.next = None
 
     def choice(self, options):
         probs = [1/len(options) for _ in options]
@@ -67,12 +65,6 @@ class Particle:
         return others
                 
     def moveTo(self, board, x,y):
-        self.next = (x,y)
-
-
-    def move_loaded(self, board):
-        if not self.next: return
-        x, y = self.next
         # to not move stone/wood
         if board[y, x].static == True: return
         # update others pos
@@ -84,7 +76,6 @@ class Particle:
         self.x = x
         self.y = y
 
-        self.next = None
 
     def check_self(self,board):
         if self.y > 0 and type(board[self.y-1, self.x]) != type(self):

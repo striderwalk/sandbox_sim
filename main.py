@@ -128,7 +128,7 @@ def main(RAIN=True, index=0, size=30, timeing=False):
 
         pygame.display.flip()
         win.fill((255,255,255))
-        clock.tick()
+        clock.tick(30)
 
 
 if __name__ == '__main__':

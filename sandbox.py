@@ -41,8 +41,49 @@ class Box:
     def update(self, win, fnum):
         # update board
         for row in self.board[::-1]:
-            for item in row:
-                if item.count != fnum: # fnum same mean allready updated
+            for item in row[::2]:
+                if item.count != fnum and item.mass > 0: # if fnum same allready updated
+                  
+                    # check for death in particle
+                    if (result := item.update(self.board)) == "dies":
+                        self.board[item.y, item.x] = objects.Air(item.x, item.y)
+                    # if partcle wants to go thourgh a major change
+                    elif result:
+                        self.board[item.y, item.x] = result(item.x, item.y)
+
+                    # update count
+                    self.board[item.y, item.x].count = fnum
+
+            for item in row[1::2]:
+                if item.count != fnum and item.mass > 0: # if fnum same allready updated
+                  
+                    # check for death in particle
+                    if (result := item.update(self.board)) == "dies":
+                        self.board[item.y, item.x] = objects.Air(item.x, item.y)
+                    # if partcle wants to go thourgh a major change
+                    elif result:
+                        self.board[item.y, item.x] = result(item.x, item.y)
+
+                    # update count
+                    self.board[item.y, item.x].count = fnum
+
+        # update board
+        for row in self.board:
+            for item in row[::2]:
+                if item.count != fnum and item.mass < 0: # if fnum same allready updated
+                  
+                    # check for death in particle
+                    if (result := item.update(self.board)) == "dies":
+                        self.board[item.y, item.x] = objects.Air(item.x, item.y)
+                    # if partcle wants to go thourgh a major change
+                    elif result:
+                        self.board[item.y, item.x] = result(item.x, item.y)
+
+                    # update count
+                    self.board[item.y, item.x].count = fnum
+
+            for item in row[1::2]:
+                if item.count != fnum and item.mass < 0: # if fnum same allready updated
                   
                     # check for death in particle
                     if (result := item.update(self.board)) == "dies":
@@ -55,9 +96,6 @@ class Box:
                     self.board[item.y, item.x].count = fnum
         
 
-        for row in self.board:
-            for item in row:
-                item.move_loaded(self.board)
         
 
 

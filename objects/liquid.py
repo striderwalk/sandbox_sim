@@ -39,8 +39,6 @@ class Liquid():
             shuffle(moves)
             return moves[-1]
 
-
-
         # only sidways sometimes
         if self.life_len % self.wetness != 0:
             return False
