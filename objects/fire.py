@@ -25,10 +25,12 @@ class Fire(Particle):
     base_colour = "#fc9803"
     colour = (252, 152, 3)
     colours = list(Color(base_colour).range_to(Color("#fc0b03"), 5))
+    colours = [[i*255 for i in colour.rgb] for colour in colours]
+
     def __init__(self, x,y, player_made=True):
         super().__init__(x, y, mass=-1, static=False, flamable=True)
         self.life_lim = randint(15,36)
-        self.colour = [i*255 for i in self.colours[0].rgb]
+        self.colour = self.colours[0]
         self.colours = Fire.colours
         self.player_made = player_made
 
@@ -60,7 +62,7 @@ class Fire(Particle):
         
     def update_colour(self, board):
         index = randint(0, len(self.colours)-1)
-        self.colour =  [i*255 for i in self.colours[index].rgb]
+        self.colour = self.colours[index]
         
 
 

@@ -9,53 +9,34 @@ class Gas():
     """
 
     def flow(self, board):
-        # if similer particle not on top return or on top of similer particle
-        if self.y > 0  and type(board[self.y-1, self.x]) == type(self):
-            if self.y < len(board)-1 and type(board[self.y+1, self.x]) != Air:
-                return
-        elif self.y < len(board)-1 and  type(board[self.y+1, self.x]) != type(self):
-            return
-
-
-        left = True
-        right = True
-
+        # right
         moves = []
-        for i in range(self.wetness):
-            # check for stone
-            left = left and self.x > i-1 and type(board[self.y, self.x-i]) in [type(self), Air]
-            right = right and self.x < len(board[self.y])-i and type(board[self.y, self.x+i]) in [type(self), Air]
-
-
-            # check left
-            if left and self.x > i-1:
-                if type(board[self.y, self.x-i]) == Air:
-                    moves.append((self.x-i,self.y))
-
-
-            # check right
-            if right and self.x < len(board[self.y])-i:
-                if type(board[self.y, self.x+i]) == Air:
-                    moves.append((self.x+i,self.y))
-
-            if len(moves) > 0:
-                break
+        if self.x < len(board[self.y])-1 and type(board[self.y][self.x+1]) == Air:
+            moves.append((self.x+1, self.y))
+        # left
+        if self.x > 0 and type(board[self.y][self.x-1]) == Air:
+            moves.append((self.x-1, self.y))
 
         if len(moves) > 0:
-            self.moveTo(board, *choice(moves))
-            return True
-
-        return False
-
+            return choice(moves)
 
     def move(self, board):
-        if self.y <= 0:
-            return
         moves = []
-        if self.x > 0:
-            moves.append((self.x-1, self.y-1))      
-        if self.x < len(board[self.y])-1:
-            moves.append((self.x+1, self.y-1))
-        if len(moves) != 0:
-            self.moveTo(board, *choice(moves))
+        if board[self.y-1, self.x].mass > self.mass: # up
+            moves.append((self.x,self.y-1))
+
+        else:
+            if self.x > 0 and board[self.y-1, self.x-1].mass > self.mass: # left
+                moves.append((self.x-1,self.y-1))
+
+
+            if self.x < len(board[self.y])-1 and board[self.y-1, self.x+1].mass > self.mass: # right
+                moves.append((self.x+1,self.y-1))
+
+        
+        if len(moves) > 0: # pick random move
+            return choice(moves)
+
+        return False
+           
 

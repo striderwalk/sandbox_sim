@@ -24,7 +24,8 @@ class Box:
     def draw_particals(self, win):
         for i, row in enumerate(self.board):
             for j, val in enumerate(row):
-                pygame.draw.rect(win, val.colour, [j*CELL_WIDTH,i*CELL_HEIGHT,CELL_WIDTH,CELL_HEIGHT])
+                if type(val) != objects.Air:
+                    pygame.draw.rect(win, val.colour, [j*CELL_WIDTH,i*CELL_HEIGHT,CELL_WIDTH,CELL_HEIGHT])
                 # pygame.gfxdraw.box(win,[j*CELL_WIDTH,i*CELL_HEIGHT,CELL_WIDTH,CELL_HEIGHT], val.colour)
 
                 
@@ -84,3 +85,8 @@ class Box:
         return vals
 
 
+    def fix(self):
+        for y, row in enumerate(self.board):
+            for x, item in enumerate(row):
+                item.x = x
+                item.y = y

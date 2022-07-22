@@ -2,6 +2,7 @@ from .particle import Particle
 from .steam import Steam
 from .stone import Stone
 from .air import Air
+from .lava import Lava
 from .liquid import Liquid
 import time
 
@@ -34,27 +35,20 @@ class Water(Particle, Liquid):
 
 
     def check_lava(self, board):
-        # import here to avoid circular impor
-        if "Lava" not in globals():
-            global Lava
-            from .lava import Lava
         # check for lava
         if type(board[self.y+1][self.x]) == Lava: # check below 
             return Steam 
-        if type(board[self.y-1][self.x]) == Lava: # check above if not on top
+        if type(board[self.y-1][self.x])== Lava: # check above if not on top
             board[self.y-1][self.x] = Stone(self.x,self.y-1)
             return Stone 
-        if self.x !=0 and type(board[self.y][self.x-1]) == Lava: # check right if not on edge
+        if self.x !=0 and type(board[self.y][self.x-1])== Lava: # check right if not on edge
             board[self.y][self.x-1] = Stone(self.x-1,self.y)
             return Stone 
-        if self.x < len(board)-1 and type(board[self.y][self.x+1]) == Lava: # check left if not on edge
+        if self.x < len(board)-1 and type(board[self.y][self.x+1])== Lava: # check left if not on edge
             board[self.y][self.x+1] = Stone(self.x+1,self.y)
             return Stone         
 
     def update(self,board):
-        # check if upade needed
-        if self.check_self(board):
-            return
         # swich direction
         self.direct *= -1
         # time since created
@@ -67,7 +61,9 @@ class Water(Particle, Liquid):
             return res
         # update postion
         if (pos := self.move(board)):
+            print("move")
             self.moveTo(board, *pos)
         # flow
         elif (pos := self.flow(board)):
+            print("flow")
             self.moveTo(board, *pos)      
