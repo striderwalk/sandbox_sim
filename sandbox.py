@@ -84,3 +84,8 @@ class Box:
         return vals
 
 
+    def fix(self):
+        for y, row in enumerate(self.board):
+            for x, item in enumerate(row):
+                item.x = x
+                item.y = y

@@ -52,9 +52,6 @@ class Water(Particle, Liquid):
             return Stone         
 
     def update(self,board):
-        # check if upade needed
-        if self.check_self(board):
-            return
         # swich direction
         self.direct *= -1
         # time since created

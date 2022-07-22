@@ -14,7 +14,7 @@ from conts import *
 particles = [i[1] for i in getmembers(objects, isclass)]
 particles.remove(objects.Particle)
 
-def main(RAIN=True, index=0, size=3, timeing=False):
+def main(RAIN=True, index=0, size=30, timeing=False):
 
 
 
@@ -78,12 +78,14 @@ def main(RAIN=True, index=0, size=3, timeing=False):
 
                 # debuging tool
                 if event.key == pygame.K_q:
+                    # ensure all particle know their pos
+                    board.fix()
+                    # show type of particle clicked
                     val = mouse.get_pos()
                     if val[0] == "BOX":
                         x, y = val[1:]
                         print(board.board[y, x], (x,y))
 
-                # debuging tool
                 if event.key == pygame.K_e:
                     val = mouse.get_pos()
                     if val[0] == "BOX":
@@ -93,11 +95,7 @@ def main(RAIN=True, index=0, size=3, timeing=False):
                         for _, other in board.board[y][x].get_neighbours(board.board, mouse.size):
                             board.board[other.y][other.x] = Fountain(other.x, other.y, particles[index])
                     
-                if event.key == pygame.K_t:
-                    val = mouse.get_pos()
-                    if val[0] == "BOX":
-                        x, y= val[1:]
-                        board.add_particle(x, y , objects.Water)
+
                     
                 # select next item
                 if event.key == pygame.K_TAB:
