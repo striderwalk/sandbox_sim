@@ -69,9 +69,7 @@ class Steam(Particle, Gas):
         # update postion
         if (pos := self.move(board)):
             self.moveTo(board, *pos)
-        # flow
-        if (pos := self.flow(board)):
-            self.moveTo(board, *pos) 
+    
         # spread
         if random() > 0.5:
             if (result := self.copy(board)) and random() > self.thickness/50:
