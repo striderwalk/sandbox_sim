@@ -40,12 +40,10 @@ class Box:
 
     def update(self, win, fnum):
         # update board
-        # heavy thingz
         for row in self.board[::-1]:
             for item in row:
-                if item.count != fnum and item.mass > 0: # fnum same mean allready updated
-
-                    
+                if item.count != fnum: # fnum same mean allready updated
+                  
                     # check for death in particle
                     if (result := item.update(self.board)) == "dies":
                         self.board[item.y, item.x] = objects.Air(item.x, item.y)
@@ -55,19 +53,13 @@ class Box:
 
                     # update count
                     self.board[item.y, item.x].count = fnum
-        # gasses
+        
+
         for row in self.board:
             for item in row:
-                if item.count < fnum and item.mass < 0:  # fnum same mean allready updated
-                     # check for death in particle
-                    if (result := item.update(self.board)) == "dies":
-                        self.board[item.y, item.x] = objects.Air(item.x, item.y)
-                    # if partcle wants to go thourgh a major change
-                    elif result:
-                        self.board[item.y, item.x] = result(item.x, item.y)
+                item.move_loaded(self.board)
+        
 
-                    # update count
-                    self.board[item.y, item.x].count = fnum 
 
         # DRAW THINGS!!!!
         self.draw_particals(win)

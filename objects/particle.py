@@ -22,6 +22,8 @@ class Particle:
         self.i_d = Particle.i_d
         Particle.i_d += 1
 
+        self.next = None
+
     def choice(self, options):
         probs = [1/len(options) for _ in options]
         x = np.random.rand()
@@ -65,6 +67,12 @@ class Particle:
         return others
                 
     def moveTo(self, board, x,y):
+        self.next = (x,y)
+
+
+    def move_loaded(self, board):
+        if not self.next: return
+        x, y = self.next
         # to not move stone/wood
         if board[y, x].static == True: return
         # update others pos
@@ -76,6 +84,7 @@ class Particle:
         self.x = x
         self.y = y
 
+        self.next = None
 
     def check_self(self,board):
         if self.y > 0 and type(board[self.y-1, self.x]) != type(self):
@@ -89,5 +98,5 @@ class Particle:
 
 
 
-    def __repr__(self): return f"{type(self).__name__}{self.i_d} at {self.x}, {self.y}"# with mass of {self.mass}"
+    def __repr__(self): return f"{type(self).__name__} {self.i_d} at {self.x}, {self.y}"# with mass of {self.mass}"
     
