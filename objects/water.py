@@ -27,7 +27,7 @@ class Water(Particle, Liquid):
     def __init__(self, x,y):
         super().__init__(x, y, mass=1)
         self.update_colour()
-        self.wetness = 6
+        self.wetness = 1
         # if -1 move self if 1 move right
         self.direct = Water.directer
         Water.directer *= -1
@@ -61,9 +61,4 @@ class Water(Particle, Liquid):
             return res
         # update postion
         if (pos := self.move(board)):
-            print("move")
-            self.moveTo(board, *pos)
-        # flow
-        elif (pos := self.flow(board)):
-            print("flow")
-            self.moveTo(board, *pos)      
+            self.moveTo(board, *pos)    

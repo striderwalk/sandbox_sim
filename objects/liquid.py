@@ -10,37 +10,48 @@ class Liquid():
      - moving
     """
 
-    def flow(self, board):
-        if random() > 0.5:
-            opps = [Air, type(self)]
-        else: opps = [Air]
-        # right
-        moves = []
-        if self.x < len(board[self.y])-1 and type(board[self.y][self.x+1]) in opps:
-            moves.append((self.x+1, self.y))
-        # left
-        if self.x > 0 and type(board[self.y][self.x-1]) in opps:
-            moves.append((self.x-1, self.y))
-        if len(moves) > 0:
-            return choice(moves)
-
     def move(self, board):
+        """
+        - first move down
+        - move down left/ right
+        - move left/ right
+        """
 
-        if board[self.y+1, self.x].mass < self.mass: # down
-            return(self.x,self.y+1)
+        # check not at bottem
+        if self.y >= len(board)-1: return
+
+        # check move down
+        if board[self.y+1][self.x].mass < self.mass:
+            return (self.x, self.y+1)
+
 
         moves = []
-        if self.x > 0 and board[self.y+1, self.x-1].mass < self.mass: # left
-            moves.append((self.x-1,self.y+1))
-
-        if self.x < len(board[self.y])-1 and board[self.y+1, self.x+1].mass < self.mass: # right
-            moves.append((self.x+1,self.y+1))
-
-
-
-        
-        if len(moves) != 0: # pick random move
+        # check move down right
+        if self.x < len(board[self.y])-1 and board[self.y+1][self.x+1].mass < self.mass:
+            if type(board[self.y][self.x+1]) == Air:
+                moves.append((self.x+1, self.y+1))
+        # check move down left
+        if self.x > 0 and board[self.y+1][self.x-1].mass < self.mass:
+            if type(board[self.y][self.x-1]) == Air:
+                moves.append((self.x-1, self.y+1))
+        # choose move
+        if len(moves) > 0: 
             shuffle(moves)
-            return moves[0]#choice(moves)
+            return moves[-1]
 
-        return False
+
+
+        # only sidways sometimes
+        if self.life_len % self.wetness != 0:
+            return False
+        moves = []
+        # check move right
+        if self.x < len(board[self.y])-1 and board[self.y][self.x+1].mass < self.mass:
+            moves.append((self.x+1, self.y))
+        # check move left
+        if self.x > 0 and board[self.y][self.x-1].mass < self.mass:
+            moves.append((self.x-1, self.y))
+        # choose move 
+        if len(moves) > 0: 
+            shuffle(moves)
+            return moves[-1]
