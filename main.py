@@ -37,10 +37,19 @@ def main(RAIN=True, index=0, size=30, timeing=False):
     selection = Selection(index)
 
     # make it rain
-    if RAIN:
+    if RAIN and not timeing:
         for _ in range(1500):            
             y,x = randint(0,ROWS-1),randint(0,COLS-1) 
             board.add_particle(x,y, objects.Water)
+
+    if timeing:
+        step = len(board.board[0])//len(particles)
+        index = 0
+        for j in range(len(board.board[0])-15):
+            for i in range(0, len(board.board)):
+                board.add_particle(j, i, particles[index])
+
+            if (j % step) == 0: index += 1 
                 
 
     # main loop 

@@ -1,7 +1,6 @@
 from .particle import Particle
 from .liquid import Liquid
 from .air import Air
-from .water import Water
 from .steam import Steam
 from .stone import Stone
 from random import random, randint, choice
@@ -34,6 +33,7 @@ class Lava(Particle, Liquid):
         Lava.directer *= -1
 
     def check_water(self, board):
+        from .water import Water
         if type(board[self.y-1, self.x]) == Water and self.y != 0: # check above if not on top
             board[self.y-1, self.x] = Steam(self.x,self.y-1)
             return "dies"
