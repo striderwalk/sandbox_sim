@@ -47,7 +47,7 @@ class Water(Particle, Liquid):
         if self.x < len(board)-1 and type(board[self.y][self.x+1])== Lava: # check left if not on edge
             board[self.y][self.x+1] = Stone(self.x+1,self.y)
             return Stone         
-
+                
     def update(self,board):
         # swich direction
         self.direct *= -1

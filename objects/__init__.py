@@ -1,6 +1,6 @@
 from .air import Air
 from .ash import Ash
-from .gren import Gren
+from .acid import Acid
 from .lava import Lava
 from .particle import Particle
 from .sand import Sand
