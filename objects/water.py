@@ -27,7 +27,7 @@ class Water(Particle, Liquid):
     def __init__(self, x,y):
         super().__init__(x, y, mass=1)
         self.update_colour()
-        self.wetness = 1
+        self.wetness = 6
         # if -1 move self if 1 move right
         self.direct = Water.directer
         Water.directer *= -1
@@ -47,7 +47,7 @@ class Water(Particle, Liquid):
         if self.x < len(board)-1 and type(board[self.y][self.x+1])== Lava: # check left if not on edge
             board[self.y][self.x+1] = Stone(self.x+1,self.y)
             return Stone         
-                
+
     def update(self,board):
         # swich direction
         self.direct *= -1

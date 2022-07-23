@@ -49,7 +49,13 @@ def main(RAIN=True, index=0, size=30, timeing=False):
             for i in range(0, len(board.board)):
                 board.add_particle(j, i, particles[index])
 
-            if (j % step) == 0: index += 1 
+            if (j % step) == 0: index += 1
+
+        for i in range(len(board.board)):
+            for j in range(len(board.board[i])):
+                if type(board.board[i][j]) == objects.Air:
+                    board.board[i][j] =objects.Acid(j,i)
+
                 
 
     # main loop 
