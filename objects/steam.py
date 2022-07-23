@@ -57,7 +57,7 @@ class Steam(Particle, Gas):
         # condense
         if self.life_len > self.life_lim:
             # bring neighbour with
-            for other in self.get_neighbours(board, 1):
+            for other in self.get_neighbours(board, 2):
                 if type(other) == Steam:
                     board[other.y, other.x] = Air(other.x, other.y)
             return Water 
@@ -69,9 +69,7 @@ class Steam(Particle, Gas):
         # update postion
         if (pos := self.move(board)):
             self.moveTo(board, *pos)
-        # flow
-        if (pos := self.flow(board)):
-            self.moveTo(board, *pos) 
+    
         # spread
         if random() > 0.5:
             if (result := self.copy(board)) and random() > self.thickness/50:

@@ -59,9 +59,7 @@ class Smoke(Particle, Gas):
         # update postion
         if (pos := self.move(board)):
             self.moveTo(board, *pos)
-        # flow
-        if (pos := self.flow(board)):
-            self.moveTo(board, *pos) 
+
 
         # spread
         if random() > 0.5:

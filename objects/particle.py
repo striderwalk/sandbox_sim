@@ -1,7 +1,7 @@
 from random import randint
 import numpy as np
 
-class Particle:
+class Particle():
     """
     base class for all particles
      - stores pos
@@ -89,5 +89,5 @@ class Particle:
 
 
 
-    def __repr__(self): return f"{type(self).__name__}{self.i_d} at {self.x}, {self.y}"# with mass of {self.mass}"
+    def __repr__(self): return f"{type(self).__name__} {self.i_d} at {self.x}, {self.y}"# with mass of {self.mass}"
     

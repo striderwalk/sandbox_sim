@@ -26,7 +26,7 @@ class Lava(Particle, Liquid):
     def __init__(self, x,y):
         super().__init__(x, y, mass=1)
         self.update_colour()
-        self.wetness = 6
+        self.wetness = 10
 
         # if -1 move self if 1 move right
         self.direct = Lava.directer
