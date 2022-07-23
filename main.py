@@ -45,7 +45,7 @@ def main(RAIN=True, index=0, size=30, timeing=False):
     if timeing:
         step = len(board.board[0])//len(particles)
         index = 0
-        for j in range(len(board.board[0])-15):
+        for j in range(len(board.board)-1):
             for i in range(0, len(board.board)):
                 board.add_particle(j, i, particles[index])
 

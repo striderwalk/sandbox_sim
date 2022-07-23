@@ -4,6 +4,7 @@ from inspect import getmembers, isclass
 particles = [i[1] for i in getmembers(objects, isclass)]
 particles.remove(objects.Particle)
 
+
 # all constants
 WIDTH, HEIGHT = 775,700
 LOWER_BOARDER = 75

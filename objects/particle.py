@@ -88,4 +88,3 @@ class Particle():
 
 
     def __repr__(self): return f"{type(self).__name__} at {self.x}, {self.y}"# with mass of {self.mass}"
-    

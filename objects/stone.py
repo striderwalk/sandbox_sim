@@ -13,4 +13,6 @@ class Stone(Particle):
         self.update_colour()
 
 
-    def update(self,board): return 
+    def update(self,board): 
+        if self.health <= 0:
+            return "dies"
