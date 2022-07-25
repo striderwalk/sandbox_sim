@@ -1,6 +1,7 @@
 from .particle import Particle
+from .soild import Soild
 
-class Sand(Particle):
+class Sand(Particle, Soild):
     """
     a Partical that will fall
      - down 
@@ -14,6 +15,8 @@ class Sand(Particle):
 
 
     def update(self,board):
+        if (res := self.check()):
+            return res
         # time since created
         self.life_len += 1
         

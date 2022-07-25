@@ -4,10 +4,11 @@ from .ash import Ash
 from .water import Water
 from .lava import Lava
 from .fire import Fire
+from .soild import Soild
 from random import randint, random
 
 
-class Wood(Particle):
+class Wood(Particle, Soild):
     """
     a Partical never moves
     
@@ -42,8 +43,6 @@ class Wood(Particle):
 
     def check_lava(self, board):
 
-
-
         if self.fire_count > 0:
             return
 
@@ -75,8 +74,8 @@ class Wood(Particle):
             
         
     def update(self, board):
-        if self.health <= 0:
-            return "dies"
+        if (res := self.check()):
+            return res
         # age
         self.life_len += 1
         # check if upade needed

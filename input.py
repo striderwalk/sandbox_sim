@@ -3,7 +3,7 @@ from conts import *
 from  objects.fountain import Fountain
 from sandbox import Box
 from random import randint
-def handle_input(mouse,board,selection, index):
+def handle_input(mouse,board,selection, index, pause):
 
 
     keys = pygame.key.get_pressed()
@@ -51,6 +51,13 @@ def handle_input(mouse,board,selection, index):
             # select proir item
             if event.key == pygame.K_LCTRL:
                 index = (index - 1) % len(particles)
+
+            if event.key == pygame.K_LSHIFT:
+                if pause:
+                    return "play"     
+                else:
+                    return "stop"
+                    
 
 
         if event.type == pygame.QUIT:

@@ -30,7 +30,7 @@ class Fire(Particle):
     def __init__(self, x,y, player_made=True):
         super().__init__(x, y, mass=-1, static=False, flamable=True)
         self.life_lim = randint(15,36)
-        self.colour = self.colours[0]
+        self.colour = choice(self.colours)
         self.colours = Fire.colours
         self.player_made = player_made
 

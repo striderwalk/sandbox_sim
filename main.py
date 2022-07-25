@@ -18,7 +18,7 @@ particles.remove(objects.Particle)
 
 
 
-def main(RAIN=True, index=0, size=30, timeing=False):
+def main(RAIN=True, index=0, size=30, timeing=False, pause = False):
 
 
 
@@ -59,35 +59,43 @@ def main(RAIN=True, index=0, size=30, timeing=False):
                     pass
 
 
-                
+    pause_time = 0
     # main loop 
     counter = itertools.count()
     for fnum in counter:
+        fnum -= pause_time
+        if pause:
+            pause_time += 1
         # print(board.debug())
 
-        board.update(win, fnum)
+        board.update(win, fnum, pause)
         if type(val := mouse.update(win, board, index)) == int:
             index = val
         index = selection.update(win, index)
-        if (res := handle_input(mouse,board,selection, index)) == "end":
+        if (res := handle_input(mouse,board,selection, index, pause)) == "end":
             if not timeing:
-                main(RAIN=False, index=selection.index, size=mouse.size)
+                main(RAIN=False, index=selection.index, size=mouse.size, pause=pause)
             else:
                 return
         elif res == "dead":
-            if not timeing:
-                exit()
-            else:
-                return
+            if not timeing: exit()
+            else: return
+        # play pause    
+        elif res == "stop": pause = True
+
+        elif res == "play": pause = False
         elif type(res) == int:
             index = res
         img = font.render(f"{fnum}, fps={round(clock.get_fps(), 3)}", True, (0, 0, 0))
         win.blit(img, (30, 30))
+        if pause:
+            img = font.render(f"paused", True, (255, 0, 0))
+            win.blit(img, (WIDTH-img.get_size()[0]-10, 30))
 
 
         pygame.display.flip()
         win.fill((255,255,255))
-        clock.tick()
+        if not pause: clock.tick(30)
 
 
 if __name__ == '__main__':

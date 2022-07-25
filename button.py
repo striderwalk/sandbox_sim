@@ -20,16 +20,7 @@ class Button:
         self.clicked = False
 
     def draw(self, win):
-        action = False
-        #get mouse position
-        pos = pygame.mouse.get_pos()
-
-        #check mouseover and clicked conditions
-        if self.rect.collidepoint(pos):
-            if pygame.mouse.get_pressed()[0] and self.clicked == False:
-                action = True
-
-        #draw button on screen
+        # draw button on screen
         pygame.draw.rect(win, self.colour, self.rect, border_radius =3)
         if self.clicked:
             img = font.render(self.text, True, (245,10,10))
@@ -39,8 +30,14 @@ class Button:
         win.blit(img, (self.rect.centerx-img.get_size()[0]/2, self.rect.centery-img.get_size()[1]/2))
 
 
-        return action
+    def check_click(self):
+        action = False
+        pos = pygame.mouse.get_pos()
+        if self.rect.collidepoint(pos):
+            if pygame.mouse.get_pressed()[0] and self.clicked == False:
+                action = True
 
+        return action
     def move(self, new_x, new_y):
         self.x += new_x
         self.y += new_y

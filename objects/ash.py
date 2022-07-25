@@ -1,7 +1,8 @@
 from .particle import Particle
 from .smoke import Smoke
+from .soild import Soild
 
-class Ash(Particle):
+class Ash(Particle, Soild):
     """
     a Partical that will fall
      - down
@@ -15,6 +16,8 @@ class Ash(Particle):
 
 
     def update(self,board):
+        if (res := self.check()):
+            return res
         # check if upade needed
         if self.check_self(board):
             return
