@@ -38,8 +38,12 @@ class Box:
         self.board[y, x] = obj(x,y)
 
 
-    def update(self, win, fnum):
-        # update board
+    def update(self, win, fnum, pause):
+        # DRAW THINGS!!!!
+        self.draw_particals(win)
+        if pause: return
+
+        # update board for heavy things
         for row in self.board[::-1]:
             for item in row:
                 if item.count != fnum and item.mass > 0: # if fnum same allready updated
@@ -58,7 +62,7 @@ class Box:
                     item.load_move(self.board)
 
 
-        # update board
+        # update board for other things
         for row in self.board:
             for item in row:
                 if item.count != fnum and item.mass < 0: # if fnum same allready updated
@@ -77,8 +81,6 @@ class Box:
                     item.load_move(self.board)
 
 
-        # DRAW THINGS!!!!
-        self.draw_particals(win)
 
     def debug(self) -> list:
         vals = {}
