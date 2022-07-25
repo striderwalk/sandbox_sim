@@ -62,6 +62,7 @@ def handle_input(mouse,board,selection, index, pause):
         if event.type == pygame.QUIT:
             pygame.quit()
             return "dead"
+            
         # change press size
         if event.type == pygame.MOUSEBUTTONDOWN:
             # up 

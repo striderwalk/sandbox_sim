@@ -1,4 +1,5 @@
 import pygame
+from  objects.fountain import Fountain
 from objects import Air
 from conts import * 
 
@@ -76,7 +77,12 @@ class Mouse:
             pos = self.get_pos()
             if pos[0] == "BOX" :
                 x, y = pos[1:]
-                return particles.index(type(board.board[y, x]))
+                try:
+                    return particles.index(type(board.board[y, x]))
+                except ValueError as e:
+                    if type(board.board[y, x]) == Fountain:
+                        return particles.index(board.board[y, x].obj)
+
 
         if pygame.mouse.get_pressed()[2]:
             pos = self.get_pos() 
