@@ -1,7 +1,8 @@
 from .particle import Particle
 from .liquid import Liquid 
 from .air import Air
-from random import randint
+from.fume import Fume
+from random import randint, random
 
 class Acid(Particle, Liquid):
     """
@@ -12,8 +13,9 @@ class Acid(Particle, Liquid):
     colour = (132, 217, 30)
 
     def __init__(self, x,y):
-        super().__init__(x, y, mass=1)
-        self.wetness = 1
+        super().__init__(x, y, mass=0.9)
+        self.update_colour()
+        self.wetness = 6
         self.strength = randint(15,17)
 
 
@@ -23,29 +25,28 @@ class Acid(Particle, Liquid):
             self.mass = 0.9
             return
         # check for lava
-        if self.y < len(board)-1 and board[self.y+1][self.x].static: # check below 
+        if self.y < len(board)-1 and board[self.y+1, self.x].static: # check below 
             # kill other and move
-            board[self.y+1][self.x].health -= self.strength
-            self.strength -= 1
+            board[self.y+1, self.x].health -= self.strength
 
-        if self.y > 0 and board[self.y-1][self.x].static: # check above if not on top
+        if self.y > 0 and board[self.y-1, self.x].static: # check above if not on top
             # kill other and move
-            board[self.y-1][self.x].health -= self.strength
-            self.strength -= 1
+            board[self.y-1, self.x].health -= self.strength
 
-        if self.x < len(board)-1 and board[self.y][self.x+1].static: # check left if not on edge
+        if self.x < len(board)-1 and board[self.y, self.x+1].static: # check left if not on edge
             # kill other and move
-            board[self.y][self.x+1].health -= self.strength
-            self.strength -= 1
+            board[self.y, self.x+1].health -= self.strength
                 
-        if self.x !=0 and board[self.y][self.x-1].static: # check right if not on edge
+        if self.x !=0 and board[self.y, self.x-1].static: # check right if not on edge
             # kill other and move
-            board[self.y][self.x-1].health -= self.strength
-            self.strength -= 1
+            board[self.y, self.x-1].health -= self.strength
 
     def update(self,board):
 
         self.check_other(board)
+
+        if random() > 0.85 and type(board[self.y-1, self.x]) == Air:
+            board[self.y-1, self.x] = Fume(self.x,self.y-1)
 
         # update postion
         if (pos := self.move(board)):

@@ -19,6 +19,7 @@ class Particle():
         self.static = static
         self.flamable = flamable
         self.health = 100
+        self.load = None
 
     def choice(self, options):
         probs = [1/len(options) for _ in options]
@@ -63,6 +64,21 @@ class Particle():
         return others
                 
     def moveTo(self, board, x,y):
+        self.load = x, y
+        # # to not move stone/wood
+        # if board[y, x].static == True: return
+        # # update others pos
+        # board[y, x].x = self.x
+        # board[y, x].y = self.y
+        # # swap pos
+        # board[self.y, self.x], board[y, x] = board[y, x], board[self.y, self.x]
+        # # set self pos
+        # self.x = x
+        # self.y = y
+
+    def load_move(self, board):
+        if not self.load: return
+        x, y = self.load
         # to not move stone/wood
         if board[y, x].static == True: return
         # update others pos
@@ -73,7 +89,7 @@ class Particle():
         # set self pos
         self.x = x
         self.y = y
-
+        self.load = None   
 
     def check_self(self,board):
         if self.y > 0 and type(board[self.y-1, self.x]) != type(self):
@@ -87,4 +103,4 @@ class Particle():
 
 
 
-    def __repr__(self): return f"{type(self).__name__} at {self.x}, {self.y}"# with mass of {self.mass}"
+    def __repr__(self): return f"{type(self).__name__} of mass {self.mass} at {self.x}, {self.y}"# with mass of {self.mass}"

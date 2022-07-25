@@ -6,7 +6,23 @@ class Gas():
     """
     a base class for all gasses
      - handle flowing
+     - spreding
     """
+    def copy(self,board):
+        if self.thickness <=1: return
+        split_ratio = random()
+        # check 3 rand pos
+        for _ in range(3):
+            xoff = randint(-2,3)
+            yoff = randint(-2,3)
+            # so if pos out of board no
+            if 0 <= self.y+yoff < len(board) and 0 <= self.x+xoff < len(board[0]):
+
+                if type(board[self.y+yoff, self.x+xoff]) == Air:
+                    board[self.y+yoff, self.x+xoff] = Smoke(self.x+xoff,self.y+yoff,self.thickness*split_ratio)
+                self.thickness *= 1-split_ratio
+                return
+
 
     def move(self, board):
         """

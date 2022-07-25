@@ -26,24 +26,7 @@ class Steam(Particle, Gas):
         self.update_colour()
         self.wetness = 15
         self.life_lim = randint(90,110)
-        
-    def copy(self,board):
-
-        if self.thickness <=1:
-            return
-        split_ratio = random()
-        # check 3 rand pos
-        for _ in range(3):
-            xoff = randint(-2,3)
-            yoff = randint(-2,3)
-            # so if pos out of board no
-            if 0 <= self.y+yoff < len(board) and 0 <= self.x+xoff < len(board[0]):
-
-                if type(board[self.y+yoff, self.x+xoff]) == Air:
-                    board[self.y+yoff, self.x+xoff] = Steam(self.x+xoff,self.y+yoff,self.thickness*split_ratio)
-                self.thickness *= 1-split_ratio
-                return
-
+    
     def update(self,board):
         # check if upade needed
         if self.check_self(board):

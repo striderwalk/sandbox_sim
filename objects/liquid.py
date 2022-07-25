@@ -27,7 +27,7 @@ class Liquid():
         moves = []
         for i in range(1, self.wetness):
             # check move down left
-            if self.x > i and board[self.y+1][self.x-i].mass < self.mass:
+            if self.x > i-1 and board[self.y+1][self.x-i].mass < self.mass:
                 if type(board[self.y][self.x-i]) == Air:
                     moves.append((self.x-i, self.y+1))
             # check move down right
@@ -35,8 +35,9 @@ class Liquid():
                 if type(board[self.y][self.x+i]) == Air:
                     moves.append((self.x+i, self.y+1))
             # check move left
-            if self.x > i and board[self.y][self.x-i].mass < self.mass:
+            if self.x > i-1 and board[self.y][self.x-i].mass < self.mass:
                 moves.append((self.x-i, self.y))
+
             # check move right
             if self.x < len(board[self.y])-i and board[self.y][self.x+i].mass < self.mass:
                 moves.append((self.x+i, self.y))

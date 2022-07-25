@@ -10,3 +10,4 @@ from .stone import Stone
 from .water import Water
 from .wood import Wood
 from .fire import Fire
+from .fume import Fume
