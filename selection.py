@@ -20,14 +20,34 @@ class Selection:
             self.buttons.append(Button(x,y,size, obj.__name__, obj.colour))
 
         self.buttons[self.index].down()
+        # to prevent selection changing when wraping
+        self.draw_buttons =self.buttons
+        
 
+
+    def shift(self, num):
+        moved_buttons = []
+        for button in self.draw_buttons:
+            button.move(num, 0)
+            moved_buttons.append(button)
+
+        for button in moved_buttons:
+            if button.x+button.size < 0:
+                moved_buttons.remove(button)
+                button.move_to(moved_buttons[-1].x+moved_buttons[-1].size, moved_buttons[-1].y)
+                moved_buttons.append(button)
+            if button.x > WIDTH:
+                moved_buttons.remove(button)
+                button.move_to(moved_buttons[0].x-button.size, moved_buttons[0].y)
+                moved_buttons.insert(0, button)
+        self.draw_buttons = moved_buttons
 
 
     def update(self, win, index):#
         pygame.draw.rect(win, (0,0,0), (0, HEIGHT-LOWER_BOARDER, WIDTH, LOWER_BOARDER))
         self.index = index
         res = []
-        for i, button in enumerate(self.buttons):
+        for i, button in enumerate(self.draw_buttons):
             if click := button.draw(win):
                 res.append(i)
 

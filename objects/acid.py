@@ -1,7 +1,7 @@
 from .particle import Particle
 from .liquid import Liquid 
 from .air import Air
-from.fume import Fume
+from .fume import Fume
 from random import randint, random
 
 class Acid(Particle, Liquid):

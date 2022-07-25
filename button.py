@@ -1,5 +1,5 @@
 import pygame
-
+from conts import *
 pygame.font.init()
 font = pygame.font.SysFont(None, 24)
 class Button:
@@ -12,6 +12,9 @@ class Button:
     def __init__(self, x, y, size, text, colour):
         self.rect = pygame.Rect((x,y), (size, size))
         self.rect.topleft = (x, y)
+        self.size = size
+        self.x = x
+        self.y = y
         self.colour = colour
         self.text = text
         self.clicked = False
@@ -38,6 +41,17 @@ class Button:
 
         return action
 
+    def move(self, new_x, new_y):
+        self.x += new_x
+        self.y += new_y
+        self.rect = pygame.Rect((self.x,self.y), (self.size, self.size))
+        self.rect.topleft = (self.x, self.y)
+
+    def move_to(self, new_x, new_y):
+        self.x = new_x
+        self.y = new_y
+        self.rect = pygame.Rect((self.x,self.y), (self.size, self.size))
+        self.rect.topleft = (self.x, self.y)
 
     def up(self):
         self.clicked = False

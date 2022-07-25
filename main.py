@@ -6,6 +6,7 @@ import pygame
 from pygame.locals import *
 from random import randint
 from sandbox import Box
+from input import handle_input
 
         
 
@@ -13,6 +14,9 @@ from conts import *
 
 particles = [i[1] for i in getmembers(objects, isclass)]
 particles.remove(objects.Particle)
+
+
+
 
 def main(RAIN=True, index=0, size=30, timeing=False):
 
@@ -65,67 +69,18 @@ def main(RAIN=True, index=0, size=30, timeing=False):
         if type(val := mouse.update(win, board, index)) == int:
             index = val
         index = selection.update(win, index)
-
-
-        for event in pygame.event.get():
-
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                if timeing: 
-                    return 
-                else:
-                    exit()
-
-            if event.type == pygame.KEYDOWN:
-
-                if event.key == pygame.K_SPACE:
-                    for _ in range(1500):
-                        y,x = randint(0,ROWS-1),randint(0,COLS-1) 
-                        board.add_particle(x,y,objects.Water, strict=True)
-
-                # reset 
-                if event.key == pygame.K_r:
-                    board = Box()
-                    main(RAIN=False, index=selection.index, size=mouse.size)
-
-
-                # debuging tool
-                if event.key == pygame.K_q:
-                    # ensure all particle know their pos
-                    board.fix()
-                    # show type of particle clicked
-                    val = mouse.get_pos()
-                    if val[0] == "BOX":
-                        x, y = val[1:]
-                        print(board.board[y, x], (x,y))
-
-                if event.key == pygame.K_e:
-                    val = mouse.get_pos()
-                    if val[0] == "BOX":
-                        x, y= val[1:]
-                        board.board[y][x] = Fountain(x, y, particles[index])
-                        # set neighbours
-                        for _, other in board.board[y][x].get_neighbours(board.board, mouse.size):
-                            board.board[other.y][other.x] = Fountain(other.x, other.y, particles[index])
-                    
-
-                    
-                # select next item
-                if event.key == pygame.K_TAB:
-                    index = (index + 1) % len(particles)
-                # select proir item
-                if event.key == pygame.K_LCTRL:
-                    index = (index - 1) % len(particles)
-
-            # change press size
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                # up 
-                if event.button == 4:
-                    mouse.scale(1)
-                if event.button == 5:
-                    mouse.scale(-1)
-
-
+        if (res := handle_input(mouse,board,selection, index)) == "end":
+            if not timeing:
+                main(RAIN=False, index=selection.index, size=mouse.size)
+            else:
+                return
+        elif res == "dead":
+            if not timeing:
+                exit()
+            else:
+                return
+        elif type(res) == int:
+            index = res
         img = font.render(f"{fnum}, fps={round(clock.get_fps(), 3)}", True, (0, 0, 0))
         win.blit(img, (30, 30))
 
