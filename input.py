@@ -57,7 +57,6 @@ def handle_input(mouse,board,selection, index, pause):
                     return "play"     
                 else:
                     return "stop"
-                    
 
 
         if event.type == pygame.QUIT:
