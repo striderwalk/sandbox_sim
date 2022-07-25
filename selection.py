@@ -46,9 +46,13 @@ class Selection:
     def update(self, win, index):#
         pygame.draw.rect(win, (0,0,0), (0, HEIGHT-LOWER_BOARDER, WIDTH, LOWER_BOARDER))
         self.index = index
+
+        # draw buttons
+        for i, button in enumerate(self.draw_buttons): button.draw(win)
+
         res = []
-        for i, button in enumerate(self.draw_buttons):
-            if click := button.draw(win):
+        for i, button in enumerate(self.buttons): 
+            if click := button.check_click():
                 res.append(i)
 
         if len(res) == 0:

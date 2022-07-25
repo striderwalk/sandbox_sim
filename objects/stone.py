@@ -1,6 +1,7 @@
 from .particle import Particle
+from .soild import Soild
 
-class Stone(Particle):
+class Stone(Particle, Soild):
     """
     a Partical never moves
 
@@ -14,5 +15,5 @@ class Stone(Particle):
 
 
     def update(self,board): 
-        if self.health <= 0:
-            return "dies"
+        if (res := self.check()):
+            return res
