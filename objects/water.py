@@ -27,7 +27,7 @@ class Water(Particle, Liquid):
     def __init__(self, x,y):
         super().__init__(x, y, mass=1)
         self.update_colour()
-        self.wetness = 1
+        self.wetness = 6
         # if -1 move self if 1 move right
         self.direct = Water.directer
         Water.directer *= -1

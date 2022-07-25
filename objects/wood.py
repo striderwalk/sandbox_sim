@@ -75,6 +75,8 @@ class Wood(Particle):
             
         
     def update(self, board):
+        if self.health <= 0:
+            return "dies"
         # age
         self.life_len += 1
         # check if upade needed
