@@ -76,7 +76,6 @@ class Mouse:
             pos = self.get_pos()
             if pos[0] == "BOX" :
                 x, y = pos[1:]
-                print(particles.index(type(board.board[y, x])))
                 return particles.index(type(board.board[y, x]))
 
         if pygame.mouse.get_pressed()[2]:

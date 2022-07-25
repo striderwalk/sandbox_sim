@@ -43,18 +43,17 @@ def main(RAIN=True, index=0, size=30, timeing=False):
             board.add_particle(x,y, objects.Water)
 
     if timeing:
-        step = len(board.board[0])//len(particles)
-        index = 0
-        for j in range(len(board.board)-1):
-            for i in range(0, len(board.board)):
-                board.add_particle(j, i, particles[index])
-
-            if (j % step) == 0: index += 1
-
+        step = (len(board.board)+23)//len(particles)
+        index_d = 0
+        print(particles)
         for i in range(len(board.board)):
-            for j in range(len(board.board[i])):
-                if type(board.board[i][j]) == objects.Air:
-                    board.board[i][j] =objects.Acid(j,i)
+            for j in range(len(board.board)+23):
+                index_d = (j // step) 
+                try:
+                    board.add_particle(j, i, particles[index_d])
+                except IndexError:
+                    pass
+
 
                 
     # main loop 
@@ -137,5 +136,6 @@ def main(RAIN=True, index=0, size=30, timeing=False):
 
 
 if __name__ == '__main__':
+    # this comment is not needed
     main()
        

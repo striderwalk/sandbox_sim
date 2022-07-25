@@ -1,5 +1,5 @@
 from .air import Air
-from random import choice, random, shuffle
+from random import choice, random, shuffle, randint
 
 
 class Gas():
@@ -19,7 +19,7 @@ class Gas():
             if 0 <= self.y+yoff < len(board) and 0 <= self.x+xoff < len(board[0]):
 
                 if type(board[self.y+yoff, self.x+xoff]) == Air:
-                    board[self.y+yoff, self.x+xoff] = Smoke(self.x+xoff,self.y+yoff,self.thickness*split_ratio)
+                    board[self.y+yoff, self.x+xoff] = type(self)(self.x+xoff,self.y+yoff,self.thickness*split_ratio)
                 self.thickness *= 1-split_ratio
                 return
 
