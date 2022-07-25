@@ -3,6 +3,8 @@ from inspect import getmembers, isclass
 
 particles = [i[1] for i in getmembers(objects, isclass)]
 particles.remove(objects.Particle)
+# swap air, acid
+particles[0], particles[1] = particles[1], particles[0]
 
 
 # all constants
