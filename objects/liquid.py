@@ -17,29 +17,30 @@ class Liquid():
         - move left/ right
         """
 
-        # check not at bottem
-        if self.y >= len(board)-1: return
+        down = self.y < len(board)-1 
 
         # check move down
-        if board[self.y+1][self.x].mass < self.mass:
+        if down  and board[self.y+1][self.x].mass < self.mass:
             return (self.x, self.y+1)
 
         moves = []
         for i in range(1, self.wetness):
+            left = self.x > i-1 
+            right = self.x < len(board[self.y])-i
             # check move down left
-            if self.x > i-1 and board[self.y+1][self.x-i].mass < self.mass:
+            if down  and left and board[self.y+1][self.x-i].mass < self.mass:
                 if type(board[self.y][self.x-i]) == Air:
                     moves.append((self.x-i, self.y+1))
             # check move down right
-            if self.x < len(board[self.y])-i and board[self.y+1][self.x+i].mass < self.mass:
+            if down and right and board[self.y+1][self.x+i].mass < self.mass:
                 if type(board[self.y][self.x+i]) == Air:
                     moves.append((self.x+i, self.y+1))
             # check move left
-            if self.x > i-1 and board[self.y][self.x-i].mass < self.mass:
+            if left and board[self.y][self.x-i].mass < self.mass:
                 moves.append((self.x-i, self.y))
 
             # check move right
-            if self.x < len(board[self.y])-i and board[self.y][self.x+i].mass < self.mass:
+            if right and board[self.y][self.x+i].mass < self.mass:
                 moves.append((self.x+i, self.y))
                 
             # choose move 
