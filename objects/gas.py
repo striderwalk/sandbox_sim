@@ -27,37 +27,37 @@ class Gas():
     def move(self, board):
         """
         - first move down
-        - move down left/ right
+        - move down left/ down right
         - move left/ right
         """
 
-        # check not at top
-        if self.y <= 0: return
+        up = self.y > 0 
+
+
 
         moves = []
+        for i in range(1, self.wetness):
+            left = self.x > i-1 
+            right = self.x < len(board[self.y])-i
+            # check move down left
+            if up  and left and board[self.y-1][self.x-i].mass > self.mass:
+                if type(board[self.y][self.x-i]) == Air:
+                    moves.append((self.x-i, self.y-1))
+            # check move down right
+            if up and right and board[self.y-1][self.x+i].mass > self.mass:
+                if type(board[self.y][self.x+i]) == Air:
+                    moves.append((self.x+i, self.y-1))
+            # check move left
+            if left and board[self.y][self.x-i].mass > self.mass:
+                moves.append((self.x-i, self.y))
 
-
-        # check move down
-        if board[self.y-1][self.x].mass > self.mass:
-            moves.append((self.x, self.y-1))
-        # check move down right
-        if self.x < len(board[self.y])-1 and board[self.y-1][self.x+1].mass > self.mass:
-            if type(board[self.y][self.x+1]) == Air:
-                moves.append((self.x+1, self.y-1))
-        # check move down left
-        if self.x > 0 and board[self.y-1][self.x-1].mass > self.mass:
-            if type(board[self.y][self.x-1]) == Air:
-                moves.append((self.x-1, self.y-1))
-        # check move right
-        if self.x < len(board[self.y])-1 and board[self.y][self.x+1].mass > self.mass:
-            moves.append((self.x+1, self.y))
-        # check move left
-        if self.x > 0 and board[self.y][self.x-1].mass > self.mass:
-            moves.append((self.x-1, self.y))
-
-        # choose move
-        if len(moves) > 0: 
-            shuffle(moves)
-            return moves[-1]
+            # check move right
+            if right and board[self.y][self.x+i].mass > self.mass:
+                moves.append((self.x+i, self.y))
+                
+            # choose move 
+            if len(moves) > 0: 
+                shuffle(moves)
+                return moves[-1]
 
 
