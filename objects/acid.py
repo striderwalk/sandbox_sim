@@ -11,7 +11,7 @@ class Acid(Particle, Liquid):
 
     """
     
-    colour = (132, 217, 30)
+    colour = (62, 243, 65)
 
     def __init__(self, x,y):
         super().__init__(x, y, mass=0.9)

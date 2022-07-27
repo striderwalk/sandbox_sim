@@ -1,10 +1,6 @@
 import pygame
 from conts import *
 from button import Button
-from inspect import getmembers, isclass
-import objects
-
-
 
 
 class Selection:

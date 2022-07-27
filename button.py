@@ -2,6 +2,7 @@ import pygame
 from conts import *
 pygame.font.init()
 font = pygame.font.SysFont(None, 24)
+
 class Button:
     """
     a class to represnt butttons

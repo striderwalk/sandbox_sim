@@ -1,11 +1,7 @@
 from conts import *
 import objects
 import pygame
-# import pygame.gfxdraw
 import numpy as np
-
-from objects.liquid import Liquid
-
 
 class Box:
     """
@@ -30,13 +26,20 @@ class Box:
 
                 
                 
-    def add_particle(self, x, y, obj, strict=False):
+    def add_particle(self, x, y, obj, strict=False, **kwargs):
+        if obj not in particles:
+            raise TypeError(f"add_particle ask to place invadlid particle {obj}")
         # add particle to board
         if strict and type(self.board[y, x]) != objects.Air:
             return
-
-        self.board[y, x] = obj(x,y)
-
+        try:
+            if kwargs:
+                self.board[y, x] = obj(x,y, **kwargs)
+            else:
+                self.board[y, x] = obj(x,y)
+        except Exception as e:
+            print(obj)
+            raise e
 
     def update(self, win, fnum, pause):
         # DRAW THINGS!!!!

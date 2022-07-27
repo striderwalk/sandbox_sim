@@ -10,16 +10,17 @@ class Particle():
      - find neigbours
     """
 
-    def __init__(self, x,y, mass = 0, static=False, flamable=False):
+    def __init__(self, x,y, mass = 0, static=False, flamable=False, health=100):
         self.x = x
         self.y = y
-        self.count = 0
         self.mass = mass
-        self.life_len = 0
         self.static = static
         self.flamable = flamable
-        self.health = 100
+        self.health = health
+        
         self.load = None
+        self.count = 0
+        self.life_len = 0
 
     def choice(self, options):
         probs = [1/len(options) for _ in options]

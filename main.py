@@ -7,20 +7,10 @@ from pygame.locals import *
 from random import randint
 from sandbox import Box
 from input import handle_input
-
-        
-
 from conts import *
 
-particles = [i[1] for i in getmembers(objects, isclass)]
-particles.remove(objects.Particle)
-
-
-
-
+    
 def main(RAIN=True, index=0, size=30, timeing=False, pause = False):
-
-
 
     # setup pygame
     pygame.init()
@@ -49,20 +39,24 @@ def main(RAIN=True, index=0, size=30, timeing=False, pause = False):
     if timeing:
         step = (len(board.board)+23)//len(particles)
         index_d = 0
-        print(particles)
         for i in range(len(board.board)):
             for j in range(len(board.board)+23):
-                index_d = (j // step) 
+                index_d = (j // step)
+                if j % step == 0:
+                    board.add_particle(j, i, objects.Stone, health=1000000)
+                    continue
                 try:
                     board.add_particle(j, i, particles[index_d])
                 except IndexError:
                     pass
 
 
+
     pause_time = 0
     # main loop 
     counter = itertools.count()
     for fnum in counter:
+        if timeing and fnum >= 400: return 
         fnum -= pause_time
         if pause:
             pause_time += 1

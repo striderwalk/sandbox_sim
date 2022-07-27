@@ -9,8 +9,8 @@ class Stone(Particle, Soild):
     
     colour = (117,127,128)
 
-    def __init__(self, x,y):
-        super().__init__(x, y, mass=1000, static=True)
+    def __init__(self, x,y, health=100):
+        super().__init__(x, y, mass=1000, static=True,health=health)
         self.update_colour()
 
 

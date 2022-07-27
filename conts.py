@@ -1,10 +1,35 @@
 import objects
 from inspect import getmembers, isclass
 
-particles = [i[1] for i in getmembers(objects, isclass)]
-particles.remove(objects.Particle)
-# swap air, acid
-particles[0], particles[1] = particles[1], particles[0]
+
+def sort_by_state(particles: list) -> list:
+    # objects.Paticle not type
+    # objects.Air essentially empty
+    types = [i for i in particles if len(i.__bases__) == 1 and i != objects.Particle and i != objects.Air]
+
+    sorted_types = {}
+    for i in types: sorted_types[i] = []
+    for i in particles:
+        # make sure not base type or Air
+        if i in types or i == objects.Air or i == objects.Particle:
+            continue
+        try:
+            sorted_types[i.__bases__[1]].append(i)
+        except Exception as e:
+            print(i)
+            raise e
+
+    particles = []
+    for i in sorted_types:
+        # turn to alphabetical order
+        sorted_particles = sorted_types[i]
+        sorted_particles.sort(key=lambda x: ord(x.__name__[0]))
+        particles.extend(sorted_particles)
+    particles.insert(0, objects.Air)
+    return particles
+
+_particles = [i[1] for i in getmembers(objects, isclass)]
+particles = sort_by_state(_particles)
 
 
 # all constants
