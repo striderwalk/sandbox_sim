@@ -13,7 +13,7 @@ class Liquid():
     def move(self, board):
         """
         - first move down
-        - move down left/ right
+        - move down left/ down right
         - move left/ right
         """
 

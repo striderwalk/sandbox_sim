@@ -64,7 +64,7 @@ class Box:
 
         # update board for other things
         for row in self.board:
-            for item in row:
+            for item in row[::-1]:
                 if item.count != fnum and item.mass < 0: # if fnum same allready updated
                   
                     # check for death in particle
@@ -76,7 +76,7 @@ class Box:
 
                     # update count
                     self.board[item.y, item.x].count = fnum
-            for item in row[::-1]:
+            for item in row:
                 if type(item) != objects.Air:
                     item.load_move(self.board)
 

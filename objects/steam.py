@@ -24,7 +24,7 @@ class Steam(Particle, Gas):
         super().__init__(x, y, mass=-5)
         self.thickness = thick
         self.update_colour()
-        self.wetness = 15
+        self.wetness = 5
         self.life_lim = randint(90,110)
     
     def update(self,board):

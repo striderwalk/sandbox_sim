@@ -21,7 +21,7 @@ class Smoke(Particle, Gas):
         super().__init__(x, y, mass=-4)
         self.thickness = thick
         self.update_colour()
-        self.wetness = 15
+        self.wetness = 5
         self.timeout = randint(90,110)
 
     def update(self,board):
