@@ -3,7 +3,7 @@ from .soild import Soild
 
 class Gren(Particle, Soild):
     """
-    a Partical never moves
+    gren is good
 
     """
     
