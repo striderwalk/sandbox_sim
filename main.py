@@ -18,8 +18,6 @@ def main(RAIN=True, index=0, size=30, timeing=False, pause = False):
     flags = DOUBLEBUF
     win = pygame.display.set_mode((WIDTH,HEIGHT), flags, 16)
 
-    win.set_alpha(False)
-    pygame.event.set_allowed([QUIT, KEYDOWN, MOUSEBUTTONDOWN])
     pygame.display.set_caption("SandBox")
     font = pygame.font.SysFont(None, 24)
 

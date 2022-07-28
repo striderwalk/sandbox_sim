@@ -1,7 +1,7 @@
 
 # base classes
 from .particle import Particle
-from .soild import Soild
+from .solid import Solid
 from .gas import Gas
 from .liquid import Liquid
 

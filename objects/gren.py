@@ -1,7 +1,7 @@
 from .particle import Particle
-from .soild import Soild
+from .solid import Solid
 
-class Gren(Particle, Soild):
+class Gren(Particle, Solid):
     """
     gren is good
 
@@ -11,6 +11,8 @@ class Gren(Particle, Soild):
 
     def __init__(self, x,y):
         super().__init__(x, y, mass=1000, static=True)
+        Solid.__init__(self)
+        
         self.update_colour()
 
 

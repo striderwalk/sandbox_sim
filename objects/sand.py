@@ -1,7 +1,7 @@
 from .particle import Particle
-from .soild import Soild
+from .solid import Solid
 
-class Sand(Particle, Soild):
+class Sand(Particle, Solid):
     """
     a Partical that will fall
      - down 

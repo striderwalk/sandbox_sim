@@ -10,14 +10,16 @@ class Particle():
      - find neigbours
     """
 
-    def __init__(self, x,y, mass = 0, static=False, flamable=False, health=100):
+    def __init__(self, x,y, mass = 0, static=False, flamable=False, health=100, obj_type="None"):
         self.x = x
         self.y = y
         self.mass = mass
         self.static = static
         self.flamable = flamable
         self.health = health
-        
+        if not hasattr(self, "type"):
+            self.type = obj_type
+
         self.load = None
         self.count = 0
         self.life_len = 0
@@ -113,4 +115,4 @@ class Particle():
 
 
 
-    def __repr__(self): return f"{type(self).__name__} of mass {self.mass} at {self.x}, {self.y}"# with mass of {self.mass}"
+    def __repr__(self): return f"{type(self).__name__} of mass {self.mass} at {self.x}, {self.y}, {self.type}"# with mass of {self.mass}"

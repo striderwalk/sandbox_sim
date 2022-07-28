@@ -1,7 +1,7 @@
 from .particle import Particle
-from .soild import Soild
+from .solid import Solid
 
-class Stone(Particle, Soild):
+class Stone(Particle, Solid):
     """
     a Partical never moves
 
@@ -11,9 +11,11 @@ class Stone(Particle, Soild):
 
     def __init__(self, x,y, health=100):
         super().__init__(x, y, mass=1000, static=True,health=health)
+        Solid.__init__(self)
         self.update_colour()
 
 
     def update(self,board): 
         if (res := self.check()):
             return res
+print(Stone.__mro__)

@@ -1,8 +1,8 @@
 from .particle import Particle
 from .smoke import Smoke
-from .soild import Soild
+from .solid import Solid
 
-class Ash(Particle, Soild):
+class Ash(Particle, Solid):
     """
     a Partical that will fall
      - down
