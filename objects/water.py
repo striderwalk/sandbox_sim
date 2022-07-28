@@ -24,13 +24,15 @@ class Water(Particle, Liquid):
     colour = (64, 154, 245)
     directer = 1
 
-    def __init__(self, x,y):
+    def __init__(self, x,y, make_steam=True):
+        # make_steam stop water condence dupeing
         super().__init__(x, y, mass=1)
+        Liquid.__init__(self)
+        
         self.update_colour()
-        self.wetness = 3
+        self.wetness = 9
         # if -1 move self if 1 move right
-        self.direct = Water.directer
-        Water.directer *= -1
+        self.make_steam = make_steam
 
 
 
@@ -49,16 +51,13 @@ class Water(Particle, Liquid):
             return Stone         
 
     def update(self,board):
-        # if self.check_self(board): return
-        # swich direction
-        self.direct *= -1
         # time since created
         self.life_len += 1
         
         # check not at bottom of board
         if self.y == len(board)-1: return
         # check for lava
-        if res := self.check_lava(board):
+        if self.make_steam and (res := self.check_lava(board)):
             return res
         # update postion
         if (pos := self.move(board)):

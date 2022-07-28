@@ -43,7 +43,11 @@ class Steam(Particle, Gas):
             for other in self.get_neighbours(board, 2):
                 if type(other) == Steam:
                     board[other.y, other.x] = Air(other.x, other.y)
-            return Water 
+            if random() > 0.95:
+                if self.y < len(board)-1:
+                    board[self.y+1, self.x] = Water(self.x, self.y+1, make_steam=False)
+            return "dies"
+
 
 
         # check not at top of board

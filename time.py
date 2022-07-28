@@ -2,7 +2,7 @@ from main import main
 import cProfile
 import pstats
 import os
-print("timeing started please DONT'T press anything")
+print("timeing started please DON'T press anything")
 with cProfile.Profile() as pr:
     main(timeing = True)
 print("timeing ended")

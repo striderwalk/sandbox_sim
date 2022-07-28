@@ -15,6 +15,7 @@ class Acid(Particle, Liquid):
 
     def __init__(self, x,y):
         super().__init__(x, y, mass=0.9)
+        Liquid.__init__(self)
         self.update_colour()
         self.wetness = 7
         self.strength = randint(15,17)

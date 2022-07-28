@@ -11,12 +11,10 @@ from conts import *
 
     
 def main(RAIN=True, index=0, size=30, timeing=False, pause = False):
-
     # setup pygame
     pygame.init()
     clock = pygame.time.Clock()
-    flags = DOUBLEBUF
-    win = pygame.display.set_mode((WIDTH,HEIGHT), flags, 16)
+    win = pygame.display.set_mode((WIDTH,HEIGHT), 16)
 
     pygame.display.set_caption("SandBox")
     font = pygame.font.SysFont(None, 24)
@@ -40,7 +38,7 @@ def main(RAIN=True, index=0, size=30, timeing=False, pause = False):
         for i in range(len(board.board)):
             for j in range(len(board.board)+23):
                 index_d = (j // step)
-                if j % step == 0:
+                if j % step < 2:
                     board.add_particle(j, i, objects.Stone, health=1000000)
                     continue
                 try:
@@ -54,7 +52,9 @@ def main(RAIN=True, index=0, size=30, timeing=False, pause = False):
     # main loop 
     counter = itertools.count()
     for fnum in counter:
-        if timeing and fnum >= 400: return 
+        if timeing and fnum >= 400:
+            pygame.quit()
+            return 
         fnum -= pause_time
         if pause:
             pause_time += 1
@@ -70,8 +70,12 @@ def main(RAIN=True, index=0, size=30, timeing=False, pause = False):
             else:
                 return
         elif res == "dead":
-            if not timeing: exit()
-            else: return
+            if not timeing:
+                pygame.quit()
+                exit()
+            else:
+                pygame.quit()
+                return
         # play pause    
         elif res == "stop": pause = True
 
