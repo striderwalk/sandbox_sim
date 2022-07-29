@@ -1,0 +1,55 @@
+./main.py:4:1: E402 module level import not at top of file
+./main.py:5:1: E402 module level import not at top of file
+./main.py:6:1: E402 module level import not at top of file
+./main.py:7:1: E402 module level import not at top of file
+./main.py:8:1: E402 module level import not at top of file
+./main.py:9:1: E402 module level import not at top of file
+./main.py:10:1: E402 module level import not at top of file
+./main.py:72:80: E501 line too long (85 > 79 characters)
+./main.py:95:80: E501 line too long (86 > 79 characters)
+./main.py:98:31: F541 f-string is missing placeholders
+./mouse.py:45:80: E501 line too long (81 > 79 characters)
+./mouse.py:123:80: E501 line too long (80 > 79 characters)
+./sandbox.py:34:80: E501 line too long (83 > 79 characters)
+./sandbox.py:39:80: E501 line too long (80 > 79 characters)
+./sandbox.py:60:80: E501 line too long (88 > 79 characters)
+./sandbox.py:64:80: E501 line too long (80 > 79 characters)
+./sandbox.py:65:80: E501 line too long (80 > 79 characters)
+./sandbox.py:81:80: E501 line too long (88 > 79 characters)
+./sandbox.py:86:80: E501 line too long (80 > 79 characters)
+./selection.py:2:1: F403 'from conts import *' used; unable to detect undefined names
+./selection.py:18:16: F405 'LOWER_BOARDER' may be undefined, or defined from star imports: conts
+./selection.py:19:33: F405 'particles' may be undefined, or defined from star imports: conts
+./selection.py:22:17: F405 'HEIGHT' may be undefined, or defined from star imports: conts
+./selection.py:22:26: F405 'LOWER_BOARDER' may be undefined, or defined from star imports: conts
+./selection.py:42:80: E501 line too long (85 > 79 characters)
+./selection.py:46:27: F405 'WIDTH' may be undefined, or defined from star imports: conts
+./selection.py:48:80: E501 line too long (84 > 79 characters)
+./selection.py:56:33: F405 'HEIGHT' may be undefined, or defined from star imports: conts
+./selection.py:56:42: F405 'LOWER_BOARDER' may be undefined, or defined from star imports: conts
+./selection.py:56:57: F405 'WIDTH' may be undefined, or defined from star imports: conts
+./selection.py:56:64: F405 'LOWER_BOARDER' may be undefined, or defined from star imports: conts
+./selection.py:67:16: F841 local variable 'click' is assigned to but never used
+./objects\acid.py:29:80: E501 line too long (81 > 79 characters)
+./objects\acid.py:41:80: E501 line too long (81 > 79 characters)
+./objects\fire.py:39:80: E501 line too long (80 > 79 characters)
+./objects\fire.py:42:80: E501 line too long (81 > 79 characters)
+./objects\fire.py:49:80: E501 line too long (80 > 79 characters)
+./objects\gas.py:21:80: E501 line too long (86 > 79 characters)
+./objects\gas.py:25:80: E501 line too long (82 > 79 characters)
+./objects\lava.py:54:80: E501 line too long (84 > 79 characters)
+./objects\liquid.py:45:80: E501 line too long (84 > 79 characters)
+./objects\particle.py:15:80: E501 line too long (85 > 79 characters)
+./objects\particle.py:93:80: E501 line too long (85 > 79 characters)
+./objects\particle.py:95:80: E501 line too long (87 > 79 characters)
+./objects\particle.py:101:80: E501 line too long (123 > 79 characters)
+./objects\water.py:4:1: F401 '.air.Air' imported but unused
+./objects\water.py:8:1: E302 expected 2 blank lines, found 1
+./objects\water.py:38:80: E501 line too long (80 > 79 characters)
+./objects\wood.py:8:1: F401 'random.randint' imported but unused
+./objects\wood.py:37:80: E501 line too long (80 > 79 characters)
+./objects\wood.py:40:80: E501 line too long (88 > 79 characters)
+./objects\wood.py:53:80: E501 line too long (81 > 79 characters)
+./objects\wood.py:59:80: E501 line too long (81 > 79 characters)
+./objects\wood.py:65:80: E501 line too long (81 > 79 characters)
+./objects\wood.py:71:80: E501 line too long (81 > 79 characters)

@@ -1,9 +1,9 @@
-
-class Solid():
+class Solid:
     """
     a base class for all solids
     used to identify
     """
+
     def __init__(self):
         self.type = "solid"
 
