@@ -9,11 +9,10 @@ class Air(Particle):
     def __init__(self, x,y):
         super().__init__(x, y, mass=0)
         self.colour = tuple(Air.colour)
+        self.update_colour()
 
 
 
 
     def update(self,board):
         return
-
-

@@ -74,8 +74,6 @@ class Particle():
         if not self.load: return
         x, y = self.load
 
-        if not self.check_move(board):
-            return False
         # update others pos
         board[y, x].x = self.x
         board[y, x].y = self.y
@@ -85,24 +83,6 @@ class Particle():
         self.x = x
         self.y = y
         self.load = None
-
-    def check_move(self, board : list[list] )-> bool:
-        x, y = self.load
-        # make sure other can move
-        if board[y, x].static: return False
-        if self.x - x != 0 and self.y - y == 0:
-            # check clear between self and other on x
-            if self.x > x: points = range(x, self.x+1)
-            else: points = range(x, self.x-1,-1)
-            # print(points, x, self.x)
-            for i in points:
-                # print(i)
-                if board[y, i].static:
-                    # print("False")
-                    return False
-        # print("True")
-        return True
-
 
     def check_self(self,board):
         if self.y > 0 and type(board[self.y-1, self.x]) != type(self):

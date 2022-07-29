@@ -51,6 +51,8 @@ class Water(Particle, Liquid):
             return Stone         
 
     def update(self,board):
+        if self.check_self(board):
+            return
         # time since created
         self.life_len += 1
         

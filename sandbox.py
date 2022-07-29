@@ -24,8 +24,8 @@ class Box:
         for i, row in enumerate(self.board):
             for j, val in enumerate(row):
                 # if air not dawn to save time
-                if type(val) != objects.Air:
-                    pygame.draw.rect(win, val.colour, [j*CELL_WIDTH,i*CELL_HEIGHT,CELL_WIDTH,CELL_HEIGHT])
+                pygame.draw.rect(win, val.colour, [j*CELL_WIDTH,i*CELL_HEIGHT,CELL_WIDTH,CELL_HEIGHT])
+                # if type(val) != objects.Air:
 
                 
                 
@@ -63,9 +63,7 @@ class Box:
                     # update count
                     self.board[item.y, item.x].count = fnum
             for item in row:
-                if type(item) != objects.Air:
-                    item.load_move(self.board)
-
+                item.load_move(self.board)
 
         # update board for other things
         for row in self.board:
@@ -74,6 +72,7 @@ class Box:
                   
                     # check for death in particle
                     if (result := item.update(self.board)) == "dies":
+                        item.load_move(self.board)
                         self.board[item.y, item.x] = objects.Air(item.x, item.y)
                     # if particle wants to go though a major change
                     elif result:
@@ -84,8 +83,7 @@ class Box:
 
             # move items
             for item in row:
-                if type(item) != objects.Air:
-                    item.load_move(self.board)
+                item.load_move(self.board)
 
 
 
@@ -107,6 +105,8 @@ class Box:
         # tell each particle where there are
         for y, row in enumerate(self.board):
             for x, item in enumerate(row):
+                if item.y != y or item.x != x: 
+                    print(f"WARNING: {item=} pos needed fixing to {x=}, {y=}")
                 item.x = x
                 item.y = x
 

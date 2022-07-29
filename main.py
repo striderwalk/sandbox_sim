@@ -1,11 +1,11 @@
-import itertools
+from os import environ
+environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pygame
+import itertools
 import input_handler
 from  objects.fountain import Fountain
 from mouse import Mouse
 from selection import Selection
-from pygame.locals import *
-from random import randint
 from sandbox import Box
 from conts import *
 
