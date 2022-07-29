@@ -1,10 +1,10 @@
 import pygame
-from conts import *
-from  objects.fountain import Fountain
+from objects.fountain import Fountain
 from sandbox import Box
-from random import randint
-def handle(mouse,board,selection, index, pause):
+from conts import particles
 
+
+def handle(mouse, board, selection, index, pause):
 
     keys = pygame.key.get_pressed()
     # scroll options
@@ -13,7 +13,7 @@ def handle(mouse,board,selection, index, pause):
     if keys[pygame.K_RIGHT]:
         selection.shift(3)
 
-    # reset 
+    # reset
     if keys[pygame.K_r]:
         board = Box()
         return "reset"
@@ -31,18 +31,15 @@ def handle(mouse,board,selection, index, pause):
     if keys[pygame.K_e]:
         val = mouse.get_pos()
         if val[0] == "BOX":
-            x, y= val[1:]
-            board.board[y][x] = Fountain(x, y, particles[index])
+            x, y = val[1:]
             # end neighbours
-            for _, other in board.board[y][x].get_neighbours(board.board, mouse.size):
-                board.board[other.y][other.x] = Fountain(other.x, other.y, particles[index])
-        
+            mouse.press(board, x, y, Fountain, place_obj=particles[index])
 
     for event in pygame.event.get():
 
-        if event.type == pygame.KEYDOWN: 
+        if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                board.rain_type(particles[index])                
+                board.rain_type(particles[index])
             # select next item
             if event.key == pygame.K_TAB:
                 index = (index + 1) % len(particles)
@@ -52,18 +49,17 @@ def handle(mouse,board,selection, index, pause):
 
             if event.key == pygame.K_LSHIFT:
                 if pause:
-                    return "play"     
+                    return "play"
                 else:
                     return "stop"
-
 
         if event.type == pygame.QUIT:
             pygame.quit()
             return "end"
-            
+
         # change press size
         if event.type == pygame.MOUSEBUTTONDOWN:
-            # up 
+            # up
             if event.button == 4:
                 mouse.scale(1)
             if event.button == 5:

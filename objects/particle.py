@@ -1,7 +1,8 @@
 from random import randint
 import numpy as np
 
-class Particle():
+
+class Particle:
     """
     base class for all particles
      - stores pos
@@ -10,7 +11,9 @@ class Particle():
      - find neighbours
     """
 
-    def __init__(self, x,y, mass = 0, static=False, flamable=False, health=100, obj_type="None"):
+    def __init__(
+        self, x, y, mass=0, static=False, flamable=False, health=100, obj_type="None"
+    ):
         self.x = x
         self.y = y
         self.mass = mass
@@ -25,15 +28,15 @@ class Particle():
         self.life_len = 0
 
     def choice(self, options):
-        probs = [1/len(options) for _ in options]
+        probs = [1 / len(options) for _ in options]
         x = np.random.rand()
         cum = 0
-        for i,p in enumerate(probs):
+        for i, p in enumerate(probs):
             cum += p
             if x < cum:
                 break
         return options[i]
-        
+
     def update_colour(self):
         self.colour = tuple(type(self).colour)
         r = (self.colour[0] + randint(-5, 5)) % 255
@@ -41,37 +44,35 @@ class Particle():
         g = (self.colour[1] + randint(-5, 5)) % 255
         b = (self.colour[2] + randint(-5, 5)) % 255
         self.colour = (r, g, b)
-    
-       
-    
 
     def get_neighbours(self, board, dis) -> list:
         # THIS IS SLOW DO NOT USE IN UPDATES
         # find all neighbours in box(dis, dis) -> [others]
-        # both ranges are ± from self.pos 
+        # both ranges are ± from self.pos
         # fast but not circle :(
 
         # find box x
-        minx = max(0, self.x-dis+1)
-        miny = max(0, self.y-dis+1)
-        
+        minx = max(0, self.x - dis + 1)
+        miny = max(0, self.y - dis + 1)
+
         # find box y
-        maxx = min(len(board[0]), self.x+dis)
-        maxy = min(len(board), self.y+dis)
+        maxx = min(len(board[0]), self.x + dis)
+        maxy = min(len(board), self.y + dis)
 
         others = []
         # go though le box
         for y in range(miny, maxy):
             for x in range(minx, maxx):
-                others.append(((x,y), board[y, x]))
+                others.append(((x, y), board[y, x]))
 
         return others
-                
-    def moveTo(self, board, x,y):
+
+    def moveTo(self, board, x, y):
         self.load = x, y
 
     def load_move(self, board):
-        if not self.load: return
+        if not self.load:
+            return
         x, y = self.load
 
         # update others pos
@@ -84,16 +85,17 @@ class Particle():
         self.y = y
         self.load = None
 
-    def check_self(self,board):
-        if self.y > 0 and type(board[self.y-1, self.x]) != type(self):
+    def check_self(self, board):
+        if self.y > 0 and type(board[self.y - 1, self.x]) != type(self):
             return False
-        if self.x > 0 and type(board[self.y, self.x-1]) != type(self):
+        if self.x > 0 and type(board[self.y, self.x - 1]) != type(self):
             return False
-        if self.y < len(board)-1 and type(board[self.y+1, self.x]) != type(self):
+        if self.y < len(board) - 1 and type(board[self.y + 1, self.x]) != type(self):
             return False
-        if self.x < len(board[self.y])-1  and type(board[self.y, self.x+1]) != type(self):
+        if self.x < len(board[self.y]) - 1 and type(board[self.y, self.x + 1]) != type(
+            self
+        ):
             return False
 
-
-
-    def __repr__(self): return f"{type(self).__name__} of mass {self.mass} at {self.x}, {self.y}, {self.type}"# with mass of {self.mass}"
+    def __repr__(self):
+        return f"{type(self).__name__} of mass {self.mass} at {self.x}, {self.y}"

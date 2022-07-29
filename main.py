@@ -1,24 +1,25 @@
-from os import environ
-environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
-import pygame
 import itertools
 import input_handler
-from  objects.fountain import Fountain
 from mouse import Mouse
 from selection import Selection
 from sandbox import Box
-from conts import *
+from conts import particles, WIDTH, HEIGHT, objects
+from os import environ
 
-    
-def main(RAIN=True, index=0, size=30, profiling=False, pause = False):
+environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
+import pygame
+
+
+def main(RAIN=True, index=0, size=30, profiling=False, pause=False):
     # setup pygame
     pygame.init()
     clock = pygame.time.Clock()
-    win = pygame.display.set_mode((WIDTH,HEIGHT), 16)
+    win = pygame.display.set_mode((WIDTH, HEIGHT), 16)
     pygame.display.set_caption("SandBox")
     font = pygame.font.SysFont(None, 24)
+    # pygame.display.set_allow_screensaver()
 
-    # setup 
+    # setupr
     board = Box()
     mouse = Mouse(size)
     selection = Selection(index)
@@ -28,11 +29,11 @@ def main(RAIN=True, index=0, size=30, profiling=False, pause = False):
         board.rain_type(objects.Water)
     # profiling board setup
     if profiling:
-        step = (len(board.board)+23)//len(particles)
+        step = (len(board.board) + 23) // len(particles)
         index_d = 0
         for i in range(len(board.board)):
-            for j in range(len(board.board)+23):
-                index_d = (j // step)
+            for j in range(len(board.board) + 23):
+                index_d = j // step
                 if j % step < 2:
                     board.add_particle(j, i, objects.Stone, health=1000000)
                     continue
@@ -42,13 +43,13 @@ def main(RAIN=True, index=0, size=30, profiling=False, pause = False):
                     pass
 
     pause_time = 0
-    # main loop 
+    # main loop
     counter = itertools.count()
     for fnum in counter:
         # max profile time
         if profiling and fnum >= 400:
             pygame.quit()
-            return 
+            return
         # make frame num stable if paused
         fnum -= pause_time
         if pause:
@@ -63,7 +64,9 @@ def main(RAIN=True, index=0, size=30, profiling=False, pause = False):
         # update index
         index = selection.update(win, index)
         # handle input
-        if (res := input_handler.handle(mouse,board,selection, index, pause)) == "reset":
+        if (
+            res := input_handler.handle(mouse, board, selection, index, pause)
+        ) == "reset":
             # reset game
             if not profiling:
                 main(RAIN=False, index=selection.index, size=mouse.size, pause=pause)
@@ -79,7 +82,7 @@ def main(RAIN=True, index=0, size=30, profiling=False, pause = False):
                 pygame.quit()
                 return
         elif res == "stop":
-            # pause game   
+            # pause game
             pause = True
         elif res == "play":
             # play fame
@@ -88,21 +91,21 @@ def main(RAIN=True, index=0, size=30, profiling=False, pause = False):
             # set new index
             index = res
 
-
         # display game data
         img = font.render(f"{fnum}, fps={round(clock.get_fps(), 3)}", True, (0, 0, 0))
         win.blit(img, (30, 30))
         if pause:
-            img = font.render(f"paused", True, (255, 0, 0))
-            win.blit(img, (WIDTH-img.get_size()[0]-10, 30))
+            img = font.render("paused", True, (255, 0, 0))
+            win.blit(img, (WIDTH - img.get_size()[0] - 10, 30))
 
         # update screen
         pygame.display.flip()
-        win.fill((255,255,255))
-        if not pause: clock.tick(30)
+
+        win.fill((255, 255, 255))
+        if not pause:
+            clock.tick(30)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # this comment is not needed
     main()
-       

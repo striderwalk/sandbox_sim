@@ -1,4 +1,4 @@
-class Test():
+class Test:
     hi = 1
 
     def __init__(self):
@@ -7,7 +7,7 @@ class Test():
         print(Test.hi)
 
 
-x = [ Test() for i in range(10000)]
+x = [Test() for i in range(10000)]
 
 y = 0
 
