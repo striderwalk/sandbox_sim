@@ -3,7 +3,7 @@ from .solid import Solid
 
 class Sand(Particle, Solid):
     """
-    a Partical that will fall
+    a Particle that will fall
      - down 
     """
 

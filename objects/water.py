@@ -9,7 +9,7 @@ import time
 from random import random, randint, choice
 class Water(Particle, Liquid):
     """
-    a Partical that will fall
+    a Particle that will fall
      - down 
      - down to the left
      - down to the left
@@ -25,7 +25,7 @@ class Water(Particle, Liquid):
     directer = 1
 
     def __init__(self, x,y, make_steam=True):
-        # make_steam stop water condence dupeing
+        # make_steam stop water condense duplicating
         super().__init__(x, y, mass=1)
         Liquid.__init__(self)
         
@@ -59,6 +59,6 @@ class Water(Particle, Liquid):
         # check for lava
         if self.make_steam and (res := self.check_lava(board)):
             return res
-        # update postion
+        # update position
         if (pos := self.move(board)):
             self.moveTo(board, *pos)    

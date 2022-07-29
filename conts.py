@@ -3,7 +3,7 @@ from inspect import getmembers, isclass
 
 
 def sort_by_state(particles: list) -> list:
-    # objects.Paticle not type
+    # objects.Particle not type
     # objects.Air essentially empty
     types = [i for i in particles if len(i.__bases__) == 1 and i != objects.Particle and i != objects.Air]
 

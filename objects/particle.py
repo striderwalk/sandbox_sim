@@ -46,7 +46,8 @@ class Particle():
     
 
     def get_neighbours(self, board, dis) -> list:
-        # find all neigbours in box(dis, dis) -> [vals]
+        # THIS IS SLOW DO NOT USE IN UPDATES
+        # find all neighbours in box(dis, dis) -> [others]
         # both ranges are ± from self.pos 
         # fast but not circle :(
 

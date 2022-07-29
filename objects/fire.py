@@ -10,15 +10,15 @@ from colour import Color
 
 class Fire(Particle, Solid):
     """
-    # inherit from soild for sorting particles - might be changed to a gas  
+    # inherit from solid for sorting particles - might be changed to a gas  
     move
      - random up left or right
      - else down
 
-    buring stuff
+    burning stuff
      - wood
     
-    dieding
+    on death
     - turn to smoke
 
     """

@@ -3,7 +3,7 @@ from .solid import Solid
 
 class Stone(Particle, Solid):
     """
-    a Partical never moves
+    a Particle never moves
 
     """
     

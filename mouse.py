@@ -14,6 +14,7 @@ class Mouse:
         self.size = size
 
     def scale(self, num):
+        # change cursor size
         if 0 < self.size <= 50:
             self.size += num
 
@@ -44,23 +45,22 @@ class Mouse:
 
 
     def draw_mouse(self, win, obj):
+        # find rim colour
         if obj == Air:
             colour = (0,0,0)
         else:
             colour = obj.colour
+        # hide mouse
         pygame.mouse.set_visible(False)
+        # if in main area
         state,x,y = self.get_pos()
         if state == "CORD":
             pygame.mouse.set_visible(True)
             return
-
+        # draw centre 
         pygame.draw.rect(win, (226, 233, 16), [(x-0.5)*CELL_WIDTH,(y-0.5)*CELL_HEIGHT,CELL_WIDTH*2,CELL_HEIGHT*2])
-
-        pygame.draw.rect(win, colour, [CELL_WIDTH*x-(self.size-1)*CELL_WIDTH,
-                                              CELL_HEIGHT*y-(self.size-1)*CELL_HEIGHT,
-                                              (self.size*2-1)*CELL_WIDTH, 
-                                              (self.size*2-1)*CELL_HEIGHT],
-                                              width=1)
+        # draw outer section
+        pygame.draw.rect(win, colour, [CELL_WIDTH*x-(self.size-1)*CELL_WIDTH, CELL_HEIGHT*y-(self.size-1)*CELL_HEIGHT, ((self.size*2-1)*CELL_WIDTH),  min((self.size*2-1)*CELL_HEIGHT,HEIGHT-LOWER_BOARDER)], width=1)
 
 
     def update(self, win, board, index):

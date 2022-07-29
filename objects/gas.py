@@ -6,7 +6,7 @@ class Gas():
     """
     a base class for all gasses
      - handle flowing
-     - spreding
+     - spreading
     """
     def copy(self,board):
         if self.thickness <=1: return

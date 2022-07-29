@@ -4,7 +4,7 @@ from .air import Air
 
 class Fountain(Particle):
     """
-    spawns particel of given type
+    spawns particle of given type
 
     """
     

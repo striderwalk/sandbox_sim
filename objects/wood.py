@@ -10,7 +10,7 @@ from random import randint, random
 
 class Wood(Particle, Solid):
     """
-    a Partical never moves
+    a Particle never moves
     
     but if on fire BURN!!!
      - when done turn to ash
@@ -79,7 +79,7 @@ class Wood(Particle, Solid):
             return res
         # age
         self.life_len += 1
-        # check if upade needed
+        # check if update needed
         if self.check_self(board):
             return
 

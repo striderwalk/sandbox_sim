@@ -4,7 +4,7 @@ from .solid import Solid
 
 class Ash(Particle, Solid):
     """
-    a Partical that will fall
+    a Particle that will fall
      - down
     """
 
@@ -18,7 +18,7 @@ class Ash(Particle, Solid):
     def update(self,board):
         if (res := self.check()):
             return res
-        # check if upade needed
+        # check if update needed
         if self.check_self(board):
             return
             
