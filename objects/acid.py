@@ -7,7 +7,7 @@ from random import randint, random
 
 class Acid(Particle, Liquid):
     """
-    a Partical never moves
+    a Particle never moves
 
     """
     
@@ -27,19 +27,19 @@ class Acid(Particle, Liquid):
             self.mass = 0.9
             return
         # check for lava
-        if self.y < len(board)-1 and board[self.y+1, self.x].type == "soild": # check below 
+        if self.y < len(board)-1 and board[self.y+1, self.x].type == "solid": # check below 
             # kill other and move
             board[self.y+1, self.x].health -= self.strength
 
-        if self.y > 0 and board[self.y-1, self.x].type == "soild": # check above if not on top
+        if self.y > 0 and board[self.y-1, self.x].type == "solid": # check above if not on top
             # kill other and move
             board[self.y-1, self.x].health -= self.strength
 
-        if self.x < len(board)-1 and board[self.y, self.x+1].type == "soild": # check left if not on edge
+        if self.x < len(board)-1 and board[self.y, self.x+1].type == "solid": # check left if not on edge
             # kill other and move
             board[self.y, self.x+1].health -= self.strength
                 
-        if self.x !=0 and board[self.y, self.x-1].type == "soild": # check right if not on edge
+        if self.x !=0 and board[self.y, self.x-1].type == "solid": # check right if not on edge
             # kill other and move
             board[self.y, self.x-1].health -= self.strength
 
@@ -50,6 +50,6 @@ class Acid(Particle, Liquid):
         if random() > 0.85 and type(board[self.y-1, self.x]) == Air:
             board[self.y-1, self.x] = Fume(self.x,self.y-1)
 
-        # update postion
+        # update position
         if (pos := self.move(board)):
             self.moveTo(board, *pos)    

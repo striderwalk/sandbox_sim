@@ -18,4 +18,3 @@ class Stone(Particle, Solid):
     def update(self,board): 
         if (res := self.check()):
             return res
-print(Stone.__mro__)

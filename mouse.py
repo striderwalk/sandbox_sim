@@ -64,10 +64,10 @@ class Mouse:
 
 
     def update(self, win, board, index):
-        
         self.draw_mouse(win, particles[index])
 
         # check for input
+        # unsafe placement
         if pygame.mouse.get_pressed()[0]:
             pos = self.get_pos()
             if pos[0] == "BOX" :
@@ -79,11 +79,11 @@ class Mouse:
                 x, y = pos[1:]
                 try:
                     return particles.index(type(board.board[y, x]))
-                except ValueError as e:
+                except ValueError as e: # Fountain not pick-able
                     if type(board.board[y, x]) == Fountain:
                         return particles.index(board.board[y, x].obj)
 
-
+        # safe placements
         if pygame.mouse.get_pressed()[2]:
             pos = self.get_pos() 
             if pos[0] == "BOX":

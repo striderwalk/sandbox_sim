@@ -3,7 +3,7 @@ from conts import *
 from  objects.fountain import Fountain
 from sandbox import Box
 from random import randint
-def handle_input(mouse,board,selection, index, pause):
+def handle(mouse,board,selection, index, pause):
 
 
     keys = pygame.key.get_pressed()
@@ -16,9 +16,9 @@ def handle_input(mouse,board,selection, index, pause):
     # reset 
     if keys[pygame.K_r]:
         board = Box()
-        return "end"
+        return "reset"
 
-    # debuging tool
+    # debugging tool
     if keys[pygame.K_q]:
         # ensure all particle know their pos
         board.fix()
@@ -33,7 +33,7 @@ def handle_input(mouse,board,selection, index, pause):
         if val[0] == "BOX":
             x, y= val[1:]
             board.board[y][x] = Fountain(x, y, particles[index])
-            # set neighbours
+            # end neighbours
             for _, other in board.board[y][x].get_neighbours(board.board, mouse.size):
                 board.board[other.y][other.x] = Fountain(other.x, other.y, particles[index])
         
@@ -42,13 +42,11 @@ def handle_input(mouse,board,selection, index, pause):
 
         if event.type == pygame.KEYDOWN: 
             if event.key == pygame.K_SPACE:
-                for _ in range(1500):
-                    y,x = randint(0,ROWS-1),randint(0,COLS-1) 
-                    board.add_particle(x,y,objects.Water, strict=True)
+                board.rain_type(particles[index])                
             # select next item
             if event.key == pygame.K_TAB:
                 index = (index + 1) % len(particles)
-            # select proir item
+            # select prior item
             if event.key == pygame.K_LCTRL:
                 index = (index - 1) % len(particles)
 
@@ -61,7 +59,7 @@ def handle_input(mouse,board,selection, index, pause):
 
         if event.type == pygame.QUIT:
             pygame.quit()
-            return "dead"
+            return "end"
             
         # change press size
         if event.type == pygame.MOUSEBUTTONDOWN:

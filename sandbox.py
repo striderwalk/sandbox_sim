@@ -2,6 +2,7 @@ from conts import *
 import objects
 import pygame
 import numpy as np
+from random import randint
 
 class Box:
     """
@@ -107,4 +108,9 @@ class Box:
         for y, row in enumerate(self.board):
             for x, item in enumerate(row):
                 item.x = x
-                item.y = y
+                item.y = x
+
+    def rain_type(self, obj, num=1500) -> None:
+        for _ in range(num):            
+            y,x = randint(0,ROWS-1),randint(0,COLS-1) 
+            self.add_particle(x,y, obj)

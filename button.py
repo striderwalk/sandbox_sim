@@ -5,7 +5,7 @@ font = pygame.font.SysFont(None, 24)
 
 class Button:
     """
-    a class to represnt butttons
+    a class to represent buttons
      - handle drawing
      - handle
     """
@@ -40,19 +40,23 @@ class Button:
 
         return action
     def move(self, new_x, new_y):
+        # move by a given amount
         self.x += new_x
         self.y += new_y
         self.rect = pygame.Rect((self.x,self.y), (self.size, self.size))
         self.rect.topleft = (self.x, self.y)
 
     def move_to(self, new_x, new_y):
+        # move to somewhere
         self.x = new_x
         self.y = new_y
         self.rect = pygame.Rect((self.x,self.y), (self.size, self.size))
         self.rect.topleft = (self.x, self.y)
 
     def up(self):
+        # unclick
         self.clicked = False
 
     def down(self):
+        # click
         self.clicked = True

@@ -1,38 +1,33 @@
+import itertools
+import pygame
+import input_handler
 from  objects.fountain import Fountain
 from mouse import Mouse
 from selection import Selection
-import itertools
-import pygame
 from pygame.locals import *
 from random import randint
 from sandbox import Box
-from input import handle_input
 from conts import *
 
     
-def main(RAIN=True, index=0, size=30, timeing=False, pause = False):
+def main(RAIN=True, index=0, size=30, profiling=False, pause = False):
     # setup pygame
     pygame.init()
     clock = pygame.time.Clock()
     win = pygame.display.set_mode((WIDTH,HEIGHT), 16)
-
     pygame.display.set_caption("SandBox")
     font = pygame.font.SysFont(None, 24)
 
-    
-
-    # setup board
+    # setup 
     board = Box()
     mouse = Mouse(size)
     selection = Selection(index)
 
     # make it rain
-    if RAIN and not timeing:
-        for _ in range(1500):            
-            y,x = randint(0,ROWS-1),randint(0,COLS-1) 
-            board.add_particle(x,y, objects.Water)
-
-    if timeing:
+    if RAIN and not profiling:
+        board.rain_type(objects.Water)
+    # profiling board setup
+    if profiling:
         step = (len(board.board)+23)//len(particles)
         index_d = 0
         for i in range(len(board.board)):
@@ -46,49 +41,62 @@ def main(RAIN=True, index=0, size=30, timeing=False, pause = False):
                 except IndexError:
                     pass
 
-
-
     pause_time = 0
     # main loop 
     counter = itertools.count()
     for fnum in counter:
-        if timeing and fnum >= 400:
+        # max profile time
+        if profiling and fnum >= 400:
             pygame.quit()
             return 
+        # make frame num stable if paused
         fnum -= pause_time
         if pause:
             pause_time += 1
-        # print(board.debug())
 
+        # print(board.debug())
+        # update particles
         board.update(win, fnum, pause)
+        # mouse input
         if type(val := mouse.update(win, board, index)) == int:
             index = val
+        # update index
         index = selection.update(win, index)
-        if (res := handle_input(mouse,board,selection, index, pause)) == "end":
-            if not timeing:
+        # handle input
+        if (res := input_handler.handle(mouse,board,selection, index, pause)) == "reset":
+            # reset game
+            if not profiling:
                 main(RAIN=False, index=selection.index, size=mouse.size, pause=pause)
             else:
+                # profiler cannot reset
                 return
-        elif res == "dead":
-            if not timeing:
+        elif res == "end":
+            # quit
+            if not profiling:
                 pygame.quit()
                 exit()
             else:
                 pygame.quit()
                 return
-        # play pause    
-        elif res == "stop": pause = True
-
-        elif res == "play": pause = False
+        elif res == "stop":
+            # pause game   
+            pause = True
+        elif res == "play":
+            # play fame
+            pause = False
         elif type(res) == int:
+            # set new index
             index = res
+
+
+        # display game data
         img = font.render(f"{fnum}, fps={round(clock.get_fps(), 3)}", True, (0, 0, 0))
         win.blit(img, (30, 30))
         if pause:
             img = font.render(f"paused", True, (255, 0, 0))
             win.blit(img, (WIDTH-img.get_size()[0]-10, 30))
 
-
+        # update screen
         pygame.display.flip()
         win.fill((255,255,255))
         if not pause: clock.tick(30)

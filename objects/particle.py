@@ -7,7 +7,7 @@ class Particle():
      - stores pos
      - allows movement
      - find colour
-     - find neigbours
+     - find neighbours
     """
 
     def __init__(self, x,y, mass = 0, static=False, flamable=False, health=100, obj_type="None"):
