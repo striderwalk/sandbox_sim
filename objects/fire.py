@@ -71,9 +71,9 @@ class Fire(Particle, Liquid):
         if self.y <= 0:
             return
         moves = []
-        if self.x > 0:
+        if self.x > 0 and board[self.y-1, self.x-1].mass < self.mass:
             moves.append((self.x - 1, self.y - 1))
-        if self.x < len(board[self.y]) - 1:
+        if self.x < len(board[self.y]) - 1 and board[self.y-1, self.x+1].mass < self.mass:
             moves.append((self.x + 1, self.y - 1))
         if len(moves) != 0:
             self.moveTo(board, *choice(moves))

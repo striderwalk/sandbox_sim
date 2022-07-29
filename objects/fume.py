@@ -12,8 +12,9 @@ class Fume(Particle, Gas):
 
     has a random chance of splitting
      - lowers thickness of self
-     - copy self to random free tile in 3x3 square
+     - copy self to random free tile in 3x3 squar
 
+    small chance of choroding
     """
 
     colour = (214, 245, 167)
@@ -24,6 +25,35 @@ class Fume(Particle, Gas):
         self.update_colour()
         self.wetness = 15
         self.timeout = randint(20, 35)
+        self.strength = 1
+    def check_other(self, board):
+        # check below
+        if (
+            self.y < len(board) - 1 and board[self.y + 1, self.x].type == "solid"
+        ): 
+            # kill other
+            board[self.y + 1, self.x].health -= self.strength
+
+        # check above
+        if (
+            self.y > 0 and board[self.y - 1, self.x].type == "solid"
+        ):  
+            # kill other
+            board[self.y - 1, self.x].health -= self.strength
+        # check left
+        if (
+            self.x < len(board) - 1 and board[self.y, self.x + 1].type == "solid"
+        ): 
+            # kill other 
+            board[self.y, self.x + 1].health -= self.strength
+
+        # check right
+        if (
+            self.x != 0 and board[self.y, self.x - 1].type == "solid"
+        ):  
+            # kill other
+            board[self.y, self.x - 1].health -= self.strength
+
 
     def update(self, board):
         # check if update needed
@@ -32,7 +62,7 @@ class Fume(Particle, Gas):
 
         # time since created
         self.life_len += 1
-
+        self.check_other(board)
         # check for timeout
         # timeout = 100 ± 10
         if self.life_len > self.timeout:
