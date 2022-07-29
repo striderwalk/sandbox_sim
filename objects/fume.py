@@ -5,12 +5,12 @@ from random import random, randint, choice
 
 class Fume(Particle, Gas):
     """
-    a Partical that will rise randomly
+    a Particle that will rise randomly
      - up
      - up to the left
      - up to the left 
     
-    has a random chance of spliting
+    has a random chance of splitting
      - lowers thickness of self
      - copy self to random free tile in 3x3 square 
 
@@ -26,7 +26,7 @@ class Fume(Particle, Gas):
 
 
     def update(self,board):
-        # check if upade needed
+        # check if update needed
         if self.check_self(board):
             return
             
@@ -41,7 +41,7 @@ class Fume(Particle, Gas):
         # check not at top of board
         if self.y == 0: return
 
-        # update postion
+        # update position
         if (pos := self.move(board)):
             self.moveTo(board, *pos)
 

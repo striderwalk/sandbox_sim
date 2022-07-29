@@ -1,10 +1,10 @@
 from .particle import Particle
 from .smoke import Smoke
-from .soild import Soild
+from .solid import Solid
 
-class Ash(Particle, Soild):
+class Ash(Particle, Solid):
     """
-    a Partical that will fall
+    a Particle that will fall
      - down
     """
 
@@ -18,7 +18,7 @@ class Ash(Particle, Soild):
     def update(self,board):
         if (res := self.check()):
             return res
-        # check if upade needed
+        # check if update needed
         if self.check_self(board):
             return
             

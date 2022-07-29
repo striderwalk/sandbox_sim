@@ -1,9 +1,10 @@
 from .particle import Particle
 from .air import Air
 
+
 class Fountain(Particle):
     """
-    spawns particel of given type
+    spawns particle of given type
 
     """
     
@@ -16,5 +17,8 @@ class Fountain(Particle):
 
     def update(self,board):
         for _, other in self.get_neighbours(board, 3):
-            if type(other) == Air:
+            if self.obj != Air:
+                if type(other) == Air:
+                    board[other.y, other.x] = self.obj(other.x, other.y)
+            elif type(other) != Fountain:
                 board[other.y, other.x] = self.obj(other.x, other.y)

@@ -7,29 +7,15 @@ from pygame.locals import *
 from random import randint
 from sandbox import Box
 from input import handle_input
-
-        
-
 from conts import *
 
-particles = [i[1] for i in getmembers(objects, isclass)]
-particles.remove(objects.Particle)
-
-
-
-
+    
 def main(RAIN=True, index=0, size=30, timeing=False, pause = False):
-
-
-
     # setup pygame
     pygame.init()
     clock = pygame.time.Clock()
-    flags = DOUBLEBUF
-    win = pygame.display.set_mode((WIDTH,HEIGHT), flags, 16)
+    win = pygame.display.set_mode((WIDTH,HEIGHT), 16)
 
-    win.set_alpha(False)
-    pygame.event.set_allowed([QUIT, KEYDOWN, MOUSEBUTTONDOWN])
     pygame.display.set_caption("SandBox")
     font = pygame.font.SysFont(None, 24)
 
@@ -49,20 +35,26 @@ def main(RAIN=True, index=0, size=30, timeing=False, pause = False):
     if timeing:
         step = (len(board.board)+23)//len(particles)
         index_d = 0
-        print(particles)
         for i in range(len(board.board)):
             for j in range(len(board.board)+23):
-                index_d = (j // step) 
+                index_d = (j // step)
+                if j % step < 2:
+                    board.add_particle(j, i, objects.Stone, health=1000000)
+                    continue
                 try:
                     board.add_particle(j, i, particles[index_d])
                 except IndexError:
                     pass
 
 
+
     pause_time = 0
     # main loop 
     counter = itertools.count()
     for fnum in counter:
+        if timeing and fnum >= 400:
+            pygame.quit()
+            return 
         fnum -= pause_time
         if pause:
             pause_time += 1
@@ -78,8 +70,12 @@ def main(RAIN=True, index=0, size=30, timeing=False, pause = False):
             else:
                 return
         elif res == "dead":
-            if not timeing: exit()
-            else: return
+            if not timeing:
+                pygame.quit()
+                exit()
+            else:
+                pygame.quit()
+                return
         # play pause    
         elif res == "stop": pause = True
 

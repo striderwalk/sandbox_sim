@@ -4,13 +4,13 @@ from .ash import Ash
 from .water import Water
 from .lava import Lava
 from .fire import Fire
-from .soild import Soild
+from .solid import Solid
 from random import randint, random
 
 
-class Wood(Particle, Soild):
+class Wood(Particle, Solid):
     """
-    a Partical never moves
+    a Particle never moves
     
     but if on fire BURN!!!
      - when done turn to ash
@@ -21,6 +21,7 @@ class Wood(Particle, Soild):
 
     def __init__(self, x,y):
         super().__init__(x, y, mass=1000, static=True)
+        Solid.__init__(self)
 
         self.update_colour()
         self.fire_count = -1
@@ -78,7 +79,7 @@ class Wood(Particle, Soild):
             return res
         # age
         self.life_len += 1
-        # check if upade needed
+        # check if update needed
         if self.check_self(board):
             return
 

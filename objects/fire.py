@@ -1,5 +1,6 @@
 from .particle import Particle
 from .air import Air
+from .solid import Solid
 from .water import Water
 from .smoke import Smoke
 from .steam import Steam
@@ -7,16 +8,17 @@ from random import random, randint, choice
 from colour import Color
 
 
-class Fire(Particle):
+class Fire(Particle, Solid):
     """
+    # inherit from solid for sorting particles - might be changed to a gas  
     move
      - random up left or right
      - else down
 
-    buring stuff
+    burning stuff
      - wood
     
-    dieding
+    on death
     - turn to smoke
 
     """

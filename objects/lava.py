@@ -7,7 +7,7 @@ from random import random, randint, choice
 
 class Lava(Particle, Liquid):
     """
-    a Partical that will fall
+    a Particle that will fall
      - down 
      - down to the left
      - down to the left 
@@ -25,8 +25,10 @@ class Lava(Particle, Liquid):
 
     def __init__(self, x,y):
         super().__init__(x, y, mass=1)
+        Liquid.__init__(self)
+        
         self.update_colour()
-        self.wetness = 2
+        self.wetness = 3
 
         # if -1 move self if 1 move right
         self.direct = Lava.directer
@@ -50,7 +52,7 @@ class Lava(Particle, Liquid):
 
 
     def update(self,board):
-        # check if upade needed
+        # check if update needed
         if self.check_self(board):
             return
             
@@ -67,7 +69,7 @@ class Lava(Particle, Liquid):
             return res
         
 
-         # update postion
+         # update position
         if pos := self.move(board):
             self.moveTo(board, *pos)
     

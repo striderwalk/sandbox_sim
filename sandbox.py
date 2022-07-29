@@ -1,57 +1,61 @@
 from conts import *
 import objects
 import pygame
-# import pygame.gfxdraw
 import numpy as np
-
-from objects.liquid import Liquid
-
 
 class Box:
     """
     a container for all particles
-    - handle upading pos
+    use for
+    - updating
+    - moving
     - drawing
     - adding new particles
     """
 
     def __init__(self):
-
         # setup board
         self.board = np.array([[objects.Air(x,y) for x in range(COLS)] for y in range(ROWS)])
 
 
-    def draw_particals(self, win):
+    def draw_particles(self, win):
+        # draw all particles
         for i, row in enumerate(self.board):
             for j, val in enumerate(row):
+                # if air not dawn to save time
                 if type(val) != objects.Air:
                     pygame.draw.rect(win, val.colour, [j*CELL_WIDTH,i*CELL_HEIGHT,CELL_WIDTH,CELL_HEIGHT])
-                # pygame.gfxdraw.box(win,[j*CELL_WIDTH,i*CELL_HEIGHT,CELL_WIDTH,CELL_HEIGHT], val.colour)
 
                 
                 
-    def add_particle(self, x, y, obj, strict=False):
+    def add_particle(self, x, y, obj, strict=False, **kwargs) -> None:
+        if obj not in particles:
+            raise TypeError(f"add_particle ask to place invalid particle {obj}")
         # add particle to board
+        # strict mean not replace non air
         if strict and type(self.board[y, x]) != objects.Air:
             return
 
-        self.board[y, x] = obj(x,y)
+        if kwargs:
+            self.board[y, x] = obj(x,y, **kwargs)
+        else:
+            self.board[y, x] = obj(x,y)
 
 
-    def update(self, win, fnum, pause):
+    def update(self, win : pygame.surface, fnum : int, pause : bool) -> None:
         # DRAW THINGS!!!!
-        self.draw_particals(win)
+        self.draw_particles(win)
         if pause: return
 
         # update board for heavy things
         for row in self.board[::-1]:
             for item in row:
-                if item.count != fnum and item.mass > 0: # if fnum same allready updated
+                if item.count != fnum and item.mass > 0: # if fnum same already updated
                   
                     # check for death in particle
                     if (result := item.update(self.board)) == "dies":
                         self.board[item.y, item.x] = objects.Air(item.x, item.y)
-                    # if partcle wants to go thourgh a major change
+                    # if particle wants to go though a major change of behaviour
                     elif result:
                         self.board[item.y, item.x] = result(item.x, item.y)
 
@@ -65,17 +69,19 @@ class Box:
         # update board for other things
         for row in self.board:
             for item in row[::-1]:
-                if item.count != fnum and item.mass < 0: # if fnum same allready updated
+                if item.count != fnum and item.mass < 0: # if fnum same already updated
                   
                     # check for death in particle
                     if (result := item.update(self.board)) == "dies":
                         self.board[item.y, item.x] = objects.Air(item.x, item.y)
-                    # if partcle wants to go thourgh a major change
+                    # if particle wants to go though a major change
                     elif result:
                         self.board[item.y, item.x] = result(item.x, item.y)
 
                     # update count
                     self.board[item.y, item.x].count = fnum
+
+            # move items
             for item in row:
                 if type(item) != objects.Air:
                     item.load_move(self.board)
@@ -83,6 +89,7 @@ class Box:
 
 
     def debug(self) -> list:
+        # return No. of particles
         vals = {}
         for i in particles:
             vals[i.__name__] = 0
@@ -95,7 +102,8 @@ class Box:
         return vals
 
 
-    def fix(self):
+    def fix(self) -> None:
+        # tell each particle where there are
         for y, row in enumerate(self.board):
             for x, item in enumerate(row):
                 item.x = x

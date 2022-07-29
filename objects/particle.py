@@ -10,16 +10,19 @@ class Particle():
      - find neigbours
     """
 
-    def __init__(self, x,y, mass = 0, static=False, flamable=False):
+    def __init__(self, x,y, mass = 0, static=False, flamable=False, health=100, obj_type="None"):
         self.x = x
         self.y = y
-        self.count = 0
         self.mass = mass
-        self.life_len = 0
         self.static = static
         self.flamable = flamable
-        self.health = 100
+        self.health = health
+        if not hasattr(self, "type"):
+            self.type = obj_type
+
         self.load = None
+        self.count = 0
+        self.life_len = 0
 
     def choice(self, options):
         probs = [1/len(options) for _ in options]
@@ -43,7 +46,8 @@ class Particle():
     
 
     def get_neighbours(self, board, dis) -> list:
-        # find all neigbours in box(dis, dis) -> [vals]
+        # THIS IS SLOW DO NOT USE IN UPDATES
+        # find all neighbours in box(dis, dis) -> [others]
         # both ranges are ± from self.pos 
         # fast but not circle :(
 
@@ -65,22 +69,13 @@ class Particle():
                 
     def moveTo(self, board, x,y):
         self.load = x, y
-        # # to not move stone/wood
-        # if board[y, x].static == True: return
-        # # update others pos
-        # board[y, x].x = self.x
-        # board[y, x].y = self.y
-        # # swap pos
-        # board[self.y, self.x], board[y, x] = board[y, x], board[self.y, self.x]
-        # # set self pos
-        # self.x = x
-        # self.y = y
 
     def load_move(self, board):
         if not self.load: return
         x, y = self.load
-        # to not move stone/wood
-        if board[y, x].static == True: return
+
+        if not self.check_move(board):
+            return False
         # update others pos
         board[y, x].x = self.x
         board[y, x].y = self.y
@@ -89,7 +84,25 @@ class Particle():
         # set self pos
         self.x = x
         self.y = y
-        self.load = None   
+        self.load = None
+
+    def check_move(self, board : list[list] )-> bool:
+        x, y = self.load
+        # make sure other can move
+        if board[y, x].static: return False
+        if self.x - x != 0 and self.y - y == 0:
+            # check clear between self and other on x
+            if self.x > x: points = range(x, self.x+1)
+            else: points = range(x, self.x-1,-1)
+            # print(points, x, self.x)
+            for i in points:
+                # print(i)
+                if board[y, i].static:
+                    # print("False")
+                    return False
+        # print("True")
+        return True
+
 
     def check_self(self,board):
         if self.y > 0 and type(board[self.y-1, self.x]) != type(self):
@@ -103,4 +116,4 @@ class Particle():
 
 
 
-    def __repr__(self): return f"{type(self).__name__} of mass {self.mass} at {self.x}, {self.y}"# with mass of {self.mass}"
+    def __repr__(self): return f"{type(self).__name__} of mass {self.mass} at {self.x}, {self.y}, {self.type}"# with mass of {self.mass}"
