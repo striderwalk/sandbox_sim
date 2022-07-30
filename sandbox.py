@@ -34,7 +34,7 @@ class Box:
                         [j * CELL_WIDTH, i * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT],
                     )
 
-    def add_particle(self, x, y, obj, *, strict=False, place_obj=None) -> None:
+    def add_particle(self, x, y, obj, *, strict=False, place_obj=None, health=10) -> None:
         if obj not in particles and obj != Fountain:
             raise TypeError(f"add_particle ask to place invalid particle {obj}")
 
@@ -45,6 +45,9 @@ class Box:
 
         if obj == Fountain:
             self.board[y, x] = obj(x, y, place_obj)
+        if obj == objects.Stone:
+            self.board[y, x] = obj(x, y, health)
+
         else:
             self.board[y, x] = obj(x, y)
 

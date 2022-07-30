@@ -35,7 +35,7 @@ def main(RAIN=True, index=0, size=30, profiling=False, pause=False):
             for j in range(len(board.board) + 23):
                 index_d = j // step
                 if j % step < 2:
-                    board.add_particle(j, i, objects.Stone, health=1000000)
+                    board.add_particle(j, i, objects.Stone, health=100000)
                     continue
                 try:
                     board.add_particle(j, i, particles[index_d])
