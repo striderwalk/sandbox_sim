@@ -43,11 +43,7 @@ class Liquid:
 
         for i in range(1, self.wetness):
             left = left and self.x > i and board[self.y][self.x - i].type != "solid"
-            right = (
-                right
-                and self.x < len(board[self.y]) - i
-                and board[self.y][self.x + i].type != "solid"
-            )
+            right = right and self.x < len(board[self.y]) - i and board[self.y][self.x + i].type != "solid"
             # check move left
             if left and board[self.y][self.x - i].mass < self.mass:
                 if type(board[self.y][self.x - i]) == Air:
