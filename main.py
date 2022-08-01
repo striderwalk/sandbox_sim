@@ -10,14 +10,12 @@ def main():
     pygame.init()
     win = pygame.display.set_mode((WIDTH, HEIGHT), 16)
     pygame.display.set_caption("SandBox")
-    data = {"RAIN" : True, "index":0,"size":30, "profiling": False, "pause": False}
+    menu.run(win)
+    loading.run(win)
     while True:
-        if (res := sim.run_sim(win, data))["menu"]:
+        if (res := sim.run_sim(win))["menu"]:
+            loading.run(win)
             menu.run(win)
-        else:
-            for i in res:
-                data[i] = res[i]
-        loading.run(win)
 
 
 if __name__ == "__main__":

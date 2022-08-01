@@ -3,6 +3,7 @@ from .liquid import Liquid
 from .water import Water
 from .smoke import Smoke
 from .steam import Steam
+from .air import Air
 from random import random, randint, choice
 from colour import Color
 
@@ -71,9 +72,9 @@ class Fire(Particle, Liquid):
         if self.y <= 0:
             return
         moves = []
-        if self.x > 0 and board[self.y-1, self.x-1].mass < self.mass:
+        if self.x > 0 and type(board[self.y-1, self.x-1]) == Air:
             moves.append((self.x - 1, self.y - 1))
-        if self.x < len(board[self.y]) - 1 and board[self.y-1, self.x+1].mass < self.mass:
+        if self.x < len(board[self.y]) - 1 and type(board[self.y-1, self.x+1]) == Air:
             moves.append((self.x + 1, self.y - 1))
         if len(moves) != 0:
             self.moveTo(board, *choice(moves))
@@ -93,8 +94,7 @@ class Fire(Particle, Liquid):
                 return "dies"
 
         self.update_colour(board)
-        if pos := self.move(board):
-            self.moveTo(pos)
+        self.move(board)
 
         # if on celling DIE
         if self.y == 0:

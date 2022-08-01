@@ -1,8 +1,8 @@
 import pygame
 import math
 from conts import WIDTH, HEIGHT
-
-def run(win):
+from random import randint
+def run(win, time=100000):
     font = pygame.font.SysFont(None, 50)
     clock = pygame.time.Clock()
  
@@ -10,7 +10,7 @@ def run(win):
     size = img.get_size()
     theata = 0
     dtheata = math.pi/10
-    for i in range(90):
+    for i in range(min(randint(15, 20), time)):
         win.fill((255,255,255))
         colour = 150
         raidus = 15 

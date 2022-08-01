@@ -16,7 +16,7 @@ def load_slot(slot : int):
 
     slotname = f"./saves/slot_{slot}"
     if not os.path.exists(slotname):
-        logging.INFO("save slot does not exist")
+        logging.info("save slot does not exist")
         return "Fail"
     with open(slotname + "/board.pickle", "rb") as file:
         data = pickle.load(file)

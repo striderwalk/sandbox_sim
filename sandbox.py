@@ -4,7 +4,7 @@ from objects.fountain import Fountain
 import pygame
 import numpy as np
 from random import randint
-
+import logging
 
 class Box:
     """
@@ -131,3 +131,9 @@ class Box:
         for _ in range(num):
             y, x = randint(0, ROWS - 1), randint(0, COLS - 1)
             self.add_particle(x, y, obj)
+
+    def reset(self):
+        # logging.info("user reset board")
+        self.board = np.array(
+            [[objects.Air(x, y) for x in range(COLS)] for y in range(ROWS)]
+        )

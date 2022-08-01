@@ -7,13 +7,7 @@ from conts import particles, WIDTH, HEIGHT, objects
 import pygame
 
 
-def run_sim(win, data):
-    print("called")
-    RAIN = data["RAIN"]
-    index = data["index"]
-    size = data["size"]
-    profiling = data["profiling"]
-    pause = data["pause"]
+def run_sim(win, RAIN = True, index=0, size=3, profiling=False,pause=False):
     # setup pygame
     
     clock = pygame.time.Clock()
@@ -69,7 +63,9 @@ def run_sim(win, data):
         if res == "reset":
             # reset game
             if not profiling:
-                return {"menu": False, "selection" : selection.index, "size": mouse.size, "pause" : pause}
+                board.reset()
+                pause_time += fnum
+                pygame.event.get()
             else:
                 # profiler cannot reset
                 return
