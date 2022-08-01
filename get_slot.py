@@ -2,6 +2,12 @@ import os
 import logging
 import pickle
 
+def get_saved():
+    for i in range(10):
+        if os.path.exists(f"./saves/slot_{i}/board.pickle"):
+            yield True
+        else:
+            yield False
 
 def load_slot(slot : int):
     if type(slot) != int or 1 > slot or slot > 9:
@@ -30,5 +36,3 @@ def save_slot(board, slot):
 
     with open("data", "wb") as f:
         pickle.dump(data, f, pickle.HIGHEST_PROTOCOL)
-
-
