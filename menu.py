@@ -3,22 +3,25 @@ from menu_button import Slot_Button, Button
 from conts import *
 from get_slot import get_saved
 
+
 def run(win):
 
     clock = pygame.time.Clock()
     font = pygame.font.SysFont(None, 24)
 
-
-    gap = WIDTH/10
+    gap = WIDTH / 10
     button_width = 50
-    add = (gap - button_width)/2
-    slots = [Slot_Button(gap*i+add,HEIGHT-50, button_width,40, f"slot {i}", val ,i) for i, val in zip(range(10), get_saved())]
+    add = (gap - button_width) / 2
+    slots = [
+        Slot_Button(gap * i + add, HEIGHT - 50, button_width, 40, f"slot {i}", val, i)
+        for i, val in zip(range(10), get_saved())
+    ]
     index = 0
-    buttons = [Button(WIDTH/2-60, HEIGHT/2-30, 120,60,"play", lambda x : x)]
+    buttons = [Button(WIDTH / 2 - 60, HEIGHT / 2 - 30, 120, 60, "play", lambda x: x)]
     while True:
-        win.fill((255,255,255))
+        win.fill((255, 255, 255))
         pos = pygame.mouse.get_pos()
-        pygame.draw.circle(win, (255,0,255), pos, 5)
+        pygame.draw.circle(win, (255, 0, 255), pos, 5)
         for i, button in enumerate(buttons):
             button.draw(win)
             if res := button.check_click():
@@ -33,8 +36,7 @@ def run(win):
         for i, button in enumerate(slots):
             if button.check_click():
                 res.append(i)
-        
-        
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -60,5 +62,3 @@ def run(win):
 
         pygame.display.flip()
         clock.tick()
-
-

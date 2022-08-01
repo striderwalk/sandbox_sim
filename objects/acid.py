@@ -22,29 +22,21 @@ class Acid(Particle, Liquid):
 
     def check_other(self, board):
         # check below
-        if (
-            self.y < len(board) - 1 and board[self.y + 1, self.x].type == "solid"
-        ): 
+        if self.y < len(board) - 1 and board[self.y + 1, self.x].type == "solid":
             # kill other
             board[self.y + 1, self.x].health -= self.strength
 
         # check above
-        if (
-            self.y > 0 and board[self.y - 1, self.x].type == "solid"
-        ):  
+        if self.y > 0 and board[self.y - 1, self.x].type == "solid":
             # kill other
             board[self.y - 1, self.x].health -= self.strength
         # check left
-        if (
-            self.x < len(board) - 1 and board[self.y, self.x + 1].type == "solid"
-        ): 
-            # kill other 
+        if self.x < len(board) - 1 and board[self.y, self.x + 1].type == "solid":
+            # kill other
             board[self.y, self.x + 1].health -= self.strength
 
         # check right
-        if (
-            self.x != 0 and board[self.y, self.x - 1].type == "solid"
-        ):  
+        if self.x != 0 and board[self.y, self.x - 1].type == "solid":
             # kill other
             board[self.y, self.x - 1].health -= self.strength
 

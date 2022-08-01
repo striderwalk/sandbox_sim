@@ -7,9 +7,9 @@ from conts import particles, WIDTH, HEIGHT, objects
 import pygame
 
 
-def run_sim(win, RAIN = True, index=0, size=3, profiling=False,pause=False):
+def run_sim(win, RAIN=True, index=0, size=3, profiling=False, pause=False):
     # setup pygame
-    
+
     clock = pygame.time.Clock()
     font = pygame.font.SysFont(None, 24)
     # pygame.display.set_allow_screensaver()
@@ -87,7 +87,7 @@ def run_sim(win, RAIN = True, index=0, size=3, profiling=False,pause=False):
             # set new index
             index = res
         elif res == "menu":
-            return {"menu": True, "board" : board}
+            return {"menu": True, "board": board}
 
         # display game data
         img = font.render(f"{fnum}, fps={round(clock.get_fps(), 3)}", True, (0, 0, 0))
@@ -102,5 +102,3 @@ def run_sim(win, RAIN = True, index=0, size=3, profiling=False,pause=False):
         win.fill((255, 255, 255))
         if not pause:
             clock.tick(30)
-
-

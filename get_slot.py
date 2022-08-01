@@ -2,6 +2,7 @@ import os
 import logging
 import pickle
 
+
 def get_saved():
     for i in range(10):
         if os.path.exists(f"./saves/slot_{i}/board.pickle"):
@@ -9,7 +10,8 @@ def get_saved():
         else:
             yield False
 
-def load_slot(slot : int):
+
+def load_slot(slot: int):
     if type(slot) != int or 1 > slot or slot > 9:
         logging.warning("invalid slot when trying to load save")
         return None

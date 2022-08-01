@@ -6,6 +6,7 @@ import numpy as np
 from random import randint
 import logging
 
+
 class Box:
     """
     a container for all particles
@@ -34,7 +35,9 @@ class Box:
                         [j * CELL_WIDTH, i * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT],
                     )
 
-    def add_particle(self, x, y, obj, *, strict=False, place_obj=None, health=10) -> None:
+    def add_particle(
+        self, x, y, obj, *, strict=False, place_obj=None, health=10
+    ) -> None:
         if obj not in particles and obj != Fountain:
             raise TypeError(f"add_particle ask to place invalid particle {obj}")
 

@@ -1,10 +1,12 @@
 from os import environ
+
 environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 import pygame
 import sim
 from conts import WIDTH, HEIGHT
 import loading
 import menu
+
 
 def main():
     pygame.init()

@@ -6,6 +6,7 @@ pygame.font.init()
 small_font = pygame.font.SysFont(None, 24)
 large_font = pygame.font.SysFont(None, 50)
 
+
 class Slot_Button:
     """
     a class to represent buttons
@@ -23,7 +24,7 @@ class Slot_Button:
             self.img = pygame.image.load("./assets/check.png")
         else:
             self.img = pygame.image.load("./assets/cross.png")
-        self.img = pygame.transform.scale(self.img, (xsize,ysize))
+        self.img = pygame.transform.scale(self.img, (xsize, ysize))
         self.mode = mode
         self.xsize, self.ysize = xsize, ysize
         self.clicked = False
@@ -32,14 +33,27 @@ class Slot_Button:
         # draw button on screen
 
         if self.clicked:
-            pygame.draw.rect(win, (255, 0, 0), (self.x-1, self.y-1, self.xsize+2, self.ysize+2), width=2)
-            name = small_font.render(self.name, True, (255,0,0))
+            pygame.draw.rect(
+                win,
+                (255, 0, 0),
+                (self.x - 1, self.y - 1, self.xsize + 2, self.ysize + 2),
+                width=2,
+            )
+            name = small_font.render(self.name, True, (255, 0, 0))
 
         else:
-            pygame.draw.rect(win, (0, 0, 0), (self.x-1, self.y-1, self.xsize+2, self.ysize+2), width=2)
-            name = small_font.render(self.name, True, (0,0,0))
-        win.blit(name, (self.x+name.get_size()[0]/8, self.y-15))
-        win.blit(self.img,(self.rect.topleft[0],self.rect.topleft[1]),)
+            pygame.draw.rect(
+                win,
+                (0, 0, 0),
+                (self.x - 1, self.y - 1, self.xsize + 2, self.ysize + 2),
+                width=2,
+            )
+            name = small_font.render(self.name, True, (0, 0, 0))
+        win.blit(name, (self.x + name.get_size()[0] / 8, self.y - 15))
+        win.blit(
+            self.img,
+            (self.rect.topleft[0], self.rect.topleft[1]),
+        )
 
     def check_click(self):
         action = False
@@ -52,6 +66,7 @@ class Slot_Button:
 
     def up(self):
         self.clicked = True
+
     def down(self):
         self.clicked = False
 
@@ -79,7 +94,12 @@ class Button:
             pygame.draw.rect(win, (20, 20, 25), self.rect, border_radius=3)
             img = large_font.render(self.text, True, (235, 235, 235))
         else:
-            pygame.draw.rect(win, (0, 0, 0), (self.x-1, self.y-1, self.xsize+2, self.ysize+2), width=2)
+            pygame.draw.rect(
+                win,
+                (0, 0, 0),
+                (self.x - 1, self.y - 1, self.xsize + 2, self.ysize + 2),
+                width=2,
+            )
             img = large_font.render(self.text, True, (20, 20, 25))
 
         win.blit(
@@ -98,4 +118,3 @@ class Button:
                 action = True
         if action:
             return self.func(1)
-
