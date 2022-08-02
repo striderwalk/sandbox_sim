@@ -10,7 +10,7 @@ GUI for saving board
 
 
 
-def run(win, board):
+def run(win, board, img):
     # pygame setup
     clock = pygame.time.Clock()
     font = pygame.font.SysFont(None, 24)
@@ -25,7 +25,7 @@ def run(win, board):
         for i, button in enumerate(menu_buttons):
             button.draw(win)
             if res := button.check_click():
-                return index, res(board, index)
+                return index, res(board, index, img)
 
         index = slots.update(win, index)
 

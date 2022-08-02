@@ -4,7 +4,7 @@ from random import random
 
 pygame.font.init()
 small_font = pygame.font.SysFont(None, 24)
-large_font = pygame.font.SysFont(None, 50)
+large_font = pygame.font.SysFont(None, 80)
 
 
 class Slot_Button:
@@ -14,16 +14,13 @@ class Slot_Button:
      - handle
     """
 
-    def __init__(self, x, y, xsize, ysize, name, state, mode):
+    def __init__(self, x, y, xsize, ysize, name, img, mode):
         self.rect = pygame.Rect(x, y, xsize, ysize)
         self.rect.topleft = (x, y)
         self.x = x
         self.y = y
         self.name = name
-        if state:
-            self.img = pygame.image.load("./assets/check.png")
-        else:
-            self.img = pygame.image.load("./assets/cross.png")
+        self.img = pygame.image.load(img)
         self.img = pygame.transform.scale(self.img, (xsize, ysize))
         self.mode = mode
         self.xsize, self.ysize = xsize, ysize
