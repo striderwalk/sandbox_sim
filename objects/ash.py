@@ -13,6 +13,7 @@ class Ash(Particle, Solid):
 
     def __init__(self, x, y):
         super().__init__(x, y, mass=20)
+        Solid.__init__(self)
         self.update_colour()
 
     def update(self, board):

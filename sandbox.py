@@ -4,6 +4,7 @@ from objects.fountain import Fountain
 import pygame
 import numpy as np
 from random import randint
+import logging
 
 
 class Box:
@@ -16,11 +17,14 @@ class Box:
     - adding new particles
     """
 
-    def __init__(self):
+    def __init__(self, board_data):
         # setup board
-        self.board = np.array(
-            [[objects.Air(x, y) for x in range(COLS)] for y in range(ROWS)]
-        )
+        if board_data != "empty":
+            self.board = board_data
+        else:
+            self.board = np.array(
+                [[objects.Air(x, y) for x in range(COLS)] for y in range(ROWS)]
+            )
 
     def draw_particles(self, win):
         # draw all particles
@@ -34,7 +38,9 @@ class Box:
                         [j * CELL_WIDTH, i * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT],
                     )
 
-    def add_particle(self, x, y, obj, *, strict=False, place_obj=None) -> None:
+    def add_particle(
+        self, x, y, obj, *, strict=False, place_obj=None, health=10
+    ) -> None:
         if obj not in particles and obj != Fountain:
             raise TypeError(f"add_particle ask to place invalid particle {obj}")
 
@@ -45,6 +51,9 @@ class Box:
 
         if obj == Fountain:
             self.board[y, x] = obj(x, y, place_obj)
+        if obj == objects.Stone:
+            self.board[y, x] = obj(x, y, health)
+
         else:
             self.board[y, x] = obj(x, y)
 
@@ -128,3 +137,9 @@ class Box:
         for _ in range(num):
             y, x = randint(0, ROWS - 1), randint(0, COLS - 1)
             self.add_particle(x, y, obj)
+
+    def reset(self):
+        # logging.info("user reset board")
+        self.board = np.array(
+            [[objects.Air(x, y) for x in range(COLS)] for y in range(ROWS)]
+        )

@@ -5,7 +5,6 @@ from conts import particles
 
 
 def handle(mouse, board, selection, index, pause):
-
     keys = pygame.key.get_pressed()
     # scroll options
     if keys[pygame.K_LEFT]:
@@ -52,6 +51,8 @@ def handle(mouse, board, selection, index, pause):
                     return "play"
                 else:
                     return "stop"
+            if event.key == pygame.K_ESCAPE:
+                return "menu"
 
         if event.type == pygame.QUIT:
             pygame.quit()
