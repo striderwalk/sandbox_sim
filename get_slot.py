@@ -28,14 +28,22 @@ def load_slot(slot: int):
 
 
 def save_slot(board, slot):
-    if type(slot) != int or 1 > slot or slot > 9:
+    if type(slot) != int or 0 > slot or slot > 9:
         logging.warning("invalid save slot when trying to save save")
         return None
 
-    slotname = f"./saves/slot_{slot}"
-    if not os.path.exists(slotname):
-        logging.INFO("save slot does not exist")
-        return "Fail"
+    file_name = f"./saves/slot_{slot}/board.pickle"
+    if not os.path.exists(file_name):
+        setup()
 
-    with open("data", "wb") as f:
-        pickle.dump(data, f, pickle.HIGHEST_PROTOCOL)
+    with open(file_name, "wb") as f:
+        pickle.dump(board.board, f, pickle.HIGHEST_PROTOCOL)
+
+def setup():
+    if not os.path.exists("./saves"):
+        os.mkdir("./saves")
+
+    for i in range(10):
+        if not os.path.exists(f"./saves/slot_{i}"):
+            os.mkdir(f"./saves/slot_{i}")
+

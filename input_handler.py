@@ -14,7 +14,7 @@ def handle(mouse, board, selection, index, pause):
 
     # reset
     if keys[pygame.K_r]:
-        board = Box()
+        board = Box("empty")
         return "reset"
 
     # debugging tool

@@ -24,8 +24,8 @@ def run(win):
         # check menu buttons
         for i, button in enumerate(buttons):
             button.draw(win)
-            if res := button.check_click(index):
-                return index, res
+            if res := button.check_click():
+                return index, res(index)
 
         index = slots.update(win, index)
 
