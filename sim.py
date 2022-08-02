@@ -7,7 +7,7 @@ from conts import particles, WIDTH, HEIGHT, LOWER_BOARDER, objects
 from get_slot import save_slot
 import pygame
 
-def get_sub_win(win):
+def get_sub_win(win, board):
     board.draw_particles(win, board)
     return win.subsurface((0,0,WIDTH,HEIGHT-LOWER_BOARDER)).copy()
 
