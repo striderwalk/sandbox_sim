@@ -46,7 +46,7 @@ class Slot_Button:
                 win,
                 (0, 0, 0),
                 (self.x - 1, self.y - 1, self.xsize + 2, self.ysize + 2),
-                width=2,
+                width=2,  border_radius=3
             )
             name = small_font.render(self.name, True, (0, 0, 0))
         win.blit(name, (self.x + name.get_size()[0] / 8, self.y - 15))
@@ -98,7 +98,7 @@ class Button:
                 win,
                 (0, 0, 0),
                 (self.x - 1, self.y - 1, self.xsize + 2, self.ysize + 2),
-                width=2,
+                width=2,  border_radius=3
             )
             img = large_font.render(self.text, True, (20, 20, 25))
 

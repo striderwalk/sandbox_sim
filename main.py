@@ -20,10 +20,12 @@ def main():
     run = True
     while run:
         if (res := sim.run_sim(win, slot))["type"] == "end":
+            loading.run(win, 5)
             save.run(win, res["board"])
             pygame.quit()
             run = False
         elif res["type"] == "menu":
+            loading.run(win)
             save.run(win, res["board"])
             loading.run(win)
             menu.run(win)
