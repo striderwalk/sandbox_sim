@@ -17,11 +17,14 @@ class Box:
     - adding new particles
     """
 
-    def __init__(self):
+    def __init__(self, board_data):
         # setup board
-        self.board = np.array(
-            [[objects.Air(x, y) for x in range(COLS)] for y in range(ROWS)]
-        )
+        if board_data != "empty":
+            self.board = board_data
+        else:
+            self.board = np.array(
+                [[objects.Air(x, y) for x in range(COLS)] for y in range(ROWS)]
+            )
 
     def draw_particles(self, win):
         # draw all particles

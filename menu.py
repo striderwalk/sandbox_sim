@@ -1,64 +1,33 @@
 import pygame
 from menu_button import Slot_Button, Button
 from conts import *
-from get_slot import get_saved
+from get_slot import get_saved, load_slot
+from slot_selection import Slots
 
 
 def run(win):
-
+    # pygame setup
     clock = pygame.time.Clock()
     font = pygame.font.SysFont(None, 24)
-
-    gap = WIDTH / 10
-    button_width = 50
-    add = (gap - button_width) / 2
-    slots = [
-        Slot_Button(gap * i + add, HEIGHT - 50, button_width, 40, f"slot {i}", val, i)
-        for i, val in zip(range(10), get_saved())
-    ]
+    # save slots
     index = 0
-    buttons = [Button(WIDTH / 2 - 60, HEIGHT / 2 - 30, 120, 60, "play", lambda x: x)]
+    slots = Slots()
+    # make menu buttons
+    buttons = [Button(WIDTH / 2 - 60, HEIGHT / 2 - 30, 120, 60, "play", load_slot)]
     while True:
+        # clear screen
         win.fill((255, 255, 255))
+        # mouse
         pos = pygame.mouse.get_pos()
         pygame.draw.circle(win, (255, 0, 255), pos, 5)
+
+        # check menu buttons
         for i, button in enumerate(buttons):
             button.draw(win)
-            if res := button.check_click():
-                return res
-        # handle slots
-        for i, button in enumerate(slots):
-            button.draw(win)
-            if button.clicked:
-                index = i
-        # check for clicks
-        res = []
-        for i, button in enumerate(slots):
-            if button.check_click():
-                res.append(i)
+            if res := button.check_click(index):
+                return index, res
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                exit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    return
-                if event.key == pygame.K_LEFT:
-                    index -= 1
-                if event.key == pygame.K_RIGHT:
-                    index += 1
-        index %= 10
-
-        if len(res) == 0:
-            res.append(index)
-        # set click button
-        for i, button in enumerate(slots):
-            if i != res[0]:
-                button.down()
-            else:
-                index = i
-                button.up()
+        index = slots.update(win, index)
 
         pygame.display.flip()
-        clock.tick()
+        clock.tick(60)

@@ -110,11 +110,13 @@ class Button:
             ),
         )
 
-    def check_click(self):
+    def check_click(self, slot):
         action = False
         pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(pos):
             if pygame.mouse.get_pressed()[0]:
                 action = True
         if action:
-            return self.func(1)
+            print("hi")
+            print(self.func(slot))
+            return self.func(slot)

@@ -12,16 +12,17 @@ def get_saved():
 
 
 def load_slot(slot: int):
-    if type(slot) != int or 1 > slot or slot > 9:
-        logging.warning("invalid slot when trying to load save")
+    if type(slot) != int or 0 > slot or slot > 9:
+        logging.warning(f"invalid slot when trying to load save {slot=}")
         return None
 
-    slotname = f"./saves/slot_{slot}"
-    if not os.path.exists(slotname):
-        logging.info("save slot does not exist")
-        return "Fail"
-    with open(slotname + "/board.pickle", "rb") as file:
+    file_name = f"./saves/slot_{slot}/board.pickle"
+    if not os.path.exists(file_name):
+        logging.info("loaded empty save")
+        return "empty"
+    with open(file_name, "rb") as file:
         data = pickle.load(file)
+        logging.info("loaded save")
 
     return data
 

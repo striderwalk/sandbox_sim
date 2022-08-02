@@ -12,10 +12,17 @@ def main():
     pygame.init()
     win = pygame.display.set_mode((WIDTH, HEIGHT), 16)
     pygame.display.set_caption("SandBox")
-    menu.run(win)
+    pygame.mouse.set_visible(False)
+    slot = menu.run(win)
     loading.run(win)
-    while True:
-        if (res := sim.run_sim(win))["menu"]:
+    run = True
+    while run:
+        if (res := sim.run_sim(win, slot))["type"] == "end":
+            # save 
+            pygame.quit()
+            run = False
+        elif res["type"] == "menu":
+            # save
             loading.run(win)
             menu.run(win)
 

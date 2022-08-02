@@ -4,10 +4,13 @@ from mouse import Mouse
 from selection import Selection
 from sandbox import Box
 from conts import particles, WIDTH, HEIGHT, objects
+from get_slot import save_slot
 import pygame
 
 
-def run_sim(win, RAIN=True, index=0, size=3, profiling=False, pause=False):
+def run_sim(win, slot=(0,"empty"), RAIN=True, index=0, size=3, profiling=False, pause=False):
+    print(slot)
+    slot, board_data  = slot
     # setup pygame
 
     clock = pygame.time.Clock()
@@ -15,7 +18,7 @@ def run_sim(win, RAIN=True, index=0, size=3, profiling=False, pause=False):
     # pygame.display.set_allow_screensaver()
 
     # setupr
-    board = Box()
+    board = Box(board_data)
     mouse = Mouse(size)
     selection = Selection(index)
 
@@ -68,12 +71,12 @@ def run_sim(win, RAIN=True, index=0, size=3, profiling=False, pause=False):
                 pygame.event.get()
             else:
                 # profiler cannot reset
+                pygame.quit()
                 return
         elif res == "end":
             # quit
             if not profiling:
-                pygame.quit()
-                exit()
+                return {"type":"end", "board" : board}
             else:
                 pygame.quit()
                 return
@@ -87,7 +90,7 @@ def run_sim(win, RAIN=True, index=0, size=3, profiling=False, pause=False):
             # set new index
             index = res
         elif res == "menu":
-            return {"menu": True, "board": board}
+            return {"type" :"menu", "board": board}
 
         # display game data
         img = font.render(f"{fnum}, fps={round(clock.get_fps(), 3)}", True, (0, 0, 0))
