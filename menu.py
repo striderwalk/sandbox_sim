@@ -17,8 +17,8 @@ def run(win):
     index = 0
     slots = Slots()
     # make menu buttons
-    buttons = [Button(WIDTH / 2 - 100, HEIGHT / 2 - 62, 200, 60, "play", load_slot),
-               Button(WIDTH / 2 - 100, HEIGHT / 2 - 0, 200, 60, "exit", end)]
+    buttons = [Button(WIDTH / 2 - 100, HEIGHT / 2 - 63, 200, 60, "play", load_slot),
+               Button(WIDTH / 2 - 100, HEIGHT / 2 + 1, 200, 60, "exit", end)]
     while True:
         # clear screen
         win.fill((255, 255, 255))

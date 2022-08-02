@@ -18,8 +18,8 @@ def run(win, board, img):
     index = 0
     slots = Slots()
 
-    menu_buttons = [Button(WIDTH / 2 - 100, HEIGHT / 2 - 62, 200, 60, "save board", save_slot),
-                    Button(WIDTH / 2 - 100, HEIGHT / 2 , 200, 60, "don't save", lambda x,y:None)]
+    menu_buttons = [Button(WIDTH / 2 - 150, HEIGHT / 2 - 62, 300, 60, "save board", save_slot),
+                    Button(WIDTH / 2 - 150, HEIGHT / 2 +  1, 300, 60, "don't save", lambda x,y,z:None)]
     while True:
         win.fill((255,255,255))
         for i, button in enumerate(menu_buttons):
