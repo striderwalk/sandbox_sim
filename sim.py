@@ -3,7 +3,7 @@ import input_handler
 from mouse import Mouse
 from selection import Selection
 from sandbox import Box
-from conts import particles, WIDTH, HEIGHT, objects
+from conts import particles, WIDTH, HEIGHT, LOWER_BOARDER, objects
 from get_slot import save_slot
 import pygame
 
@@ -76,7 +76,7 @@ def run_sim(win, slot=(0,"empty"), RAIN=True, index=0, size=3, profiling=False, 
         elif res == "end":
             # quit
             if not profiling:
-                return {"type":"end", "board" : board}
+                return {"type":"end", "board" : board, "img": win.subsurface((0,0,WIDTH,HEIGHT-LOWER_BOARDER)).copy()}
             else:
                 pygame.quit()
                 return
@@ -90,7 +90,7 @@ def run_sim(win, slot=(0,"empty"), RAIN=True, index=0, size=3, profiling=False, 
             # set new index
             index = res
         elif res == "menu":
-            return {"type" :"menu", "board": board}
+            return {"type" :"menu", "board": board, "img": win.subsurface((0,0,WIDTH,HEIGHT-LOWER_BOARDER)).copy()}
 
         # display game data
         img = font.render(f"{fnum}, fps={round(clock.get_fps(), 3)}", True, (0, 0, 0))
