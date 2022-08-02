@@ -131,3 +131,6 @@ help.py
 *.prof
 *.prof
 data
+*.pickle
+*.pickle
+*.pickle

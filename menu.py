@@ -5,6 +5,10 @@ from get_slot import get_saved, load_slot
 from slot_selection import Slots
 
 
+def end(*args):
+    pygame.quit()
+    exit()
+
 def run(win):
     # pygame setup
     clock = pygame.time.Clock()
@@ -13,13 +17,11 @@ def run(win):
     index = 0
     slots = Slots()
     # make menu buttons
-    buttons = [Button(WIDTH / 2 - 60, HEIGHT / 2 - 30, 120, 60, "play", load_slot)]
+    buttons = [Button(WIDTH / 2 - 60, HEIGHT / 2 - 62, 120, 60, "play", load_slot),
+               Button(WIDTH / 2 - 60, HEIGHT / 2 - 0, 120, 60, "exit", end)]
     while True:
         # clear screen
         win.fill((255, 255, 255))
-        # mouse
-        pos = pygame.mouse.get_pos()
-        pygame.draw.circle(win, (255, 0, 255), pos, 5)
 
         # check menu buttons
         for i, button in enumerate(buttons):
@@ -28,6 +30,10 @@ def run(win):
                 return index, res(index)
 
         index = slots.update(win, index)
+
+        # mouse
+        pos = pygame.mouse.get_pos()
+        pygame.draw.circle(win, (255, 0, 255), pos, 5)
 
         pygame.display.flip()
         clock.tick(60)

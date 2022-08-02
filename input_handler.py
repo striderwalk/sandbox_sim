@@ -55,7 +55,6 @@ def handle(mouse, board, selection, index, pause):
                 return "menu"
 
         if event.type == pygame.QUIT:
-            pygame.quit()
             return "end"
 
         # change press size
