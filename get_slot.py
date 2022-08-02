@@ -37,6 +37,7 @@ def save_slot(board, slot):
         setup()
 
     with open(file_name, "wb") as f:
+        logging.info(f"save board to slot {slot}")
         pickle.dump(board.board, f, pickle.HIGHEST_PROTOCOL)
 
 def setup():
