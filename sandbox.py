@@ -19,7 +19,7 @@ class Box:
 
     def __init__(self, board_data):
         # setup board
-        if board_data != "empty":
+        if type(board_data) != str:
             self.board = board_data
         else:
             self.board = np.array(
