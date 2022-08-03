@@ -61,3 +61,4 @@ class Liquid:
             if len(moves) > 0:
                 shuffle(moves)
                 return moves[-1]
+

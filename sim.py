@@ -8,11 +8,10 @@ from get_slot import save_slot
 import pygame
 
 def get_sub_win(win, board):
-    board.draw_particles(win, board)
+    board.draw_particles(win)
     return win.subsurface((0,0,WIDTH,HEIGHT-LOWER_BOARDER)).copy()
 
 def run_sim(win, slot=(0,"empty"), RAIN=True, index=0, size=3, profiling=False, pause=False):
-    print(slot)
     slot, board_data  = slot
     # setup pygame
 
