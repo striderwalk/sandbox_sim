@@ -30,6 +30,9 @@ def main():
             loading.run(win)
             menu.run(win)
 
+        from objects.water import done as done
+        done()
+
 
 if __name__ == "__main__":
     main()
