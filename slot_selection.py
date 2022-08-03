@@ -3,8 +3,9 @@ import pygame
 import end
 from get_slot import get_saved
 from conts import WIDTH, HEIGHT
-class Slots:
 
+
+class Slots:
     def __init__(self):
         gap = WIDTH / 10
         slot_width = 50
@@ -51,6 +52,3 @@ class Slots:
                 button.up()
 
         return index
-
-
-

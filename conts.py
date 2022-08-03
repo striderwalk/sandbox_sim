@@ -18,11 +18,7 @@ def sort_by_state(particles: list) -> list:
         # make sure not base type or Air
         if i in types or i == objects.Air or i == objects.Particle:
             continue
-        try:
-            sorted_types[i.__bases__[1]].append(i)
-        except Exception as e:
-            print(i)
-            raise e
+        sorted_types[i.__bases__[1]].append(i)
 
     particles = []
     for i in sorted_types:

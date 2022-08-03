@@ -1,10 +1,10 @@
-from conts import ROWS, COLS, CELL_WIDTH, CELL_HEIGHT, particles
 import objects
-from objects.fountain import Fountain
 import pygame
-import numpy as np
-from random import randint
 import logging
+import numpy as np
+from objects.fountain import Fountain
+from conts import ROWS, COLS, CELL_WIDTH, CELL_HEIGHT, particles
+from random import randint
 
 
 class Box:
@@ -128,7 +128,7 @@ class Box:
                 if type(item) == objects.Air:
                     continue
                 if item.y != y or item.x != x:
-                    print(f"WARNING: {item=} pos needed fixing to {x=}, {y=}")
+                    logging.warning("{item=} pos needed fixing to {x=}, {y=}")
                 item.x = x
                 item.y = y
                 item.load = None

@@ -10,6 +10,7 @@ import get_slot
 import save
 import end
 
+
 def main():
     get_slot.setup()
     pygame.init()
@@ -24,13 +25,12 @@ def main():
             loading.run(win, 5)
             save.run(win, res["board"], res["img"])
             end.end()
-            
+
         elif res["type"] == "menu":
             loading.run(win)
             save.run(win, res["board"], res["img"])
             loading.run(win)
             menu.run(win)
-
 
 
 if __name__ == "__main__":

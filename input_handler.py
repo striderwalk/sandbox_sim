@@ -1,4 +1,5 @@
 import pygame
+import logging
 from objects.fountain import Fountain
 from sandbox import Box
 from conts import particles
@@ -25,7 +26,7 @@ def handle(mouse, board, selection, index, pause):
         val = mouse.get_pos()
         if val[0] == "BOX":
             x, y = val[1:]
-            print(board.board[y, x], f" really at {x=}, {y=}")
+            logging.info(board.board[y, x], f" really at {x=}, {y=}")
 
     if keys[pygame.K_e]:
         val = mouse.get_pos()

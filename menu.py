@@ -4,6 +4,7 @@ from conts import *
 from get_slot import get_saved, load_slot
 from slot_selection import Slots
 import end
+from make_buttons import make_menu_buttons
 
 
 def run(win):
@@ -14,8 +15,7 @@ def run(win):
     index = 0
     slots = Slots()
     # make menu buttons
-    buttons = [Button(WIDTH / 2 - 100, HEIGHT / 2 - 63, 200, 60, "play", load_slot),
-               Button(WIDTH / 2 - 100, HEIGHT / 2 + 1, 200, 60, "exit", end.end)]
+    buttons = make_menu_buttons([("play", load_slot), ("exit", end.end)])
     while True:
         # clear screen
         win.fill((255, 255, 255))
