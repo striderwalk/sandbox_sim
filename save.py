@@ -3,11 +3,15 @@ from menu_button import Button
 from conts import WIDTH, HEIGHT
 from get_slot import save_slot
 import pygame
+import end
 """
 GUI for saving board
 
 """
 
+def save_exit(*args):
+    save_slot(*args)
+    end.end()
 
 
 def run(win, board, img):
@@ -18,8 +22,13 @@ def run(win, board, img):
     index = 0
     slots = Slots()
 
-    menu_buttons = [Button(WIDTH / 2 - 150, HEIGHT / 2 - 62, 300, 60, "save board", save_slot),
-                    Button(WIDTH / 2 - 150, HEIGHT / 2 +  1, 300, 60, "don't save", lambda x,y,z:None)]
+    # this should be dinamic
+    # i can't be ask tho
+    menu_buttons = [Button(WIDTH / 2 - 200, HEIGHT / 2 - 93, 400, 60, "save board", save_slot),
+                    Button(WIDTH / 2 - 200, HEIGHT / 2 - 30, 400, 60, "don't save", lambda x,y,z:None),
+                    Button(WIDTH / 2 - 200, HEIGHT / 2 + 33, 400, 60, "save and exit", save_exit)
+                    ]
+   
     while True:
         win.fill((255,255,255))
         for i, button in enumerate(menu_buttons):
@@ -35,4 +44,4 @@ def run(win, board, img):
 
 
         pygame.display.flip()
-        clock.tick(60)
+        clock.tick(120)

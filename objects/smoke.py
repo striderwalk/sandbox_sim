@@ -23,7 +23,7 @@ class Smoke(Particle, Gas):
         self.thickness = thick
         self.update_colour()
         self.wetness = 5
-        self.timeout = randint(90, 110)
+        self.timeout = randint(60, 80)
 
     def update(self, board):
         # check if update needed

@@ -51,7 +51,7 @@ class Box:
 
         if obj == Fountain:
             self.board[y, x] = obj(x, y, place_obj)
-        if obj == objects.Stone:
+        elif obj == objects.Stone:
             self.board[y, x] = obj(x, y, health)
 
         else:

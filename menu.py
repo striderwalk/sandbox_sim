@@ -3,11 +3,8 @@ from menu_button import Slot_Button, Button
 from conts import *
 from get_slot import get_saved, load_slot
 from slot_selection import Slots
+import end
 
-
-def end(*args):
-    pygame.quit()
-    exit()
 
 def run(win):
     # pygame setup
@@ -18,7 +15,7 @@ def run(win):
     slots = Slots()
     # make menu buttons
     buttons = [Button(WIDTH / 2 - 100, HEIGHT / 2 - 63, 200, 60, "play", load_slot),
-               Button(WIDTH / 2 - 100, HEIGHT / 2 + 1, 200, 60, "exit", end)]
+               Button(WIDTH / 2 - 100, HEIGHT / 2 + 1, 200, 60, "exit", end.end)]
     while True:
         # clear screen
         win.fill((255, 255, 255))

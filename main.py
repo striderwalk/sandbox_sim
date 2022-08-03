@@ -8,6 +8,7 @@ import loading
 import menu
 import get_slot
 import save
+import end
 
 def main():
     get_slot.setup()
@@ -22,8 +23,8 @@ def main():
         if (res := sim.run_sim(win, slot))["type"] == "end":
             loading.run(win, 5)
             save.run(win, res["board"], res["img"])
-            pygame.quit()
-            run = False
+            end.end()
+            
         elif res["type"] == "menu":
             loading.run(win)
             save.run(win, res["board"], res["img"])
