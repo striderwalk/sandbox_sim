@@ -1,10 +1,10 @@
 import pygame
-from menu_button import Slot_Button, Button
-from conts import *
-from get_slot import get_saved, load_slot
-from slot_selection import Slots
-import end
-from make_buttons import make_menu_buttons
+from .menu_button import Slot_Button, Button
+from .conts import *
+from .get_slot import get_saved, load_slot
+from .slot_selection import Slots
+from .end import end
+from .make_buttons import make_menu_buttons
 
 
 def run(win):
@@ -15,7 +15,7 @@ def run(win):
     index = 0
     slots = Slots()
     # make menu buttons
-    buttons = make_menu_buttons([("play", load_slot), ("exit", end.end)])
+    buttons = make_menu_buttons([("  play  ", load_slot), ("  exit  ", end)])
     while True:
         # clear screen
         win.fill((255, 255, 255))

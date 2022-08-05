@@ -1,5 +1,5 @@
-from menu_button import Button
-from conts import WIDTH, HEIGHT
+from .menu_button import Button
+from .conts import WIDTH, HEIGHT
 
 
 def make_menu_buttons(data, xoff=0, yoff=-100):

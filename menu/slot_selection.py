@@ -1,8 +1,8 @@
-from menu_button import Slot_Button
 import pygame
-import end
-from get_slot import get_saved
-from conts import WIDTH, HEIGHT
+from .menu_button import Slot_Button
+from .end import end
+from .get_slot import get_saved
+from .conts import WIDTH, HEIGHT
 
 
 class Slots:
@@ -31,7 +31,7 @@ class Slots:
         # handle input
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                end.end()
+                end()
             if event.type == pygame.KEYDOWN:
                 # change selection
                 if event.key == pygame.K_LEFT:

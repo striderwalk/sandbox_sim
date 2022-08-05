@@ -4,7 +4,6 @@ from mouse import Mouse
 from selection import Selection
 from sandbox import Box
 from conts import particles, WIDTH, HEIGHT, LOWER_BOARDER, objects
-from get_slot import save_slot
 import pygame
 
 
