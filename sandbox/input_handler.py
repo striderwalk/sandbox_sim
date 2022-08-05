@@ -1,11 +1,11 @@
 import pygame
 import logging
-from objects.fountain import Fountain
-from sandbox import Box
-from conts import particles
+from .objects.fountain import Fountain
+from .sandbox import Box
+from .conts import particles
 
 
-def handle(mouse, board, selection, index, pause):
+def input_handle(mouse, board, selection, index, pause):
     keys = pygame.key.get_pressed()
     # scroll options
     if keys[pygame.K_LEFT]:

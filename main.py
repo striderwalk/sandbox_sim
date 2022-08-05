@@ -1,7 +1,7 @@
 from os import environ
 environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 import pygame
-import sim
+from sandbox import run_sim
 from conts import WIDTH, HEIGHT
 from menu import loading, menu, save, end
 
@@ -15,7 +15,7 @@ def main():
     loading(win)
     run = True
     while run:
-        if (res := sim.run_sim(win, slot))["type"] == "end":
+        if (res := run_sim(win, slot))["type"] == "end":
             loading(win, 5)
             save(win, res["board"], res["img"])
             end()

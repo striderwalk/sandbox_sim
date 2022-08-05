@@ -1,10 +1,10 @@
 import itertools
-import input_handler
-from mouse import Mouse
-from selection import Selection
-from sandbox import Box
-from conts import particles, WIDTH, HEIGHT, LOWER_BOARDER, objects
 import pygame
+from .input_handler import input_handle
+from .mouse import Mouse
+from .selection import Selection
+from .sandbox import Box
+from .conts import particles, WIDTH, HEIGHT, LOWER_BOARDER, objects
 
 
 def get_sub_win(win, board):
@@ -67,7 +67,7 @@ def run_sim(
         # update index
         index = selection.update(win, index)
         # handle input
-        res = input_handler.handle(mouse, board, selection, index, pause)
+        res = input_handle(mouse, board, selection, index, pause)
         if res == "reset":
             # reset game
             if not profiling:

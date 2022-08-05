@@ -14,7 +14,7 @@ GUI for saving board
 
 def save_exit(*args):
     save_slot(*args)
-    end.end()
+    end()
 
 
 def run(win, board, img):
