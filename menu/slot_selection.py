@@ -1,9 +1,11 @@
-from menu_button import Slot_Button
 import pygame
-from get_slot import get_saved
-from conts import WIDTH, HEIGHT
-class Slots:
+from .menu_button import Slot_Button
+from .end import end
+from .get_slot import get_saved
+from .conts import WIDTH, HEIGHT
 
+
+class Slots:
     def __init__(self):
         gap = WIDTH / 10
         slot_width = 50
@@ -29,8 +31,7 @@ class Slots:
         # handle input
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
-                exit()
+                end()
             if event.type == pygame.KEYDOWN:
                 # change selection
                 if event.key == pygame.K_LEFT:
@@ -51,6 +52,3 @@ class Slots:
                 button.up()
 
         return index
-
-
-

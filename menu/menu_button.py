@@ -3,8 +3,6 @@ from conts import WIDTH, HEIGHT
 from random import random
 
 pygame.font.init()
-small_font = pygame.font.SysFont(None, 24)
-large_font = pygame.font.SysFont(None, 80)
 
 
 class Slot_Button:
@@ -13,6 +11,8 @@ class Slot_Button:
      - handle drawing
      - handle
     """
+
+    font = pygame.font.SysFont(None, 24)
 
     def __init__(self, x, y, xsize, ysize, name, img, mode):
         self.rect = pygame.Rect(x, y, xsize, ysize)
@@ -36,16 +36,17 @@ class Slot_Button:
                 (self.x - 1, self.y - 1, self.xsize + 2, self.ysize + 2),
                 width=2,
             )
-            name = small_font.render(self.name, True, (255, 0, 0))
+            name = Slot_Button.font.render(self.name, True, (255, 0, 0))
 
         else:
             pygame.draw.rect(
                 win,
                 (0, 0, 0),
                 (self.x - 1, self.y - 1, self.xsize + 2, self.ysize + 2),
-                width=2,  border_radius=3
+                width=2,
+                border_radius=3,
             )
-            name = small_font.render(self.name, True, (0, 0, 0))
+            name = Slot_Button.font.render(self.name, True, (0, 0, 0))
         win.blit(name, (self.x + name.get_size()[0] / 8, self.y - 15))
         win.blit(
             self.img,
@@ -75,6 +76,8 @@ class Button:
      - handle
     """
 
+    font = pygame.font.SysFont(None, 64)
+
     def __init__(self, x, y, xsize, ysize, text, func):
         self.rect = pygame.Rect(x, y, xsize, ysize)
         self.rect.topleft = (x, y)
@@ -89,15 +92,16 @@ class Button:
         pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(pos):
             pygame.draw.rect(win, (20, 20, 25), self.rect, border_radius=3)
-            img = large_font.render(self.text, True, (235, 235, 235))
+            img = Button.font.render(self.text, True, (235, 235, 235))
         else:
             pygame.draw.rect(
                 win,
                 (0, 0, 0),
                 (self.x - 1, self.y - 1, self.xsize + 2, self.ysize + 2),
-                width=2,  border_radius=3
+                width=2,
+                border_radius=3,
             )
-            img = large_font.render(self.text, True, (20, 20, 25))
+            img = Button.font.render(self.text, True, (20, 20, 25))
 
         win.blit(
             img,

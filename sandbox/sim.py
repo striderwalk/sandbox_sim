@@ -1,18 +1,21 @@
 import itertools
-import input_handler
-from mouse import Mouse
-from selection import Selection
-from sandbox import Box
-from conts import particles, WIDTH, HEIGHT, LOWER_BOARDER, objects
-from get_slot import save_slot
 import pygame
+from .input_handler import input_handle
+from .mouse import Mouse
+from .selection import Selection
+from .sandbox import Box
+from .conts import particles, WIDTH, HEIGHT, LOWER_BOARDER, objects
+
 
 def get_sub_win(win, board):
     board.draw_particles(win)
-    return win.subsurface((0,0,WIDTH,HEIGHT-LOWER_BOARDER)).copy()
+    return win.subsurface((0, 0, WIDTH, HEIGHT - LOWER_BOARDER)).copy()
 
-def run_sim(win, slot=(0,"empty"), RAIN=True, index=0, size=3, profiling=False, pause=False):
-    slot, board_data  = slot
+
+def run_sim(
+    win, slot=(0, "empty"), RAIN=True, index=0, size=3, profiling=False, pause=False
+):
+    slot, board_data = slot
     # setup pygame
 
     clock = pygame.time.Clock()
@@ -64,7 +67,7 @@ def run_sim(win, slot=(0,"empty"), RAIN=True, index=0, size=3, profiling=False, 
         # update index
         index = selection.update(win, index)
         # handle input
-        res = input_handler.handle(mouse, board, selection, index, pause)
+        res = input_handle(mouse, board, selection, index, pause)
         if res == "reset":
             # reset game
             if not profiling:
@@ -78,7 +81,7 @@ def run_sim(win, slot=(0,"empty"), RAIN=True, index=0, size=3, profiling=False, 
         elif res == "end":
             # quit
             if not profiling:
-                return {"type":"end", "board" : board, "img": get_sub_win(win, board)}
+                return {"type": "end", "board": board, "img": get_sub_win(win, board)}
             else:
                 pygame.quit()
                 return
@@ -92,7 +95,7 @@ def run_sim(win, slot=(0,"empty"), RAIN=True, index=0, size=3, profiling=False, 
             # set new index
             index = res
         elif res == "menu":
-            return {"type" :"menu", "board": board, "img": get_sub_win(win, board)}
+            return {"type": "menu", "board": board, "img": get_sub_win(win, board)}
 
         # display game data
         img = font.render(f"{fnum}, fps={round(clock.get_fps(), 3)}", True, (0, 0, 0))

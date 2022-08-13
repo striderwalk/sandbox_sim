@@ -3,6 +3,7 @@ import logging
 import pickle
 import pygame
 
+
 def get_saved():
     # return image of board or cross
     for i in range(10):
@@ -32,22 +33,21 @@ def save_slot(board, slot, img):
     if type(slot) != int or 0 > slot or slot > 9:
         logging.warning("invalid save slot when trying to save save")
         return None
-
-    file_name = f"./saves/slot_{slot}/board.pickle"
-    image_name = f"./saves/slot_{slot}/board.png"
+    file_name = f"./saves/slot_{slot}"
+    board_name = file_name + "/board.pickle"
+    image_name = file_name + "/board.png"
+    print(board_name)
     if not os.path.exists(file_name):
-        setup()
+        os.mkdir(file_name)
 
-    with open(file_name, "wb") as f:
+    with open(board_name, "wb") as f:
         logging.info(f"save board to slot {slot}")
         pickle.dump(board.board, f, pickle.HIGHEST_PROTOCOL)
     pygame.image.save(img, image_name)
+
 
 def setup():
     if not os.path.exists("./saves"):
         os.mkdir("./saves")
 
-    for i in range(10):
-        if not os.path.exists(f"./saves/slot_{i}"):
-            os.mkdir(f"./saves/slot_{i}")
 
