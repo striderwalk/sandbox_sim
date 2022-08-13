@@ -25,8 +25,6 @@ def run(win, board, img):
     index = 0
     slots = Slots()
 
-    # this should be dinamic
-    # i can't be ask tho
     menu_buttons = make_menu_buttons(
         [
             ("save board", save_slot),
@@ -39,12 +37,13 @@ def run(win, board, img):
         win.fill((255, 255, 255))
         for i, button in enumerate(menu_buttons):
             button.draw(win)
+            # handle clicks
             if res := button.check_click():
                 return index, res(board, index, img)
 
         index = slots.update(win, index)
 
-        # mouse
+        # draw cursor
         pos = pygame.mouse.get_pos()
         pygame.draw.circle(win, (255, 0, 255), pos, 5)
 

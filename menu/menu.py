@@ -6,6 +6,16 @@ from .slot_selection import Slots
 from .end import end
 from .make_buttons import make_menu_buttons
 
+"""
+ menu for start of game loop
+ allow user:
+    to select save
+    start game
+    end game
+    ???clear save slot???
+
+"""
+
 
 def run(win):
     # pygame setup

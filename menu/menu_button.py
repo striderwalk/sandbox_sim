@@ -7,9 +7,9 @@ pygame.font.init()
 
 class Slot_Button:
     """
-    a class to represent buttons
+    a class to handle buttons used for selection
      - handle drawing
-     - handle
+     - checking for clicks
     """
 
     font = pygame.font.SysFont(None, 24)
@@ -30,37 +30,35 @@ class Slot_Button:
         # draw button on screen
 
         if self.clicked:
-            pygame.draw.rect(
-                win,
-                (255, 0, 0),
-                (self.x - 1, self.y - 1, self.xsize + 2, self.ysize + 2),
-                width=2,
-            )
-            name = Slot_Button.font.render(self.name, True, (255, 0, 0))
-
+            colour = (255, 0, 0)
         else:
-            pygame.draw.rect(
-                win,
-                (0, 0, 0),
-                (self.x - 1, self.y - 1, self.xsize + 2, self.ysize + 2),
-                width=2,
-                border_radius=3,
-            )
-            name = Slot_Button.font.render(self.name, True, (0, 0, 0))
+            colour = (0, 0, 0)
+
+        name = Slot_Button.font.render(self.name, True, colour)
+        # draw text
         win.blit(name, (self.x + name.get_size()[0] / 8, self.y - 15))
+        # draw image (either picture of save of cross)
         win.blit(
             self.img,
             (self.rect.topleft[0], self.rect.topleft[1]),
         )
 
+        # draw box around image
+        pygame.draw.rect(
+            win,
+            colour,
+            (self.x - 1, self.y - 1, self.xsize + 2, self.ysize + 2),
+            width=2,
+            border_radius=3,
+        )
+
     def check_click(self):
-        action = False
+        # check for click
         pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(pos):
             if pygame.mouse.get_pressed()[0] and not self.clicked:
-                action = True
-        if action:
-            return self.mode
+                return self.mode
+    
 
     def up(self):
         self.clicked = True
@@ -90,19 +88,19 @@ class Button:
     def draw(self, win):
         # draw button on screen
         pos = pygame.mouse.get_pos()
+        # set colour based on mouse pos
         if self.rect.collidepoint(pos):
-            pygame.draw.rect(win, (20, 20, 25), self.rect, border_radius=3)
-            img = Button.font.render(self.text, True, (235, 235, 235))
+            rect_colour = (20, 20, 25)
+            text_colour = (235, 235, 235)
         else:
-            pygame.draw.rect(
-                win,
-                (0, 0, 0),
-                (self.x - 1, self.y - 1, self.xsize + 2, self.ysize + 2),
-                width=2,
-                border_radius=3,
-            )
-            img = Button.font.render(self.text, True, (20, 20, 25))
+            rect_colour = (235, 235, 235)
+            text_colour = (20, 20, 25)
 
+        # draw box
+        pygame.draw.rect(win, rect_colour, self.rect, border_radius=3)
+
+        # draw text
+        img = Button.font.render(self.text, True, text_colour)
         win.blit(
             img,
             (
@@ -112,10 +110,8 @@ class Button:
         )
 
     def check_click(self):
-        action = False
+        # check if clicked
         pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(pos):
             if pygame.mouse.get_pressed()[0]:
-                action = True
-        if action:
-            return self.func
+                return self.func

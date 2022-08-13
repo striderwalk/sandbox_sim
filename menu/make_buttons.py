@@ -5,6 +5,8 @@ from .conts import WIDTH, HEIGHT
 def make_menu_buttons(data, xoff=0, yoff=-100):
     """
     data = [text: str, func: functions]
+    buttons used for action eg start button
+    for selection slot_selction.py is used
     """
     button_num = len(data)
     gap = 5

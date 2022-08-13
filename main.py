@@ -1,4 +1,5 @@
 from os import environ
+
 environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 import pygame
 from sandbox import run_sim

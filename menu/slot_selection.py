@@ -6,6 +6,12 @@ from .conts import WIDTH, HEIGHT
 
 
 class Slots:
+    """
+    a class to handling a set buttons used for selection
+     - handle drawing all buttons
+     - checking for clicks -> handling click:
+         - only allowing one button to be pressed at a times
+    """
     def __init__(self):
         gap = WIDTH / 10
         slot_width = 50

@@ -140,6 +140,4 @@ class Box:
 
     def reset(self):
         # logging.info("user reset board")
-        self.board = np.array(
-            [[objects.Air(x, y) for x in range(COLS)] for y in range(ROWS)]
-        )
+        self.board = np.array([[Air(x, y) for x in range(COLS)] for y in range(ROWS)])
