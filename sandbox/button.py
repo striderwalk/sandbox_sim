@@ -25,10 +25,10 @@ class Button:
         # draw button on screen
         pygame.draw.rect(win, self.colour, self.rect, border_radius=3)
         if self.clicked:
-            img = font.render(self.text, True, (245, 10, 10))
+            text_colour = (245, 10, 10)
         else:
-            img = font.render(self.text, True, (0, 0, 0))
-
+            text_colour = (0, 0, 0)
+        img = font.render(self.text, True, text_colour)
         win.blit(
             img,
             (
