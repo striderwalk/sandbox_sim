@@ -127,11 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-help.py
-*.prof
 *.prof
 data
-*.pickle
-*.pickle
 *.pickle
 ./saves
