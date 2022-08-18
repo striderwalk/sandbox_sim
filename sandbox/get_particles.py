@@ -31,12 +31,9 @@ def sort_by_state(particles: list) -> list:
 
 
 _particles = [i[1] for i in getmembers(objects, isclass)]
+
+
+#### import this ####
 particles = sort_by_state(_particles)
+#####################
 
-
-# all constants
-WIDTH, HEIGHT = 775, 700
-LOWER_BOARDER = 75
-CELL_WIDTH, CELL_HEIGHT = 5, 5
-COLS = WIDTH // CELL_WIDTH
-ROWS = (HEIGHT - LOWER_BOARDER) // CELL_HEIGHT

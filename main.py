@@ -9,7 +9,7 @@ from menu import loading, menu, save, end
 
 def main():
     pygame.init()
-    win = pygame.display.set_mode((WIDTH, HEIGHT), 16)
+    win = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("SandBox")
     pygame.mouse.set_visible(False)
     slot = menu(win)

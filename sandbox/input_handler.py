@@ -2,7 +2,7 @@ import pygame
 import logging
 from .objects.fountain import Fountain
 from .sandbox import Box
-from .conts import particles
+from .get_particles import particles
 
 
 def input_handle(mouse, board, selection, index, pause):

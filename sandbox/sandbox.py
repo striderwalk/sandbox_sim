@@ -4,9 +4,10 @@ import numpy as np
 from random import randint
 from .objects import Stone, Air
 from .objects.fountain import Fountain
-from .conts import ROWS, COLS, CELL_WIDTH, CELL_HEIGHT, particles
+from conts import ROWS, COLS, CELL_WIDTH, CELL_HEIGHT
+from .get_particles import particles
 
-
+print(f"{ROWS=}, {COLS=}, {CELL_WIDTH=}, {CELL_HEIGHT=}")
 class Box:
     """
     a container for all particles

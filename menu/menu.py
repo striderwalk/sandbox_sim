@@ -1,6 +1,6 @@
 import pygame
 from .menu_button import Slot_Button, Button
-from .conts import *
+from conts import *
 from .get_slot import get_saved, load_slot
 from .slot_selection import Slots
 from .end import end

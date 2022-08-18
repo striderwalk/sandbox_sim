@@ -4,7 +4,8 @@ from .input_handler import input_handle
 from .mouse import Mouse
 from .selection import Selection
 from .sandbox import Box
-from .conts import particles, WIDTH, HEIGHT, LOWER_BOARDER, objects
+from conts import WIDTH, HEIGHT, LOWER_BOARDER
+from .get_particles import particles, objects
 
 def get_sub_win(win, board):
     board.draw_particles(win)
