@@ -90,11 +90,11 @@ def run_sim(win, slot=(0, "empty"), RAIN=True, index=0, size=3, pause=False):
             return {"type": "menu", "board": board, "img": get_sub_win(win, board)}
 
         # display game data
-        img = font.render(f"{fnum}, fps={round(clock.get_fps(), 3)}", True, (0, 0, 0))
-        win.blit(img, (30, 30))
+        fps_text = font.render(f"{fnum}, fps={round(clock.get_fps(), 3)}", True, (0, 0, 0))
+        win.blit(fps_text, (30, 30))
         if pause:
-            img = font.render("paused", True, (255, 0, 0))
-            win.blit(img, (WIDTH - img.get_size()[0] - 10, 30))
+            paused_text = font.render("paused", True, (255, 0, 0))
+            win.blit(paused_text, (WIDTH - paused_text.get_size()[0] - 10, 30))
 
         # update screen
         pygame.display.flip()
