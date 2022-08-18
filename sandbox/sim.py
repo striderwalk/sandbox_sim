@@ -14,7 +14,7 @@ def get_sub_win(win, board):
 
 def time():
     pygame.init()
-    win = pygame.display.set_mode((WIDTH, HEIGHT))
+    win = pygame.display.set_mode((WIDTH, HEIGHT), flags=pygame.HIDDEN)
     run_sim(win, slot=(0, "profiling"))
 
 
@@ -40,7 +40,7 @@ def run_sim(win, slot=(0, "empty"), RAIN=True, index=0, size=3, pause=False):
     counter = itertools.count()
     for fnum in counter:
         # max profile time
-        if board_data == "profiling" and fnum >= 300:
+        if board_data == "profiling" and fnum >= 200:
             pygame.quit()
             return
         # make frame num stable if paused

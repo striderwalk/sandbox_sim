@@ -12,6 +12,7 @@ class Slots:
      - checking for clicks -> handling click:
          - only allowing one button to be pressed at a times
     """
+
     def __init__(self):
         gap = WIDTH / 10
         slot_width = 50

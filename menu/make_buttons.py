@@ -27,7 +27,7 @@ def make_menu_buttons(data, xoff=0, yoff=-100):
 
     return [
         Button(
-                x, top_y + (button_height + gap) * index, button_width, button_height, *i
-                )
+            x, top_y + (button_height + gap) * index, button_width, button_height, *i
+        )
         for index, i in enumerate(data)
     ]

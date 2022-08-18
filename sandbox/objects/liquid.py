@@ -18,10 +18,11 @@ class Liquid:
         - move down left/ down right
         - move left/ right
         """
+        cols = len(board[self.y])
 
         down = self.y < len(board) - 1
         left = self.x > 0
-        right = self.x < len(board[self.y]) - 1
+        right = self.x < cols - 1
 
         # check move down
         if down and board[self.y + 1][self.x].mass < self.mass:
@@ -43,19 +44,22 @@ class Liquid:
 
         for i in range(1, self.wetness):
             left = left and self.x > i and board[self.y][self.x - i].type != "solid"
+            max_x = cols - i
             right = (
-                right
-                and self.x < len(board[self.y]) - i
-                and board[self.y][self.x + i].type != "solid"
+                right and self.x < max_x and board[self.y][self.x + i].type != "solid"
             )
             # check move left
             if left and board[self.y][self.x - i].mass < self.mass:
                 if type(board[self.y][self.x - i]) == Air:
                     moves.append((self.x - i, self.y))
+                else:
+                    left = False
             # check move right
             if right and board[self.y][self.x + i].mass < self.mass:
                 if type(board[self.y][self.x + i]) == Air:
                     moves.append((self.x + i, self.y))
+                else:
+                    right = False
 
             # choose move
             if len(moves) > 0:

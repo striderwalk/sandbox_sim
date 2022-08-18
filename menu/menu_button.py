@@ -58,7 +58,6 @@ class Slot_Button:
         if self.rect.collidepoint(pos):
             if pygame.mouse.get_pressed()[0] and not self.clicked:
                 return self.mode
-    
 
     def up(self):
         self.clicked = True

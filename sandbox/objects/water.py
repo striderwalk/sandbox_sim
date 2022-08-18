@@ -28,7 +28,7 @@ class Water(Particle, Liquid):
         Liquid.__init__(self)
 
         self.update_colour()
-        self.wetness = 9
+        self.wetness = 7
         self.make_steam = make_steam
 
     def check_lava(self, board):
