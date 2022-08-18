@@ -1,11 +1,10 @@
-import itertools
 import pygame
+import itertools
 from .input_handler import input_handle
 from .mouse import Mouse
 from .selection import Selection
 from .sandbox import Box
 from .conts import particles, WIDTH, HEIGHT, LOWER_BOARDER, objects
-
 
 def get_sub_win(win, board):
     board.draw_particles(win)
@@ -20,6 +19,7 @@ def time():
 
 def run_sim(win, slot=(0, "empty"), RAIN=True, index=0, size=3, pause=False):
     slot, board_data = slot
+    profiling = (type(board_data) == str and board_data == "profiling")
     # setup pygame
 
     clock = pygame.time.Clock()
@@ -32,7 +32,7 @@ def run_sim(win, slot=(0, "empty"), RAIN=True, index=0, size=3, pause=False):
     selection = Selection(index)
 
     # make it rain
-    if RAIN and board_data != "profiling":
+    if RAIN and not profiling:
         board.rain_type(objects.Water)
 
     pause_time = 0
@@ -40,9 +40,10 @@ def run_sim(win, slot=(0, "empty"), RAIN=True, index=0, size=3, pause=False):
     counter = itertools.count()
     for fnum in counter:
         # max profile time
-        if board_data == "profiling" and fnum >= 200:
+        if profiling and fnum >= 200:
             pygame.quit()
             return
+
         # make frame num stable if paused
         fnum -= pause_time
         if pause:
@@ -60,7 +61,7 @@ def run_sim(win, slot=(0, "empty"), RAIN=True, index=0, size=3, pause=False):
         res = input_handle(mouse, board, selection, index, pause)
         if res == "reset":
             # reset game
-            if board_data != "profiling":
+            if not profiling:
                 board.reset()
                 pause_time += fnum
                 pygame.event.get()
@@ -70,7 +71,7 @@ def run_sim(win, slot=(0, "empty"), RAIN=True, index=0, size=3, pause=False):
                 return
         elif res == "end":
             # quit
-            if board_data != "profiling":
+            if not profiling:
                 return {"type": "end", "board": board, "img": get_sub_win(win, board)}
             else:
                 pygame.quit()
