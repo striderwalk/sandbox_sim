@@ -4,4 +4,5 @@ from .loading import run as loading
 from .end import end as end
 from .get_slot import setup
 
+# make sure the is a saves folder
 setup()

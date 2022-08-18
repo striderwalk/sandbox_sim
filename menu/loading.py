@@ -3,15 +3,19 @@ import math
 from conts import WIDTH, HEIGHT
 from random import randint
 
-
+"""
+ loading screen for transitions
+ not needed for ascetics
+"""
 def run(win, time=100000):
     # init pygame stuff
     font = pygame.font.SysFont(None, 50)
     clock = pygame.time.Clock()
 
     # render loading text
-    img = font.render("LOADING ", True, (160, 0, 0))
+    loading_text = font.render("LOADING ", True, (160, 0, 0))
     size = img.get_size()
+
     # angle betwwen loading dot cirle thing
     theata = 0
     dtheata = math.pi / 10
@@ -35,9 +39,14 @@ def run(win, time=100000):
             raidus += 0.5
         theata += dtheata
 
-        win.blit(img, ((WIDTH - size[0]) / 2, (HEIGHT - size[1]) / 2))
+        # draw text
+        win.blit(loading_text, ((WIDTH - size[0]) / 2, (HEIGHT - size[1]) / 2))
+
+        # update screen
         pygame.display.flip()
         clock.tick(30)
+        
+        # handle exiting
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()

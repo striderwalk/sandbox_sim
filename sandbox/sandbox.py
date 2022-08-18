@@ -21,10 +21,26 @@ class Box:
         # setup board
         if type(board_data) != str:
             self.board = board_data
-        else:
+        elif board_data == "empty":
             self.board = np.array(
                 [[Air(x, y) for x in range(COLS)] for y in range(ROWS)]
             )
+        elif board_data == "profiling":
+            self.board = np.array(
+                [[Air(x, y) for x in range(COLS)] for y in range(ROWS)]
+            )
+            step = COLS // len(particles)
+            index_d = 0
+            for i in range(ROWS):
+                for j in range(COLS):
+                    index_d = j // step
+                    if j % step < 2:
+                        self.add_particle(j, i, Stone, health=100000)
+                        continue
+                    try:
+                        self.add_particle(j, i, particles[index_d])
+                    except IndexError:
+                        pass
 
     def draw_particles(self, win):
         # draw all particles

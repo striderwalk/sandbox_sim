@@ -5,7 +5,8 @@ import pygame
 
 
 def get_saved():
-    # return image of board if slot has been saved yet else cross
+    # return image of board if slot has been saved
+    # if not return imgage if cross
     for i in range(10):
         if os.path.exists(f"./saves/slot_{i}/board.png"):
             yield f"./saves/slot_{i}/board.png"
@@ -15,7 +16,7 @@ def get_saved():
 
 def load_slot(slot: int):
     # check for vaild slot id
-    if type(slot) != int or 0 > slot or slot > 9:
+    if type(slot) != int or slot < 0 or slot > 9:
         logging.warning(f"invalid slot when trying to load save {slot=}")
         return None
     # check for empty save
@@ -50,5 +51,6 @@ def save_slot(board, slot, img):
 
 
 def setup():
+    # check saves folder
     if not os.path.exists("./saves"):
         os.mkdir("./saves")

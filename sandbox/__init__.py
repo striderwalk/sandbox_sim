@@ -1,1 +1,1 @@
-from .sim import run_sim
+from .sim import run_sim, time

@@ -12,9 +12,13 @@ def get_sub_win(win, board):
     return win.subsurface((0, 0, WIDTH, HEIGHT - LOWER_BOARDER)).copy()
 
 
-def run_sim(
-    win, slot=(0, "empty"), RAIN=True, index=0, size=3, profiling=False, pause=False
-):
+def time():
+    pygame.init()
+    win = pygame.display.set_mode((WIDTH, HEIGHT))
+    run_sim(win, slot=(0, "profiling"))
+
+
+def run_sim(win, slot=(0, "empty"), RAIN=True, index=0, size=3, pause=False):
     slot, board_data = slot
     # setup pygame
 
@@ -28,29 +32,15 @@ def run_sim(
     selection = Selection(index)
 
     # make it rain
-    if RAIN and not profiling:
+    if RAIN and board_data != "profiling":
         board.rain_type(objects.Water)
-    # profiling board setup
-    if profiling:
-        step = (len(board.board) + 23) // len(particles)
-        index_d = 0
-        for i in range(len(board.board)):
-            for j in range(len(board.board) + 23):
-                index_d = j // step
-                if j % step < 2:
-                    board.add_particle(j, i, objects.Stone, health=100000)
-                    continue
-                try:
-                    board.add_particle(j, i, particles[index_d])
-                except IndexError:
-                    pass
 
     pause_time = 0
     # main loop
     counter = itertools.count()
     for fnum in counter:
         # max profile time
-        if profiling and fnum >= 400:
+        if board_data == "profiling" and fnum >= 300:
             pygame.quit()
             return
         # make frame num stable if paused
@@ -70,7 +60,7 @@ def run_sim(
         res = input_handle(mouse, board, selection, index, pause)
         if res == "reset":
             # reset game
-            if not profiling:
+            if board_data != "profiling":
                 board.reset()
                 pause_time += fnum
                 pygame.event.get()
@@ -80,7 +70,7 @@ def run_sim(
                 return
         elif res == "end":
             # quit
-            if not profiling:
+            if board_data != "profiling":
                 return {"type": "end", "board": board, "img": get_sub_win(win, board)}
             else:
                 pygame.quit()
