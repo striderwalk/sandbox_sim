@@ -143,7 +143,7 @@ class Box:
         # tell each particle where there are
         for y, row in enumerate(self.board):
             for x, item in enumerate(row):
-                if type(item) == objects.Air:
+                if type(item) == Air:
                     continue
                 if item.y != y or item.x != x:
                     logging.warning("{item=} pos needed fixing to {x=}, {y=}")
