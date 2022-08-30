@@ -1,7 +1,7 @@
 import pygame
 import math
-from conts import WIDTH, HEIGHT
 from random import randint
+from conts import WIDTH, HEIGHT
 
 """
  loading screen for transitions

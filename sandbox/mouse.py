@@ -1,13 +1,13 @@
 import pygame
 from .objects.fountain import Fountain
 from .objects import Air
-from .conts import (
+from .get_particles import particles
+from conts import (
     CELL_WIDTH,
     CELL_HEIGHT,
     ROWS,
     HEIGHT,
     LOWER_BOARDER,
-    particles,
 )
 
 

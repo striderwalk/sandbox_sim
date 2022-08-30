@@ -1,10 +1,10 @@
 import pygame
-from .conts import (
+from conts import (
     LOWER_BOARDER,
     HEIGHT,
     WIDTH,
-    particles,
 )
+from .get_particles import particles
 from .button import Button
 
 

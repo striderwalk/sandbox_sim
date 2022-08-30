@@ -4,8 +4,8 @@ import numpy as np
 from random import randint
 from .objects import Stone, Air
 from .objects.fountain import Fountain
-from .conts import ROWS, COLS, CELL_WIDTH, CELL_HEIGHT, particles
-
+from conts import ROWS, COLS, CELL_WIDTH, CELL_HEIGHT
+from .get_particles import particles
 
 class Box:
     """
@@ -21,6 +21,7 @@ class Box:
         # setup board
         if type(board_data) != str:
             self.board = board_data
+            self.board = self.board[:ROWS, :COLS]
         elif board_data == "empty":
             self.board = np.array(
                 [[Air(x, y) for x in range(COLS)] for y in range(ROWS)]
@@ -41,6 +42,7 @@ class Box:
                         self.add_particle(j, i, particles[index_d])
                     except IndexError:
                         pass
+        print(f"created board of size {len(self.board)} x {len(self.board[0])}")
 
     def draw_particles(self, win):
         # draw all particles
