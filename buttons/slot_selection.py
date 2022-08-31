@@ -29,14 +29,12 @@ class Slots:
             if button.clicked:
                 index = i
         # check for clicks
-        click = False
+        click = None
         for i, button in enumerate(self.slots):
             if button.check_click() is not None:
-                print(f"slot {i} clicked")
                 click = i
                 break
-        if click is False: # no click
-            print("No click")
+        if click is None: # no click
             click = index
         # handle input
         for event in pygame.event.get():
