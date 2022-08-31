@@ -1,10 +1,9 @@
 import pygame
-from .menu_button import Slot_Button, Button
 from conts import *
 from .get_slot import get_saved, load_slot
-from .slot_selection import Slots
-from .end import end
-from .make_buttons import make_menu_buttons
+from buttons import Slots
+from end import end
+from buttons import make_menu_buttons
 
 """
  menu for start of game loop
@@ -23,7 +22,7 @@ def run(win):
     font = pygame.font.SysFont(None, 24)
     # save slots
     index = 0
-    slots = Slots()
+    slots = Slots(get_saved())
     # make menu buttons
     buttons = make_menu_buttons([("  play  ", load_slot), ("  exit  ", end)])
     while True:

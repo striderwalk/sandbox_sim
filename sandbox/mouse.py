@@ -10,7 +10,7 @@ from conts import (
     LOWER_BOARDER,
 )
 
-
+MAX_SIZE = 20
 class Mouse:
     """
     handle cursor
@@ -23,14 +23,12 @@ class Mouse:
 
     def scale(self, num):
         # change cursor size
-        if 0 < self.size <= 50:
+        if num < 0 and 0 < self.size:
             self.size += num
 
-        elif self.size <= 0:
-            self.size += 1
+        elif self.size <= MAX_SIZE-1:
+            self.size += num
 
-        elif self.size >= 50:
-            self.size -= 1
 
     def press(self, board, x, y, obj, *, keep=False, place_obj=None):
         # if keep only replace Air
