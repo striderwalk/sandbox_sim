@@ -1,10 +1,9 @@
 import pygame
-from .slot_selection import Slots
-from .menu_button import Button
+from buttons import Slots
 from conts import WIDTH, HEIGHT
-from .get_slot import save_slot
-from .end import end
-from .make_buttons import make_menu_buttons
+from .get_slot import save_slot, get_saved
+from end import end
+from buttons import make_menu_buttons
 
 """
 GUI for saving board
@@ -23,7 +22,7 @@ def run(win, board, img):
     font = pygame.font.SysFont(None, 24)
     # slots
     index = 0
-    slots = Slots()
+    slots = Slots(get_saved())
 
     menu_buttons = make_menu_buttons(
         [

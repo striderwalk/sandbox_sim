@@ -1,7 +1,6 @@
 import pygame
-from .menu_button import Slot_Button
-from .end import end
-from .get_slot import get_saved
+from .slot_button import Slot_Button
+from end import end
 from conts import WIDTH, HEIGHT
 
 
@@ -13,13 +12,13 @@ class Slots:
          - only allowing one button to be pressed at a times
     """
 
-    def __init__(self):
+    def __init__(self, saved):
         gap = WIDTH / 10
         slot_width = 50
         add = (gap - slot_width) / 2
         self.slots = [
             Slot_Button(gap * i + add, HEIGHT - 50, slot_width, 40, f"slot {i}", val, i)
-            for i, val in zip(range(10), get_saved())
+            for i, val in enumerate(saved)
         ]
 
     def update(self, win, index):
