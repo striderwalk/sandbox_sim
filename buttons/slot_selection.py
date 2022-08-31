@@ -29,11 +29,15 @@ class Slots:
             if button.clicked:
                 index = i
         # check for clicks
-        res = []
+        click = False
         for i, button in enumerate(self.slots):
-            if button.check_click():
-                res.append(i)
-
+            if button.check_click() is not None:
+                print(f"slot {i} clicked")
+                click = i
+                break
+        if click is False: # no click
+            print("No click")
+            click = index
         # handle input
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -46,12 +50,9 @@ class Slots:
                     index += 1
         index %= 10
 
-        # slot selection
-        if len(res) == 0:
-            res.append(index)
         # set click button
         for i, button in enumerate(self.slots):
-            if i != res[0]:
+            if i != click:
                 button.down()
             else:
                 index = i
