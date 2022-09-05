@@ -13,6 +13,16 @@ def get_saved():
         else:
             yield "./assets/cross.png"
 
+def load_path(path: str):
+    if not os.path.exists(path):
+        raise ValueError(f"invalid board path {path}")
+
+    # get save
+    with open(path, "rb") as file:
+        data = pickle.load(file)
+        logging.info("loaded save")
+
+    return data
 
 def load_slot(slot: int):
     # check for vaild slot id
