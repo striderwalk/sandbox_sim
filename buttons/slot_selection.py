@@ -43,10 +43,9 @@ class Slots:
             if event.type == pygame.KEYDOWN:
                 # change selection
                 if event.key == pygame.K_LEFT:
-                    index -= 1
+                    click = (index - 1) % 10
                 if event.key == pygame.K_RIGHT:
-                    index += 1
-        index %= 10
+                    click = (index + 1) % 10
 
         # set click button
         for i, button in enumerate(self.slots):
@@ -56,4 +55,5 @@ class Slots:
                 index = i
                 button.up()
 
+        index %= 10
         return index
