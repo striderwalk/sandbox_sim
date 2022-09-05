@@ -1,7 +1,7 @@
 import pygame
 from buttons import Slots
 from conts import WIDTH, HEIGHT
-from .get_slot import save_slot, get_saved
+from slots import save_slot, get_saved
 from end import end
 from buttons import make_menu_buttons
 

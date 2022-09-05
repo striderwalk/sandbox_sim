@@ -5,7 +5,10 @@ import pygame
 from sandbox import run_sim
 from conts import WIDTH, HEIGHT
 from menu import loading, menu, save, end
+from slots import setup
 
+# make sure the is a saves folder
+setup()
 
 def main():
     pygame.init()
@@ -30,4 +33,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-loading
+
