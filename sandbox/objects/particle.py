@@ -1,6 +1,8 @@
 from random import randint
 import numpy as np
 
+print("this file has been loaded")
+
 
 class Particle:
     """
@@ -12,13 +14,23 @@ class Particle:
     """
 
     def __init__(
-        self, x, y, mass=0, static=False, flamable=False, health=100, obj_type="None"
+        self,
+        x,
+        y,
+        mass=0,
+        static=False,
+        flamable=False,
+        is_flame=False,
+        health=100,
+        obj_type="None",
     ):
         self.x = x
         self.y = y
         self.mass = mass
         self.static = static
         self.flamable = flamable
+        if "is_flame" not in dir(self):
+            self.is_flame = is_flame
         self.health = health
         if not hasattr(self, "type"):
             self.type = obj_type

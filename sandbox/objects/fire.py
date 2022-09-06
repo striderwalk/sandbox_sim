@@ -28,7 +28,7 @@ class Fire(Particle, Liquid):
     colours = [[i * 255 for i in colour.rgb] for colour in colours]
 
     def __init__(self, x, y, player_made=True):
-        super().__init__(x, y, mass=-1, static=False, flamable=True)
+        super().__init__(x, y, mass=-1, static=False, is_flame=True)
         self.life_lim = randint(15, 36)
         self.colour = choice(self.colours)
         self.colours = Fire.colours

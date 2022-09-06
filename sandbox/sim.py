@@ -7,6 +7,7 @@ from .sandbox import Box
 from conts import WIDTH, HEIGHT, LOWER_BOARDER
 from .get_particles import particles, objects
 
+
 def get_sub_win(win, board):
     board.draw_particles(win)
     return win.subsurface((0, 0, WIDTH, HEIGHT - LOWER_BOARDER)).copy()
@@ -20,7 +21,7 @@ def time():
 
 def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False):
     slot, board_data = slot
-    profiling = (type(board_data) == str and board_data == "profiling")
+    profiling = type(board_data) == str and board_data == "profiling"
     # setup pygame
 
     clock = pygame.time.Clock()
@@ -90,7 +91,9 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False):
             return {"type": "menu", "board": board, "img": get_sub_win(win, board)}
 
         # display game data
-        fps_text = font.render(f"{fnum}, fps={round(clock.get_fps(), 3)}", True, (0, 0, 0))
+        fps_text = font.render(
+            f"{fnum}, fps={round(clock.get_fps(), 3)}", True, (0, 0, 0)
+        )
         win.blit(fps_text, (30, 30))
         if pause:
             paused_text = font.render("paused", True, (255, 0, 0))

@@ -31,9 +31,9 @@ class Water(Particle, Liquid):
         self.wetness = 10
         self.make_steam = make_steam
 
-    def check_lava(self, board):
+    def check_flame(self, board):
         # check for lava
-        if type(board[self.y + 1][self.x]) == Lava:  # check below
+        if board[self.y + 1][self.x].is_flame:  # check below
             return Steam
         if type(board[self.y - 1][self.x]) == Lava:  # check above if not on top
             board[self.y - 1][self.x] = Stone(self.x, self.y - 1)
@@ -43,7 +43,7 @@ class Water(Particle, Liquid):
         ):  # check right if not on edge
             board[self.y][self.x - 1] = Stone(self.x - 1, self.y)
             return Stone
-        
+
         if (
             self.x < len(board[self.y]) - 1 and type(board[self.y][self.x + 1]) == Lava
         ):  # check left if not on edge
@@ -60,7 +60,7 @@ class Water(Particle, Liquid):
         if self.y == len(board) - 1:
             return
         # check for lava
-        if self.make_steam and (res := self.check_lava(board)):
+        if self.make_steam and (res := self.check_flame(board)):
             return res
         # update position
         if pos := self.move(board):

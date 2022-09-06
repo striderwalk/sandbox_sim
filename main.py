@@ -10,6 +10,7 @@ from slots import setup
 # make sure the is a saves folder
 setup()
 
+
 def main():
     pygame.init()
     win = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -34,4 +35,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

@@ -49,13 +49,15 @@ class Acid(Particle, Liquid):
         if action and random() > 0.5 and type(board[self.y - 1, self.x]) in [Air, Acid]:
             board[self.y - 1, self.x] = Fume(self.x, self.y - 1)
 
-
     def update(self, board):
         self.life_len += 1
 
         self.check_other(board)
 
-        if random() > 0.85+(self.life_len/1000) and type(board[self.y - 1, self.x]) == Air:
+        if (
+            random() > 0.85 + (self.life_len / 1000)
+            and type(board[self.y - 1, self.x]) == Air
+        ):
             board[self.y - 1, self.x] = Fume(self.x, self.y - 1)
 
         # update position

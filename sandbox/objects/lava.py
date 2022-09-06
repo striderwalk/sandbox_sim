@@ -23,7 +23,7 @@ class Lava(Particle, Liquid):
     directer = 3
 
     def __init__(self, x, y):
-        super().__init__(x, y, mass=1)
+        super().__init__(x, y, mass=1, is_flame=True)
         Liquid.__init__(self)
 
         self.update_colour()

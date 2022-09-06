@@ -20,11 +20,15 @@ class Wood(Particle, Solid):
     colour = (90, 50, 6)
 
     def __init__(self, x, y):
-        super().__init__(x, y, mass=1000, static=True)
+        super().__init__(x, y, mass=1000, static=True, is_flame=False)
         Solid.__init__(self)
 
         self.update_colour()
         self.fire_count = -1
+
+    @property
+    def is_flame(self):
+        return self.fire_count > 0
 
     def rot(self, board):
         # if neighbour is water start to rot
@@ -47,26 +51,25 @@ class Wood(Particle, Solid):
             return
 
         if self.y > 0:  # above
-
-            if type(board[self.y - 1, self.x]) == Lava:
+            if board[self.y - 1, self.x].is_flame:
                 self.fire_count += 2
             elif self.fire_count > 0 and type(board[self.y - 1, self.x]) == Wood:
                 board[self.y - 1, self.x].fire_count += 0.3
 
         if self.x > 0:  # left
-            if type(board[self.y, self.x - 1]) == Lava:
+            if board[self.y, self.x - 1].is_flame:
                 self.fire_count += 2
             elif self.fire_count > 0 and type(board[self.y, self.x - 1]) == Wood:
                 board[self.y, self.x - 1].fire_count += 0.3
 
         if self.y < len(board) - 1:  # below
-            if type(board[self.y + 1, self.x]) == Lava:
+            if board[self.y + 1, self.x].is_flame:
                 self.fire_count += 2
             elif self.fire_count > 0 and type(board[self.y + 1, self.x]) == Wood:
                 board[self.y + 1, self.x].fire_count += 0.3
 
         if self.x < len(board[self.y]) - 1:  # right
-            if type(board[self.y, self.x + 1]) == Lava:
+            if board[self.y, self.x + 1].is_flame:
                 self.fire_count += 2
             elif self.fire_count > 0 and type(board[self.y, self.x + 1]) == Wood:
                 board[self.y, self.x + 1].fire_count += 0.3
@@ -83,6 +86,7 @@ class Wood(Particle, Solid):
         # check for rot level
         if self.colour[1] > 100:
             return "dies"
+
         # check if BURN
         elif self.colour[0] < 10 or self.colour[1] < 10:
             self.fire_count = 0

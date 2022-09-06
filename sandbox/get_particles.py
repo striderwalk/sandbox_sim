@@ -36,4 +36,3 @@ _particles = [i[1] for i in getmembers(objects, isclass)]
 #### import this ####
 particles = sort_by_state(_particles)
 #####################
-

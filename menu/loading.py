@@ -17,7 +17,7 @@ def run(win, time=100000, slot_text=None):
     # if slot info
     if slot_text is not None:
         slot_text = font.render(slot_text, True, (0, 0, 0))
-        slot_size =  slot_text.get_size()
+        slot_size = slot_text.get_size()
 
     # render loading text
     loading_text = font.render("LOADING ", True, (160, 0, 0))
@@ -48,7 +48,13 @@ def run(win, time=100000, slot_text=None):
         # draw text
         win.blit(loading_text, ((WIDTH - size[0]) / 2, (HEIGHT - size[1]) / 2))
         if slot_text is not None:
-            win.blit(slot_text, ((WIDTH - slot_size[0]) / 2, (HEIGHT - slot_size[1]) / 2 +  size[1]*1.4))
+            win.blit(
+                slot_text,
+                (
+                    (WIDTH - slot_size[0]) / 2,
+                    (HEIGHT - slot_size[1]) / 2 + size[1] * 1.4,
+                ),
+            )
         # update screen
         pygame.display.flip()
         clock.tick(30)

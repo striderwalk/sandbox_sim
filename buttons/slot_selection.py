@@ -22,7 +22,7 @@ class Slots:
         ]
 
     def update(self, win, index):
-        pygame.draw.rect(win, (0,0,0), (0, HEIGHT-LOWER_BOARDER, WIDTH, 3))
+        pygame.draw.rect(win, (0, 0, 0), (0, HEIGHT - LOWER_BOARDER, WIDTH, 3))
         # handle draw
         for i, button in enumerate(self.slots):
             button.draw(win)
@@ -34,7 +34,7 @@ class Slots:
             if button.check_click() is not None:
                 click = i
                 break
-        if click is None: # no click
+        if click is None:  # no click
             click = index
         # handle input
         for event in pygame.event.get():

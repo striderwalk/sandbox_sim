@@ -7,6 +7,7 @@ from .objects.fountain import Fountain
 from conts import ROWS, COLS, CELL_WIDTH, CELL_HEIGHT
 from .get_particles import particles
 
+
 class Box:
     """
     a container for all particles
@@ -67,7 +68,6 @@ class Box:
                         [j * CELL_WIDTH, i * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT],
                     )
 
-
     def add_particle(
         self, x, y, obj, *, strict=False, place_obj=None, health=10
     ) -> None:
@@ -87,7 +87,9 @@ class Box:
         else:
             self.board[y, x] = obj(x, y)
 
-    def update(self, win: pygame.surface, fnum: int, pause: bool = False, show_fountain = True) -> None:
+    def update(
+        self, win: pygame.surface, fnum: int, pause: bool = False, show_fountain=True
+    ) -> None:
         # DRAW THINGS!!!!
         self.draw_particles(win, show_fountain)
         if pause:
