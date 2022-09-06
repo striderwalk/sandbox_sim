@@ -2,6 +2,7 @@ import os
 import logging
 import pickle
 import pygame
+import numpy as np
 
 
 def get_saved():
@@ -58,6 +59,9 @@ def save_slot(board, slot, img):
         logging.info(f"save board to slot {slot}")
         pickle.dump(board.board, f, pickle.HIGHEST_PROTOCOL)
     pygame.image.save(img, image_name)
+
+    if np.array_equal(board.board, load_slot(slot)):
+        raise ValueError
 
 
 def setup():

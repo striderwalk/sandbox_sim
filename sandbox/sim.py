@@ -18,7 +18,7 @@ def time():
     run_sim(win, slot=(0, "profiling"))
 
 
-def run_sim(win, slot=(0, "empty"), RAIN=True, index=0, size=3, pause=False):
+def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False):
     slot, board_data = slot
     profiling = (type(board_data) == str and board_data == "profiling")
     # setup pygame

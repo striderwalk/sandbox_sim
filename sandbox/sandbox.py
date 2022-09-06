@@ -158,7 +158,7 @@ class Box:
                 if type(item) == Air:
                     continue
                 if item.y != y or item.x != x:
-                    logging.warning("{item=} pos needed fixing to {x=}, {y=}")
+                    logging.warning(f"{item=} pos needed fixing to {x=}, {y=}")
                 item.x = x
                 item.y = y
                 item.load = None
