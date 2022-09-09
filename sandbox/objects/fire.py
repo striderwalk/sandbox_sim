@@ -33,6 +33,7 @@ class Fire(Particle, Liquid):
         self.colour = choice(self.colours)
         self.colours = Fire.colours
         self.player_made = player_made
+        self.temp = 500
 
     def check_water(self, board):
         # check for water
@@ -83,6 +84,8 @@ class Fire(Particle, Liquid):
             self.moveTo(board, *choice(moves))
 
     def update(self, board):
+        # update temp
+        self.update_temp(board)
         # check for wood to BURN!!
         self.check_wood(board)
         if val := self.check_water(board):

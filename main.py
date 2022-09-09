@@ -30,7 +30,7 @@ def main():
             loading(win)
             save(win, res["board"], res["img"])
             loading(win)
-            menu(win)
+            slot = menu(win)
 
 
 if __name__ == "__main__":

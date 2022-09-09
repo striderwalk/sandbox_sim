@@ -27,30 +27,23 @@ class Steam(Particle, Gas):
         self.update_colour()
         self.wetness = 5
         self.life_lim = randint(90, 110)
+        self.temp = 9
+
+
+    def to_liquid(self):
+        from .water import Water
+        return Water
 
     def update(self, board):
         # check if update needed
         if self.check_self(board):
             return
 
+        # update temp
+        self.update_temp(board)
+
         # time since created
         self.life_len += 1
-
-        # import here to avoid circular import
-        from .water import Water
-
-        # condense
-        if self.life_len > self.life_lim:
-            # bring neighbour with
-            for other in self.get_neighbours(board, 2):
-                if type(other) == Steam:
-                    board[other.y, other.x] = Air(other.x, other.y)
-            if random() > 0.95:
-                if self.y < len(board) - 1:
-                    board[self.y + 1, self.x] = Water(
-                        self.x, self.y + 1, make_steam=False
-                    )
-            return "dies"
 
         # check not at top of board
         if self.y == 0:
@@ -61,6 +54,8 @@ class Steam(Particle, Gas):
             self.moveTo(board, *pos)
 
         # spread
-        if random() > 0.5:
-            if (result := self.copy(board)) and random() > self.thickness / 50:
-                return result
+        if random() > 0.5 and random() > self.thickness / 50:
+            self.copy(board)
+
+        return self.check_temp()
+

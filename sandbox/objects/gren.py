@@ -13,9 +13,12 @@ class Gren(Particle, Solid):
     def __init__(self, x, y):
         super().__init__(x, y, mass=1000, static=True)
         Solid.__init__(self)
-
         self.update_colour()
+        self.temp = 0
 
     def update(self, board):
         if res := self.check():
             return res
+
+        # update temp
+        self.update_temp(board)

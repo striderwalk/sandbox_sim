@@ -11,6 +11,10 @@ class Air(Particle):
     def __init__(self, x, y):
         super().__init__(x, y, mass=0)
         self.colour = tuple(Air.colour)
+        self.temp = 6
+
+    def to_liquid(self):
+        ...
 
     def update(self, board):
-        return
+        self.update_temp(board)

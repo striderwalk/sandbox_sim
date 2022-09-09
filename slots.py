@@ -4,11 +4,13 @@ import pickle
 import pygame
 import numpy as np
 
+
 def get_empty():
     # return index of first empty slot
     for i in range(10):
         if not os.path.exists(f"./saves/slot_{i}/board.pickle"):
             return i
+
 
 def get_saved():
     # return image of board if slot has been saved
@@ -47,7 +49,6 @@ def load_slot(slot: int):
     with open(file_name, "rb") as file:
         data = pickle.load(file)
         logging.info("loaded save")
-
     return data
 
 

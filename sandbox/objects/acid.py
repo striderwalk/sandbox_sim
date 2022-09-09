@@ -19,6 +19,10 @@ class Acid(Particle, Liquid):
         self.update_colour()
         self.wetness = 10
         self.strength = randint(15, 17)
+        self.temp = 4
+
+    def to_gas(self):
+        return Fume
 
     def check_other(self, board):
         # check below
@@ -51,6 +55,7 @@ class Acid(Particle, Liquid):
 
     def update(self, board):
         self.life_len += 1
+        self.update_temp(board)
 
         self.check_other(board)
 
@@ -63,3 +68,5 @@ class Acid(Particle, Liquid):
         # update position
         if pos := self.move(board):
             self.moveTo(board, *pos)
+
+        return self.check_temp()

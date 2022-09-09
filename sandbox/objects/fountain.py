@@ -15,6 +15,8 @@ class Fountain(Particle):
         self.obj = obj
 
     def update(self, board):
+        # update temp
+        self.update_temp(board)
         for _, other in self.get_neighbours(board, 3):
             if self.obj != Air:
                 if type(other) == Air:

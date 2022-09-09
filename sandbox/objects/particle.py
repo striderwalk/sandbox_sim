@@ -1,5 +1,6 @@
 from random import randint
 import numpy as np
+import math
 
 print("this file has been loaded")
 
@@ -13,31 +14,29 @@ class Particle:
      - find neighbours
     """
 
-    def __init__(
-        self,
-        x,
-        y,
-        mass=0,
-        static=False,
-        flamable=False,
-        is_flame=False,
-        health=100,
-        obj_type="None",
-    ):
+    def __init__(self, x, y, mass=0, static=False, flamable=False, is_flame=False, health=100):
         self.x = x
         self.y = y
         self.mass = mass
         self.static = static
         self.flamable = flamable
+        # is_flame can be property
         if "is_flame" not in dir(self):
             self.is_flame = is_flame
         self.health = health
         if not hasattr(self, "type"):
-            self.type = obj_type
+            self.type = "None"
 
         self.load = None
         self.count = 0
         self.life_len = 0
+
+    @property
+    def temp_colour(self):
+        red  = self.temp * 30
+        if red > 255:
+            red = 255 
+        return (red, 0, 0)
 
     def choice(self, options):
         probs = [1 / len(options) for _ in options]
@@ -49,7 +48,33 @@ class Particle:
                 break
         return options[i]
 
+
+    def update_temp(self, board):
+
+        # find neigbours 
+        others = [self] # include self in avage
+        if self.y >= 0: # above
+            other = board[self.y][self.x]
+            others.append(other)
+        if self.y < len(board)-1: # below
+            other = board[self.y][self.x]
+            others.append(other)
+        if self.x >= 0: # left 
+            other = board[self.y][self.x]
+            others.append(other)
+        if self.x < len(board[self.y])-1: # right
+            other = board[self.y][self.x]
+            others.append(other)
+
+        # caculate new temp
+        temp = 0
+        for i in others:
+            temp += other.temp
+
+        self.temp = temp / len(others)
+
     def update_colour(self):
+        # randomly change rbg colour values
         self.colour = tuple(type(self).colour)
         r = (self.colour[0] + randint(-5, 5)) % 255
 

@@ -30,11 +30,15 @@ class Water(Particle, Liquid):
         self.update_colour()
         self.wetness = 10
         self.make_steam = make_steam
+        self.temp = 3
+
+    def to_gas(self):
+        return Steam
 
     def check_flame(self, board):
         # check for lava
-        if board[self.y + 1][self.x].is_flame:  # check below
-            return Steam
+        # if board[self.y + 1][self.x].is_flame:  # check below
+            # return Steam
         if type(board[self.y - 1][self.x]) == Lava:  # check above if not on top
             board[self.y - 1][self.x] = Stone(self.x, self.y - 1)
             return Stone
@@ -53,6 +57,10 @@ class Water(Particle, Liquid):
     def update(self, board):
         if self.check_self(board):
             return
+
+        # update temp
+        self.update_temp(board)
+
         # time since created
         self.life_len += 1
 
@@ -65,3 +73,5 @@ class Water(Particle, Liquid):
         # update position
         if pos := self.move(board):
             self.moveTo(board, *pos)
+
+        return self.check_temp()

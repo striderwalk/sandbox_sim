@@ -15,4 +15,4 @@ class Background:
 
     def draw_background(self, win):
         self.fnum += 1
-        self.board.update(win, self.fnum, False, show_fountain=False)
+        self.board.update(win, self.fnum, False, False, show_fountain=False)

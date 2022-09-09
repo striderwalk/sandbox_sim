@@ -33,6 +33,8 @@ class Lava(Particle, Liquid):
         self.direct = Lava.directer
         Lava.directer *= -1
 
+        self.temp = 500
+
     def check_water(self, board):
         from .water import Water
 
@@ -60,6 +62,9 @@ class Lava(Particle, Liquid):
         # check if update needed
         if self.check_self(board):
             return
+
+        # update temp
+        self.update_temp(board)
 
         # flip side
         self.direct *= -1

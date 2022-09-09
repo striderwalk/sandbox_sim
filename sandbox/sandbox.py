@@ -45,15 +45,23 @@ class Box:
                         pass
         print(f"created board of size {len(self.board)} x {len(self.board[0])}")
 
-    def draw_particles(self, win, show_fountain=True):
+    def draw_particles(self, win, show_temp, show_fountain=True):
         # draw all particles
         for i, row in enumerate(self.board):
             for j, val in enumerate(row):
                 # if air not dawn to save time
-                if type(val) not in [Air, Fountain]:
+                if not show_temp:
+                    options = [Fountain, Air]
+                else:
+                    options = [Fountain]
+                if type(val) not in options:
+                    if show_temp:
+                        colour = val.temp_colour
+                    else:
+                        colour = val.colour 
                     pygame.draw.rect(
                         win,
-                        val.colour,
+                        colour,
                         [j * CELL_WIDTH, i * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT],
                     )
                 elif type(val) == Fountain:
@@ -87,11 +95,9 @@ class Box:
         else:
             self.board[y, x] = obj(x, y)
 
-    def update(
-        self, win: pygame.surface, fnum: int, pause: bool = False, show_fountain=True
-    ) -> None:
+    def update(self, win, fnum, pause, show_temp, show_fountain=True ):
         # DRAW THINGS!!!!
-        self.draw_particles(win, show_fountain)
+        self.draw_particles(win, show_temp, show_fountain)
         if pause:
             return
 

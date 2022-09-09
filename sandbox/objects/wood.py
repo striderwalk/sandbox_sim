@@ -25,6 +25,7 @@ class Wood(Particle, Solid):
 
         self.update_colour()
         self.fire_count = -1
+        self.temp = 1
 
     @property
     def is_flame(self):
@@ -32,18 +33,22 @@ class Wood(Particle, Solid):
 
     def rot(self, board):
         # if neighbour is water start to rot
+        rot = False
         if self.y > 0 and type(board[self.y - 1, self.x]) == Water:
-            self.colour = (self.colour[0], self.colour[1] + 2, self.colour[2])
-            return
+            rot = True
         if self.x > 0 and type(board[self.y, self.x - 1]) == Water:
-            self.colour = (self.colour[0], self.colour[1] + 2, self.colour[2])
-            return
+            rot = True
         if self.y < len(board) - 1 and type(board[self.y + 1, self.x]) == Water:
-            self.colour = (self.colour[0], self.colour[1] + 2, self.colour[2])
-            return
+            rot = True
         if self.x < len(board[self.y]) - 1 and type(board[self.y, self.x + 1]) == Water:
+            rot = True
+        if rot:
+            if self.fire_count > 0:
+                self.fire_count = 0
+            else: 
+                self.fire_count -= 1
+
             self.colour = (self.colour[0], self.colour[1] + 2, self.colour[2])
-            return
 
     def check_lava(self, board):
 
@@ -77,6 +82,10 @@ class Wood(Particle, Solid):
     def update(self, board):
         if res := self.check():
             return res
+
+        # update temp
+        self.update_temp(board)
+
         # age
         self.life_len += 1
         # check if update needed

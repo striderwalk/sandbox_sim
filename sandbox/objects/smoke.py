@@ -24,11 +24,19 @@ class Smoke(Particle, Gas):
         self.update_colour()
         self.wetness = 5
         self.timeout = randint(60, 80)
+        self.temp = 9
+
+
+    def to_liquid(self):
+        return "dies"
 
     def update(self, board):
         # check if update needed
         if self.check_self(board):
             return
+
+        # update temp
+        self.update_temp(board)
 
         # time since created
         self.life_len += 1
@@ -38,10 +46,6 @@ class Smoke(Particle, Gas):
         if self.life_len > self.timeout:
             return "dies"
 
-        # check not at top of board
-        if self.y == 0:
-            return
-
         # update position
         if pos := self.move(board):
             self.moveTo(board, *pos)
@@ -49,3 +53,5 @@ class Smoke(Particle, Gas):
         # spread
         if random() > 0.5:
             self.copy(board)
+
+        return self.check_temp()
