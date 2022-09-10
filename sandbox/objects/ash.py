@@ -16,11 +16,11 @@ class Ash(Particle, Solid):
     max_temp = 230
     min_temp = 0 
 
-    def __init__(self, x, y):
+    def __init__(self, x, y, temp=temp):
         super().__init__(x, y, mass=20)
         Solid.__init__(self)
         self.update_colour()
-        self.temp = Ash.temp
+        self.temp = temp
 
 
     def to_liquid(self):
@@ -37,7 +37,7 @@ class Ash(Particle, Solid):
 
         # if on top of wood turn to smoke
         if self.y < len(board) - 1 and board[self.y + 1][self.x].flamable:
-            return Smoke
+            return {"type": Smoke, "temp": self.temp}
         # time since created
         self.life_len += 1
 

@@ -14,10 +14,10 @@ class Liquid:
 
     def check_temp(self):
         if self.temp  > type(self).max_temp:
-            return self.to_gas()
+            return {"type" : self.to_gas(), "temp" : self.temp}
 
         if self.temp < type(self).min_temp:
-            return self.to_solid()
+            return {"type" : self.to_solid(), "temp" : self.temp}
         
 
 

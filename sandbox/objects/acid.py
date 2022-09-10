@@ -18,13 +18,13 @@ class Acid(Particle, Liquid):
     max_temp = 170
     min_temp = 0
 
-    def __init__(self, x, y):
+    def __init__(self, x, y, temp=temp):
         super().__init__(x, y, mass=0.9)
         Liquid.__init__(self)
         self.update_colour()
         self.wetness = 10
         self.strength = randint(15, 17)
-        self.temp = Acid.temp
+        self.temp = temp
 
     def to_gas(self):
         return Fume
@@ -72,11 +72,8 @@ class Acid(Particle, Liquid):
         self.update_temp(board)
 
         self.check_other(board)
-
-        if (
-            random() > 0.85 + (self.life_len / 1000)
-            and type(board[self.y - 1, self.x]) == Air
-        ):
+        up = type(board[self.y - 1, self.x]) == Air
+        if random() > 0.85 + (self.life_len / 1000) and up:
             board[self.y - 1, self.x] = Fume(self.x, self.y - 1)
 
         # update position

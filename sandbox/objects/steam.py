@@ -20,19 +20,19 @@ class Steam(Particle, Gas):
     """
 
     colour = (167, 203, 204)
-    temp = 227
+    temp = 250
 
     ### rules ###
     max_temp = 255
-    min_temp = 200
+    min_temp = 150
 
-    def __init__(self, x, y, thick=50):
+    def __init__(self, x, y, thick=50, temp=temp):
         super().__init__(x, y, mass=-5)
         self.thickness = thick
         self.update_colour()
         self.wetness = 5
         self.life_lim = randint(90, 110)
-        self.temp = Steam.temp
+        self.temp = temp
 
 
     def to_liquid(self):
@@ -49,10 +49,6 @@ class Steam(Particle, Gas):
 
         # time since created
         self.life_len += 1
-
-        # check not at top of board
-        if self.y == 0:
-            return
 
         # update position
         if pos := self.move(board):

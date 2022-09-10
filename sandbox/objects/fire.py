@@ -26,20 +26,20 @@ class Fire(Particle, Liquid):
     colour = (252, 152, 3)
     colours = list(Color(base_colour).range_to(Color("#fc0b03"), 5))
     colours = [[i * 255 for i in colour.rgb] for colour in colours]
-    temp = 255
+    temp = 175
 
 
     ### rules ###
     max_temp = 255
     min_temp = 100
 
-    def __init__(self, x, y, player_made=True):
+    def __init__(self, x, y, player_made=True, temp=temp):
         super().__init__(x, y, mass=-1, static=False, is_flame=True)
         self.life_lim = randint(15, 36)
         self.colour = choice(self.colours)
         self.colours = Fire.colours
         self.player_made = player_made
-        self.temp = Fire.temp
+        self.temp = temp
 
     # make sure water steams
     def check_wood(self, board):
@@ -85,9 +85,9 @@ class Fire(Particle, Liquid):
 
         if self.life_len > self.life_lim:
             if random() > 0.5:
-                return Smoke
+                return {"type": Smoke, "temp": self.temp}
             else:
-                return "dies"
+                return {"type": "dies"}
 
         self.update_colour(board)
         self.move(board)
@@ -95,6 +95,6 @@ class Fire(Particle, Liquid):
         # if on celling DIE
         if self.y == 0:
             if random() > 0.7:
-                return Smoke
+                return {"type": Smoke, "temp": self.temp}
             else:
-                return "dies"
+                return {"type": "dies"}

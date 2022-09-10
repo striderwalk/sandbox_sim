@@ -24,14 +24,14 @@ class Fume(Particle, Gas):
     max_temp = 255
     min_temp = 170
 
-    def __init__(self, x, y, thick=1):
+    def __init__(self, x, y, thick=1, temp=temp):
         super().__init__(x, y, mass=-4)
         self.thickness = thick
         self.update_colour()
         self.wetness = 15
         self.timeout = randint(20, 35)
         self.strength = 1
-        self.temp = Fume.temp
+        self.temp = temp
 
     def check_other(self, board):
         # check below
@@ -71,7 +71,7 @@ class Fume(Particle, Gas):
         # check for timeout
         # timeout = 100 ± 10
         if self.life_len > self.timeout:
-            return "dies"
+            return {"type": "dies"}
 
 
         # update position

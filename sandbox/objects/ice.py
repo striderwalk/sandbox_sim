@@ -8,18 +8,18 @@ class Ice(Particle, Solid):
     """
 
     colour = (63,208,212)
-    temp = 10
+    temp = 0
 
 
     ### rules ###
     max_temp = 20
     min_temp = 0
 
-    def __init__(self, x, y, health=100):
-        super().__init__(x, y, mass=1000, static=True, health=health)
+    def __init__(self, x, y, temp=temp):
+        super().__init__(x, y, mass=1000, static=True)
         Solid.__init__(self)
         self.update_colour()
-        self.temp = Ice.temp
+        self.temp = temp
 
     def to_liquid(self):
         from .water import Water

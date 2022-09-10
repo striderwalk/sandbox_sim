@@ -10,7 +10,7 @@ class Solid:
 
     def check_temp(self):
         if self.temp  > type(self).max_temp:
-            return self.to_liquid()
+            return {"type" : self.to_liquid(), "temp" : self.temp}
 
     def check(self):
         if self.health <= 0:

@@ -45,4 +45,4 @@ class Gas:
     def check_temp(self):
         # if cold go to solid
         if self.temp < type(self).min_temp:
-            return self.to_liquid() 
+            return {"type": self.to_liquid(), "temp": self.temp} 

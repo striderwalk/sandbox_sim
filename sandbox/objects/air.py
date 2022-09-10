@@ -10,10 +10,10 @@ class Air(Particle):
     temp = 85
 
     
-    def __init__(self, x, y):
+    def __init__(self, x, y, temp=temp):
         super().__init__(x, y, mass=0)
         self.colour = tuple(Air.colour)
-        self.temp = Air.temp
+        self.temp = temp
 
     def to_liquid(self):
         ...

@@ -24,13 +24,13 @@ class Wood(Particle, Solid):
     max_temp = 150
     min_temp = 0
 
-    def __init__(self, x, y):
+    def __init__(self, x, y, temp=temp):
         super().__init__(x, y, mass=1000, static=True, is_flame=False)
         Solid.__init__(self)
 
         self.update_colour()
         self.fire_count = -1
-        self.temp = Wood.temp
+        self.temp = temp
 
     def to_liquid(self):
         self.fire_count += 3
@@ -102,7 +102,7 @@ class Wood(Particle, Solid):
 
         # check for rot level
         if self.colour[1] > 100:
-            return "dies"
+            return {"type" : "dies", "temp" : self.temp}
 
         # check if BURN
         elif self.colour[0] < 10 or self.colour[1] < 10:
@@ -131,9 +131,9 @@ class Wood(Particle, Solid):
 
         elif self.fire_count == 0:
             if random() > 0.4:
-                return Ash
+                return {"type" : Ash, "temp" : self.temp}
             else:
-                return "dies"
+                return {"type" : "dies", "temp" : self.temp}
 
     
         return self.check_temp()

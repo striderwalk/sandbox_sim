@@ -15,11 +15,11 @@ class Sand(Particle, Solid):
     max_temp = 200
     min_temp = 0
 
-    def __init__(self, x, y):
+    def __init__(self, x, y, temp=temp):
         super().__init__(x, y, mass=20)
         Solid.__init__(self)
         self.update_colour()
-        self.temp = Sand.temp
+        self.temp = temp
 
     def to_liquid(self):
         from .lava import Lava

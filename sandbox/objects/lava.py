@@ -26,42 +26,14 @@ class Lava(Particle, Liquid):
     max_temp = 255
     min_temp = 200
 
-    def __init__(self, x, y):
+    def __init__(self, x, y, temp=temp):
         super().__init__(x, y, mass=1, is_flame=True)
         Liquid.__init__(self)
 
         self.update_colour()
         self.wetness = 3
 
-        self.temp = Lava.temp
-
-    def check_water(self, board):
-        from .water import Water
-
-        up = self.y != 0
-        down = self.y < len(board)-1
-        left = self.x != len(board[0]) - 1 
-        right = self.x != 0
-
-        if (
-            up and type(board[self.y - 1, self.x]) == Water
-        ):  # check above if not on top
-            board[self.y - 1, self.x] = Steam(self.x, self.y - 1)
-            return "dies"
-
-        if down and type(board[self.y + 1, self.x]) == Water:  # check below
-            board[self.y + 1, self.x] = Stone(self.x, self.y - 1)
-            return Stone
-        if (
-            right and type(board[self.y, self.x - 1]) == Water
-        ):  # check right if not on edge
-            board[self.y, self.x - 1] = Stone(self.x - 1, self.y)
-            return Stone
-        if (
-            left and type(board[self.y, self.x + 1]) == Water
-        ):  # check left if not on edge
-            board[self.y, self.x + 1] = Stone(self.x + 1, self.y)
-            return Stone
+        self.temp = temp
 
     def to_gas(self):
         return No0ne
@@ -80,9 +52,6 @@ class Lava(Particle, Liquid):
         # time since created
         self.life_len += 1
 
-        # check for water
-        if res := self.check_water(board):
-            return res
 
         # update position
         if pos := self.move(board):

@@ -11,6 +11,7 @@ from slots import setup
 setup()
 
 
+
 def main():
     pygame.init()
     win = pygame.display.set_mode((WIDTH, HEIGHT))
