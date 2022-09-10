@@ -20,18 +20,16 @@ class Lava(Particle, Liquid):
     """
 
     colour = (245, 134, 70)
-    directer = 3
-
+    temp = 500
+ 
     def __init__(self, x, y):
-        super().__init__(x, y, mass=1)
+        super().__init__(x, y, mass=1, is_flame=True)
         Liquid.__init__(self)
 
         self.update_colour()
         self.wetness = 3
 
-        # if -1 move self if 1 move right
-        self.direct = Lava.directer
-        Lava.directer *= -1
+        self.temp = Lava.temp
 
     def check_water(self, board):
         from .water import Water
@@ -60,6 +58,9 @@ class Lava(Particle, Liquid):
         # check if update needed
         if self.check_self(board):
             return
+
+        # update temp
+        self.update_temp(board)
 
         # flip side
         self.direct *= -1

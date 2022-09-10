@@ -10,17 +10,19 @@ from slots import setup
 # make sure the is a saves folder
 setup()
 
+
 def main():
     pygame.init()
     win = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("SandBox")
     pygame.mouse.set_visible(False)
     slot = menu(win)
-    loading(win)
+    print(slot)
+    loading(win, slot_text=f"slot {slot[0]}")
     run = True
     while run:
         if (res := run_sim(win, slot))["type"] == "end":
-            loading(win, 5)
+            loading(win, 10)
             save(win, res["board"], res["img"])
             end()
 
@@ -28,9 +30,8 @@ def main():
             loading(win)
             save(win, res["board"], res["img"])
             loading(win)
-            menu(win)
+            slot = menu(win)
 
 
 if __name__ == "__main__":
     main()
-

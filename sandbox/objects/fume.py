@@ -18,6 +18,7 @@ class Fume(Particle, Gas):
     """
 
     colour = (214, 245, 167)
+    temp = 7
 
     def __init__(self, x, y, thick=1):
         super().__init__(x, y, mass=-4)
@@ -26,6 +27,7 @@ class Fume(Particle, Gas):
         self.wetness = 15
         self.timeout = randint(20, 35)
         self.strength = 1
+        self.temp = Fume.temp
 
     def check_other(self, board):
         # check below
@@ -47,10 +49,17 @@ class Fume(Particle, Gas):
             # kill other
             board[self.y, self.x - 1].health -= self.strength
 
+    def to_liquid(self):
+        return "dies"
+
+
     def update(self, board):
         # check if update needed
         if self.check_self(board):
             return
+
+        # update temp
+        self.update_temp(board)
 
         # time since created
         self.life_len += 1
@@ -60,9 +69,6 @@ class Fume(Particle, Gas):
         if self.life_len > self.timeout:
             return "dies"
 
-        # check not at top of board
-        if self.y == 0:
-            return
 
         # update position
         if pos := self.move(board):
@@ -71,3 +77,5 @@ class Fume(Particle, Gas):
         # spread
         if random() > 0.5:
             self.copy(board)
+
+        return self.check_temp()

@@ -12,13 +12,17 @@ class Acid(Particle, Liquid):
     """
 
     colour = (62, 243, 65)
-
+    temp = 4
     def __init__(self, x, y):
         super().__init__(x, y, mass=0.9)
         Liquid.__init__(self)
         self.update_colour()
         self.wetness = 10
         self.strength = randint(15, 17)
+        self.temp = Acid.temp
+
+    def to_gas(self):
+        return Fume
 
     def check_other(self, board):
         # check below
@@ -49,15 +53,20 @@ class Acid(Particle, Liquid):
         if action and random() > 0.5 and type(board[self.y - 1, self.x]) in [Air, Acid]:
             board[self.y - 1, self.x] = Fume(self.x, self.y - 1)
 
-
     def update(self, board):
         self.life_len += 1
+        self.update_temp(board)
 
         self.check_other(board)
 
-        if random() > 0.85+(self.life_len/1000) and type(board[self.y - 1, self.x]) == Air:
+        if (
+            random() > 0.85 + (self.life_len / 1000)
+            and type(board[self.y - 1, self.x]) == Air
+        ):
             board[self.y - 1, self.x] = Fume(self.x, self.y - 1)
 
         # update position
         if pos := self.move(board):
             self.moveTo(board, *pos)
+
+        return self.check_temp()

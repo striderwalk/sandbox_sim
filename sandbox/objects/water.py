@@ -20,7 +20,7 @@ class Water(Particle, Liquid):
     """
 
     colour = (64, 154, 245)
-    directer = 1
+    temp = 3
 
     def __init__(self, x, y, make_steam=True):
         # make_steam stop water condense duplicating
@@ -30,11 +30,15 @@ class Water(Particle, Liquid):
         self.update_colour()
         self.wetness = 10
         self.make_steam = make_steam
+        self.temp = Water.temp
 
-    def check_lava(self, board):
+    def to_gas(self):
+        return Steam
+
+    def check_flame(self, board):
         # check for lava
-        if type(board[self.y + 1][self.x]) == Lava:  # check below
-            return Steam
+        # if board[self.y + 1][self.x].is_flame:  # check below
+            # return Steam
         if type(board[self.y - 1][self.x]) == Lava:  # check above if not on top
             board[self.y - 1][self.x] = Stone(self.x, self.y - 1)
             return Stone
@@ -43,7 +47,7 @@ class Water(Particle, Liquid):
         ):  # check right if not on edge
             board[self.y][self.x - 1] = Stone(self.x - 1, self.y)
             return Stone
-        
+
         if (
             self.x < len(board[self.y]) - 1 and type(board[self.y][self.x + 1]) == Lava
         ):  # check left if not on edge
@@ -53,6 +57,10 @@ class Water(Particle, Liquid):
     def update(self, board):
         if self.check_self(board):
             return
+
+        # update temp
+        self.update_temp(board)
+
         # time since created
         self.life_len += 1
 
@@ -60,8 +68,10 @@ class Water(Particle, Liquid):
         if self.y == len(board) - 1:
             return
         # check for lava
-        if self.make_steam and (res := self.check_lava(board)):
+        if self.make_steam and (res := self.check_flame(board)):
             return res
         # update position
         if pos := self.move(board):
             self.moveTo(board, *pos)
+
+        return self.check_temp()

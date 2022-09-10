@@ -1,4 +1,5 @@
 from .air import Air
+from .rules import temp_rules
 from random import shuffle
 
 
@@ -11,6 +12,14 @@ class Liquid:
 
     def __init__(self):
         self.type = "liquid"
+
+    def check_temp(self):
+        if self.temp  > temp_rules["liquid"]["max"]:
+            return self.to_gas()
+        ### add freze
+        
+
+
 
     def move(self, board):
         """

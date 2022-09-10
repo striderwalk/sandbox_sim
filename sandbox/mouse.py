@@ -11,6 +11,8 @@ from conts import (
 )
 
 MAX_SIZE = 20
+
+
 class Mouse:
     """
     handle cursor
@@ -26,9 +28,8 @@ class Mouse:
         if num < 0 and 0 < self.size:
             self.size += num
 
-        elif self.size <= MAX_SIZE-1:
+        elif self.size <= MAX_SIZE - 1:
             self.size += num
-
 
     def press(self, board, x, y, obj, *, keep=False, place_obj=None):
         # if keep only replace Air

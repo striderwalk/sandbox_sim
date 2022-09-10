@@ -14,6 +14,8 @@ class Fountain(Particle):
         super().__init__(x, y, mass=1000, static=True)
         self.obj = obj
 
+        self.temp = obj.temp
+
     def update(self, board):
         for _, other in self.get_neighbours(board, 3):
             if self.obj != Air:

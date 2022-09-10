@@ -47,6 +47,9 @@ def input_handle(mouse, board, selection, index, pause):
             if event.key == pygame.K_LCTRL:
                 index = (index - 1) % len(particles)
 
+            if event.key == pygame.K_t:
+                return "temp"
+
             if event.key == pygame.K_LSHIFT:
                 if pause:
                     return "play"

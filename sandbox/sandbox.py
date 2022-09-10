@@ -7,6 +7,7 @@ from .objects.fountain import Fountain
 from conts import ROWS, COLS, CELL_WIDTH, CELL_HEIGHT
 from .get_particles import particles
 
+
 class Box:
     """
     a container for all particles
@@ -44,15 +45,23 @@ class Box:
                         pass
         print(f"created board of size {len(self.board)} x {len(self.board[0])}")
 
-    def draw_particles(self, win, show_fountain=True):
+    def draw_particles(self, win, show_temp=False, show_fountain=True):
         # draw all particles
         for i, row in enumerate(self.board):
             for j, val in enumerate(row):
                 # if air not dawn to save time
-                if type(val) not in [Air, Fountain]:
+                if not show_temp:
+                    options = [Fountain, Air]
+                else:
+                    options = [Fountain]
+                if type(val) not in options:
+                    if show_temp:
+                        colour = val.temp_colour
+                    else:
+                        colour = val.colour 
                     pygame.draw.rect(
                         win,
-                        val.colour,
+                        colour,
                         [j * CELL_WIDTH, i * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT],
                     )
                 elif type(val) == Fountain:
@@ -66,7 +75,6 @@ class Box:
                         colour,
                         [j * CELL_WIDTH, i * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT],
                     )
-
 
     def add_particle(
         self, x, y, obj, *, strict=False, place_obj=None, health=10
@@ -87,9 +95,9 @@ class Box:
         else:
             self.board[y, x] = obj(x, y)
 
-    def update(self, win: pygame.surface, fnum: int, pause: bool = False, show_fountain = True) -> None:
+    def update(self, win, fnum, pause, show_temp, show_fountain=True ):
         # DRAW THINGS!!!!
-        self.draw_particles(win, show_fountain)
+        self.draw_particles(win, show_temp, show_fountain)
         if pause:
             return
 
@@ -158,7 +166,7 @@ class Box:
                 if type(item) == Air:
                     continue
                 if item.y != y or item.x != x:
-                    logging.warning("{item=} pos needed fixing to {x=}, {y=}")
+                    logging.warning(f"{item=} pos needed fixing to {x=}, {y=}")
                 item.x = x
                 item.y = y
                 item.load = None
