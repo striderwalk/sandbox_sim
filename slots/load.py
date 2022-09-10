@@ -4,7 +4,6 @@ import logging
 import numpy as np
 import pygame
 from .key import keys
-import pprint
 
 inverted_keys = {key: value for (value, key) in keys.items()}
 
@@ -20,7 +19,6 @@ def convert_data(data):
             else:
                 new = inverted_keys[i](x, y)
             board[-1].append(new)
-    print(board)
     return np.array(board)
 
 

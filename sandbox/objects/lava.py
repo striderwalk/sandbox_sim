@@ -20,7 +20,7 @@ class Lava(Particle, Liquid):
     """
 
     colour = (245, 134, 70)
-    temp = 500
+    temp = 255
  
     def __init__(self, x, y):
         super().__init__(x, y, mass=1, is_flame=True)
@@ -34,25 +34,36 @@ class Lava(Particle, Liquid):
     def check_water(self, board):
         from .water import Water
 
+        up = self.y != 0
+        down = self.y < len(board)-1
+        left = self.x != len(board[0]) - 1 
+        right = self.x != 0
+
         if (
-            type(board[self.y - 1, self.x]) == Water and self.y != 0
+            up and type(board[self.y - 1, self.x]) == Water
         ):  # check above if not on top
             board[self.y - 1, self.x] = Steam(self.x, self.y - 1)
             return "dies"
 
-        if type(board[self.y + 1, self.x]) == Water:  # check below
+        if down and type(board[self.y + 1, self.x]) == Water:  # check below
             board[self.y + 1, self.x] = Stone(self.x, self.y - 1)
             return Stone
         if (
-            type(board[self.y, self.x - 1]) == Water and self.x != 0
+            right and type(board[self.y, self.x - 1]) == Water
         ):  # check right if not on edge
             board[self.y, self.x - 1] = Stone(self.x - 1, self.y)
             return Stone
         if (
-            self.x != len(board[0]) - 1 and type(board[self.y, self.x + 1]) == Water
+            left and type(board[self.y, self.x + 1]) == Water
         ):  # check left if not on edge
             board[self.y, self.x + 1] = Stone(self.x + 1, self.y)
             return Stone
+
+    def to_gas(self):
+        return None
+
+    def to_solid(self):
+        return Stone
 
     def update(self, board):
         # check if update needed
@@ -62,14 +73,8 @@ class Lava(Particle, Liquid):
         # update temp
         self.update_temp(board)
 
-        # flip side
-        self.direct *= -1
         # time since created
         self.life_len += 1
-
-        # check not at bottom of board
-        if len(board) - 1 == self.y:
-            return
 
         # check for water
         if res := self.check_water(board):
@@ -78,3 +83,6 @@ class Lava(Particle, Liquid):
         # update position
         if pos := self.move(board):
             self.moveTo(board, *pos)
+
+
+        return self.check_temp()

@@ -16,7 +16,9 @@ class Liquid:
     def check_temp(self):
         if self.temp  > temp_rules["liquid"]["max"]:
             return self.to_gas()
-        ### add freze
+
+        if self.temp < temp_rules["liquid"]["min"]:
+            return self.to_solid()
         
 
 

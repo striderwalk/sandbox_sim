@@ -59,11 +59,15 @@ class Box:
                         colour = val.temp_colour
                     else:
                         colour = val.colour 
-                    pygame.draw.rect(
-                        win,
-                        colour,
-                        [j * CELL_WIDTH, i * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT],
-                    )
+                    try:
+                        pygame.draw.rect(
+                            win,
+                            colour,
+                            [j * CELL_WIDTH, i * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT],
+                        )
+                    except ValueError as e:
+                        print(val)
+                        raise e
                 elif type(val) == Fountain:
                     if show_fountain:
                         colour = val.colour

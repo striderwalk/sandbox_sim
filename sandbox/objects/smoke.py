@@ -17,7 +17,7 @@ class Smoke(Particle, Gas):
     """
 
     colour = (7, 53, 54)
-    temp = 9
+    temp = 240
 
     def __init__(self, x, y, thick=1):
         super().__init__(x, y, mass=-4)

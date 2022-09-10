@@ -26,7 +26,7 @@ class Fire(Particle, Liquid):
     colour = (252, 152, 3)
     colours = list(Color(base_colour).range_to(Color("#fc0b03"), 5))
     colours = [[i * 255 for i in colour.rgb] for colour in colours]
-    temp = 500
+    temp = 255
 
     def __init__(self, x, y, player_made=True):
         super().__init__(x, y, mass=-1, static=False, is_flame=True)

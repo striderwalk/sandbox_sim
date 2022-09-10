@@ -20,7 +20,7 @@ class Water(Particle, Liquid):
     """
 
     colour = (64, 154, 245)
-    temp = 3
+    temp = 165
 
     def __init__(self, x, y, make_steam=True):
         # make_steam stop water condense duplicating
@@ -34,6 +34,10 @@ class Water(Particle, Liquid):
 
     def to_gas(self):
         return Steam
+
+    def to_solid(self):
+        return None
+        
 
     def check_flame(self, board):
         # check for lava

@@ -12,7 +12,7 @@ class Acid(Particle, Liquid):
     """
 
     colour = (62, 243, 65)
-    temp = 4
+    temp = 165
     def __init__(self, x, y):
         super().__init__(x, y, mass=0.9)
         Liquid.__init__(self)
@@ -24,28 +24,37 @@ class Acid(Particle, Liquid):
     def to_gas(self):
         return Fume
 
+    def to_solid(self):
+        return None
+
     def check_other(self, board):
+
+        up = self.y != 0
+        down = self.y < len(board)-1
+        left = self.x != len(board[0]) - 1 
+        right = self.x != 0
+
         # check below
         action = False
-        if self.y < len(board) - 1 and board[self.y + 1, self.x].type == "solid":
+        if down and board[self.y + 1, self.x].type == "solid":
             # kill other
             board[self.y + 1, self.x].health -= self.strength
             action = True
 
         # check above
-        if self.y > 0 and board[self.y - 1, self.x].type == "solid":
+        if up and board[self.y - 1, self.x].type == "solid":
             # kill other
             board[self.y - 1, self.x].health -= self.strength
             action = True
 
         # check left
-        if self.x < len(board) - 1 and board[self.y, self.x + 1].type == "solid":
+        if left and board[self.y, self.x + 1].type == "solid":
             # kill other
             board[self.y, self.x + 1].health -= self.strength
             action = True
 
         # check right
-        if self.x != 0 and board[self.y, self.x - 1].type == "solid":
+        if right and board[self.y, self.x - 1].type == "solid":
             # kill other
             board[self.y, self.x - 1].health -= self.strength
             action = True

@@ -17,9 +17,18 @@ class Stone(Particle, Solid):
         self.update_colour()
         self.temp = Stone.temp
 
+    def to_liquid(self):
+        from .lava import Lava
+        return Lava
+
     def update(self, board):
         if res := self.check():
             return res
 
         # update temp
+        # print()
+        # print(self.temp)
         self.update_temp(board)
+        # print(self.temp)
+        return self.check_temp()
+

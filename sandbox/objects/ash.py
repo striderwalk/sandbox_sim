@@ -10,13 +10,18 @@ class Ash(Particle, Solid):
     """
 
     colour = (54, 69, 79)
-    temp = 3 
+    temp = 85 
 
     def __init__(self, x, y):
         super().__init__(x, y, mass=20)
         Solid.__init__(self)
         self.update_colour()
         self.temp = Ash.temp
+
+
+    def to_liquid(self):
+        ### go to smoke for now ###
+        return Smoke
 
     def update(self, board):
         if res := self.check():
@@ -39,6 +44,5 @@ class Ash(Particle, Solid):
         # update pos
         if board[self.y + 1, self.x].mass < self.mass:
             self.moveTo(board, self.x, self.y + 1)
-        # check not at bottom of board
-        if self.y == len(board) - 1:
-            return
+
+        return self.check_temp()

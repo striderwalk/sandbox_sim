@@ -17,6 +17,10 @@ class Sand(Particle, Solid):
         self.update_colour()
         self.temp = Sand.temp
 
+    def to_liquid(self):
+        from .lava import Lava
+        return Lava
+
     def update(self, board):
         if res := self.check():
             return res
@@ -34,6 +38,6 @@ class Sand(Particle, Solid):
         # update pos
         if board[self.y + 1, self.x].mass < self.mass:
             self.moveTo(board, self.x, self.y + 1)
-        # check not at bottom of board
-        if self.y == len(board) - 1:
-            return
+
+
+        return self.check_temp()

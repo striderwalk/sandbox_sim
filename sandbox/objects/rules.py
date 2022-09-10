@@ -1,14 +1,14 @@
 temp_rules = { 
                 "gas": {
-                        "min": 6
+                        "min": 170
                     },
 
                 "liquid": {
-                        "min": 3,
-                        "max": 5
+                        "min": 85,
+                        "max": 170
                     },
 
                 "solid": {
-                        "max": 2
+                        "max": 85
                         }
             }

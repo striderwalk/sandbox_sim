@@ -14,7 +14,7 @@ class Gren(Particle, Solid):
         super().__init__(x, y, mass=1000, static=True)
         Solid.__init__(self)
         self.update_colour()
-        self.temp = Stone.temp
+        self.temp = Gren.temp
 
     def update(self, board):
         if res := self.check():

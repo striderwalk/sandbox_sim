@@ -7,7 +7,7 @@ class Air(Particle):
     """
 
     colour = (255, 255, 255)
-    temp = 6
+    temp = 170
     
     def __init__(self, x, y):
         super().__init__(x, y, mass=0)

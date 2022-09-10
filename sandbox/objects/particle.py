@@ -1,9 +1,5 @@
 from random import randint
 import numpy as np
-import math
-
-print("this file has been loaded")
-
 
 class Particle:
     """
@@ -50,28 +46,24 @@ class Particle:
 
 
     def update_temp(self, board):
-
+        if self.is_flame:
+            self.temp -= 0.1
         # find neigbours 
-        others = [self] # include self in avage
+        others = [self.temp] # include self in avage
         if self.y >= 0: # above
-            other = board[self.y][self.x]
-            others.append(other)
+            other = board[self.y-1][self.x]
+            others.append(other.temp)
         if self.y < len(board)-1: # below
-            other = board[self.y][self.x]
-            others.append(other)
+            other = board[self.y+1][self.x]
+            others.append(other.temp)
         if self.x >= 0: # left 
-            other = board[self.y][self.x]
-            others.append(other)
+            other = board[self.y][self.x-1]
+            others.append(other.temp)
         if self.x < len(board[self.y])-1: # right
-            other = board[self.y][self.x]
-            others.append(other)
+            other = board[self.y][self.x+1]
+            others.append(other.temp)
+        self.temp = sum(others) / len(others)
 
-        # caculate new temp
-        temp = 0
-        for i in others:
-            temp += other.temp
-
-        self.temp = temp / len(others)
 
     def update_colour(self):
         # randomly change rbg colour values
@@ -135,4 +127,4 @@ class Particle:
             return False
 
     def __repr__(self):
-        return f"{type(self).__name__} of mass {self.mass} at {self.x}, {self.y}"
+        return f"{type(self).__name__} of mass {self.mass} and temp {self.temp} at {self.x}, {self.y}"
