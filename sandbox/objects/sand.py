@@ -9,7 +9,11 @@ class Sand(Particle, Solid):
     """
 
     colour = (222, 207, 111)
-    temp = 0
+    temp = 100
+
+    ### rules ###
+    max_temp = 200
+    min_temp = 0
 
     def __init__(self, x, y):
         super().__init__(x, y, mass=20)

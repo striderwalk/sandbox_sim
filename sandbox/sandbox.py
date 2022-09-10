@@ -129,7 +129,7 @@ class Box:
         # update board for other things
         for row in self.board:
             for item in row:
-                if item.count != fnum and item.mass < 0:  # if fnum same already updated
+                if item.count != fnum and item.mass <= 0:  # if fnum same already updated
 
                     # check for death in particle
                     if (result := item.update(self.board)) == "dies":

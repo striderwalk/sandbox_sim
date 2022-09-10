@@ -58,6 +58,9 @@ def input_handle(mouse, board, selection, index, pause):
             if event.key == pygame.K_ESCAPE:
                 return "menu"
 
+            if event.key == pygame.K_RETURN:
+                return "update"
+
         if event.type == pygame.QUIT:
             return "end"
 

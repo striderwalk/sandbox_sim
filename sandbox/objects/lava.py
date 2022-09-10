@@ -21,7 +21,11 @@ class Lava(Particle, Liquid):
 
     colour = (245, 134, 70)
     temp = 255
- 
+    
+    ### rules ###
+    max_temp = 255
+    min_temp = 200
+
     def __init__(self, x, y):
         super().__init__(x, y, mass=1, is_flame=True)
         Liquid.__init__(self)
@@ -60,7 +64,7 @@ class Lava(Particle, Liquid):
             return Stone
 
     def to_gas(self):
-        return None
+        return No0ne
 
     def to_solid(self):
         return Stone

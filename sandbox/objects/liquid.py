@@ -1,5 +1,4 @@
 from .air import Air
-from .rules import temp_rules
 from random import shuffle
 
 
@@ -14,10 +13,10 @@ class Liquid:
         self.type = "liquid"
 
     def check_temp(self):
-        if self.temp  > temp_rules["liquid"]["max"]:
+        if self.temp  > type(self).max_temp:
             return self.to_gas()
 
-        if self.temp < temp_rules["liquid"]["min"]:
+        if self.temp < type(self).min_temp:
             return self.to_solid()
         
 

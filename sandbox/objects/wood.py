@@ -18,7 +18,11 @@ class Wood(Particle, Solid):
     """
 
     colour = (90, 50, 6)
-    temp = 75
+    temp = 100
+
+    ### rules ###
+    max_temp = 150
+    min_temp = 0
 
     def __init__(self, x, y):
         super().__init__(x, y, mass=1000, static=True, is_flame=False)

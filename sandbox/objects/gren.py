@@ -9,7 +9,8 @@ class Gren(Particle, Solid):
     """
 
     colour = (22, 166, 24)
-    temp = 0
+    temp = 100
+
     def __init__(self, x, y):
         super().__init__(x, y, mass=1000, static=True)
         Solid.__init__(self)

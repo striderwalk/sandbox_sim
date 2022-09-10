@@ -1,5 +1,3 @@
-from .rules import temp_rules
-
 class Solid:
     """
     a base class for all solids
@@ -11,7 +9,7 @@ class Solid:
 
 
     def check_temp(self):
-        if self.temp  > temp_rules["solid"]["max"]:
+        if self.temp  > type(self).max_temp:
             return self.to_liquid()
 
     def check(self):

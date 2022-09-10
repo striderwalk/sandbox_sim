@@ -20,7 +20,11 @@ class Steam(Particle, Gas):
     """
 
     colour = (167, 203, 204)
-    temp = 235
+    temp = 227
+
+    ### rules ###
+    max_temp = 255
+    min_temp = 200
 
     def __init__(self, x, y, thick=50):
         super().__init__(x, y, mass=-5)

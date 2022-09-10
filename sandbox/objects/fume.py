@@ -18,7 +18,11 @@ class Fume(Particle, Gas):
     """
 
     colour = (214, 245, 167)
-    temp = 210
+    temp = 212
+
+    ### rules ###
+    max_temp = 255
+    min_temp = 170
 
     def __init__(self, x, y, thick=1):
         super().__init__(x, y, mass=-4)

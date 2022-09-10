@@ -28,6 +28,11 @@ class Fire(Particle, Liquid):
     colours = [[i * 255 for i in colour.rgb] for colour in colours]
     temp = 255
 
+
+    ### rules ###
+    max_temp = 255
+    min_temp = 100
+
     def __init__(self, x, y, player_made=True):
         super().__init__(x, y, mass=-1, static=False, is_flame=True)
         self.life_lim = randint(15, 36)
@@ -36,23 +41,7 @@ class Fire(Particle, Liquid):
         self.player_made = player_made
         self.temp = Fire.temp
 
-    def check_water(self, board):
-        # check for water
-        if (
-            self.y < len(board) - 1 and type(board[self.y + 1][self.x]) == Water
-        ):  # check below
-            return Steam
-        if type(board[self.y - 1][self.x]) == Water:  # check above if not on top
-            return Steam
-        if (
-            self.x != 0 and type(board[self.y][self.x - 1]) == Water
-        ):  # check right if not on edge
-            return Steam
-        if (
-            self.x < len(board) - 1 and type(board[self.y][self.x + 1]) == Water
-        ):  # check left if not on edge
-            return Steam
-
+    # make sure water steams
     def check_wood(self, board):
         # import here to stop circular import
         from .wood import Wood
@@ -89,8 +78,8 @@ class Fire(Particle, Liquid):
         self.update_temp(board)
         # check for wood to BURN!!
         self.check_wood(board)
-        if val := self.check_water(board):
-            return val
+        # if val := self.check_water(board):
+        #     return val
         # time since created
         self.life_len += 1
 

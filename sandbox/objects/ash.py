@@ -10,7 +10,11 @@ class Ash(Particle, Solid):
     """
 
     colour = (54, 69, 79)
-    temp = 85 
+    temp = 115
+
+    ### rules ###
+    max_temp = 230
+    min_temp = 0 
 
     def __init__(self, x, y):
         super().__init__(x, y, mass=20)

@@ -1,6 +1,7 @@
 from random import randint
 import numpy as np
 
+
 class Particle:
     """
     base class for all particles
@@ -26,12 +27,12 @@ class Particle:
         self.load = None
         self.count = 0
         self.life_len = 0
+        self.next_temp = type(self).temp
 
     @property
     def temp_colour(self):
-        red  = self.temp * 30
-        if red > 255:
-            red = 255 
+        red = self.temp
+
         return (red, 0, 0)
 
     def choice(self, options):
@@ -62,7 +63,7 @@ class Particle:
         if self.x < len(board[self.y])-1: # right
             other = board[self.y][self.x+1]
             others.append(other.temp)
-        self.temp = sum(others) / len(others)
+        self.next_temp = sum(others) / len(others)
 
 
     def update_colour(self):
@@ -100,6 +101,7 @@ class Particle:
         self.load = x, y
 
     def load_move(self, board):
+        self.temp = self.next_temp
         if not self.load:
             return
         x, y = self.load

@@ -12,7 +12,12 @@ class Acid(Particle, Liquid):
     """
 
     colour = (62, 243, 65)
-    temp = 165
+    temp = 85
+
+    ### rules ###
+    max_temp = 170
+    min_temp = 0
+
     def __init__(self, x, y):
         super().__init__(x, y, mass=0.9)
         Liquid.__init__(self)

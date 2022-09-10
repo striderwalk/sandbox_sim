@@ -7,14 +7,15 @@ from .liquid import Liquid
 # real thingz
 from .air import Air
 from .ash import Ash
-from .acid import Acid
-from .lava import Lava
-from .gren import Gren
-from .sand import Sand
 from .smoke import Smoke
+from .fume import Fume
+from .acid import Acid
+from .gren import Gren
 from .steam import Steam
-from .stone import Stone
 from .water import Water
+from .ice import Ice
+from .sand import Sand
+from .lava import Lava
+from .stone import Stone
 from .wood import Wood
 from .fire import Fire
-from .fume import Fume
