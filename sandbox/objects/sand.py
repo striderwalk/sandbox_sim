@@ -9,12 +9,13 @@ class Sand(Particle, Solid):
     """
 
     colour = (222, 207, 111)
+    temp = 0
 
     def __init__(self, x, y):
         super().__init__(x, y, mass=20)
         Solid.__init__(self)
         self.update_colour()
-        self.temp = 0
+        self.temp = Sand.temp
 
     def update(self, board):
         if res := self.check():

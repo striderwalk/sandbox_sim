@@ -1,6 +1,5 @@
 import pygame
 import itertools
-
 from conts import WIDTH, HEIGHT, LOWER_BOARDER
 from slots import load_path
 from .selection import Selection
@@ -10,7 +9,7 @@ from .get_particles import particles, objects
 
 class Background:
     def __init__(self):
-        self.board = Box(load_path("./assets/menu_board.pickle"))
+        self.board = Box(load_path("./assets/menu_board.json"))
         self.fnum = -1
 
     def draw_background(self, win):

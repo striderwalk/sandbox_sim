@@ -7,11 +7,12 @@ class Air(Particle):
     """
 
     colour = (255, 255, 255)
-
+    temp = 6
+    
     def __init__(self, x, y):
         super().__init__(x, y, mass=0)
         self.colour = tuple(Air.colour)
-        self.temp = 6
+        self.temp = Air.temp
 
     def to_liquid(self):
         ...

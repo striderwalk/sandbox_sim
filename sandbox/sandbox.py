@@ -45,7 +45,7 @@ class Box:
                         pass
         print(f"created board of size {len(self.board)} x {len(self.board[0])}")
 
-    def draw_particles(self, win, show_temp, show_fountain=True):
+    def draw_particles(self, win, show_temp=False, show_fountain=True):
         # draw all particles
         for i, row in enumerate(self.board):
             for j, val in enumerate(row):

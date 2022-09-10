@@ -18,6 +18,7 @@ class Wood(Particle, Solid):
     """
 
     colour = (90, 50, 6)
+    temps = 1
 
     def __init__(self, x, y):
         super().__init__(x, y, mass=1000, static=True, is_flame=False)
@@ -25,7 +26,7 @@ class Wood(Particle, Solid):
 
         self.update_colour()
         self.fire_count = -1
-        self.temp = 1
+        self.temp = Wood.temp
 
     @property
     def is_flame(self):

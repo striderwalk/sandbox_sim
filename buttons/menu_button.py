@@ -53,3 +53,7 @@ class Button:
         if self.rect.collidepoint(pos):
             if pygame.mouse.get_pressed()[0]:
                 return self.func
+
+    def click(self):
+         return self.func
+

@@ -45,3 +45,9 @@ def run(win):
 
         pygame.display.flip()
         clock.tick(60)
+
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    return index, buttons[0].click()(index)
+

@@ -10,12 +10,13 @@ class Ash(Particle, Solid):
     """
 
     colour = (54, 69, 79)
+    temp = 3 
 
     def __init__(self, x, y):
         super().__init__(x, y, mass=20)
         Solid.__init__(self)
         self.update_colour()
-        self.temp = 3
+        self.temp = Ash.temp
 
     def update(self, board):
         if res := self.check():

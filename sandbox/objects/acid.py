@@ -12,14 +12,14 @@ class Acid(Particle, Liquid):
     """
 
     colour = (62, 243, 65)
-
+    temp = 4
     def __init__(self, x, y):
         super().__init__(x, y, mass=0.9)
         Liquid.__init__(self)
         self.update_colour()
         self.wetness = 10
         self.strength = randint(15, 17)
-        self.temp = 4
+        self.temp = Acid.temp
 
     def to_gas(self):
         return Fume

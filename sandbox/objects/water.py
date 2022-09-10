@@ -20,7 +20,7 @@ class Water(Particle, Liquid):
     """
 
     colour = (64, 154, 245)
-    directer = 1
+    temp = 3
 
     def __init__(self, x, y, make_steam=True):
         # make_steam stop water condense duplicating
@@ -30,7 +30,7 @@ class Water(Particle, Liquid):
         self.update_colour()
         self.wetness = 10
         self.make_steam = make_steam
-        self.temp = 3
+        self.temp = Water.temp
 
     def to_gas(self):
         return Steam

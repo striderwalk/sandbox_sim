@@ -26,6 +26,7 @@ class Fire(Particle, Liquid):
     colour = (252, 152, 3)
     colours = list(Color(base_colour).range_to(Color("#fc0b03"), 5))
     colours = [[i * 255 for i in colour.rgb] for colour in colours]
+    temp = 500
 
     def __init__(self, x, y, player_made=True):
         super().__init__(x, y, mass=-1, static=False, is_flame=True)
@@ -33,7 +34,7 @@ class Fire(Particle, Liquid):
         self.colour = choice(self.colours)
         self.colours = Fire.colours
         self.player_made = player_made
-        self.temp = 500
+        self.temp = Fire.temp
 
     def check_water(self, board):
         # check for water

@@ -20,6 +20,7 @@ class Steam(Particle, Gas):
     """
 
     colour = (167, 203, 204)
+    temp = 9
 
     def __init__(self, x, y, thick=50):
         super().__init__(x, y, mass=-5)
@@ -27,7 +28,7 @@ class Steam(Particle, Gas):
         self.update_colour()
         self.wetness = 5
         self.life_lim = randint(90, 110)
-        self.temp = 9
+        self.temp = Steam.temp
 
 
     def to_liquid(self):

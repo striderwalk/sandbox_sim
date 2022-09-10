@@ -17,6 +17,7 @@ class Smoke(Particle, Gas):
     """
 
     colour = (7, 53, 54)
+    temp = 9
 
     def __init__(self, x, y, thick=1):
         super().__init__(x, y, mass=-4)
@@ -24,7 +25,7 @@ class Smoke(Particle, Gas):
         self.update_colour()
         self.wetness = 5
         self.timeout = randint(60, 80)
-        self.temp = 9
+        self.temp = Smoke.temp
 
 
     def to_liquid(self):

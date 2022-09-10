@@ -18,6 +18,7 @@ class Fume(Particle, Gas):
     """
 
     colour = (214, 245, 167)
+    temp = 7
 
     def __init__(self, x, y, thick=1):
         super().__init__(x, y, mass=-4)
@@ -26,7 +27,7 @@ class Fume(Particle, Gas):
         self.wetness = 15
         self.timeout = randint(20, 35)
         self.strength = 1
-        self.temp = 7
+        self.temp = Fume.temp
 
     def check_other(self, board):
         # check below
