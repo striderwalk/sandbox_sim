@@ -26,7 +26,7 @@ def input_handle(mouse, board, selection, index, pause):
         val = mouse.get_pos()
         if val[0] == "BOX":
             x, y = val[1:]
-            logging.info(board.board[y, x], f" really at {x=}, {y=}")
+            print(board.board[y, x], f" really at {x=}, {y=}")
 
     if keys[pygame.K_e]:
         val = mouse.get_pos()
@@ -57,6 +57,9 @@ def input_handle(mouse, board, selection, index, pause):
                     return "stop"
             if event.key == pygame.K_ESCAPE:
                 return "menu"
+
+            if event.key == pygame.K_RETURN:
+                return "update"
 
         if event.type == pygame.QUIT:
             return "end"

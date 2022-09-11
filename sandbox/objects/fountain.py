@@ -11,10 +11,11 @@ class Fountain(Particle):
     colour = (247, 227, 45)
 
     def __init__(self, x, y, obj):
-        super().__init__(x, y, mass=1000, static=True)
+        super().__init__(x, y, mass=1000, static=True, obj=obj)
         self.obj = obj
 
         self.temp = obj.temp
+        self.density = obj.density
 
     def update(self, board):
         for _, other in self.get_neighbours(board, 3):
@@ -23,3 +24,6 @@ class Fountain(Particle):
                     board[other.y, other.x] = self.obj(other.x, other.y)
             elif type(other) != Fountain:
                 board[other.y, other.x] = self.obj(other.x, other.y)
+
+    def __repr__(self):
+        return f"{type(self).__name__} of object {self.obj.__name__}"

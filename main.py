@@ -7,8 +7,10 @@ from conts import WIDTH, HEIGHT
 from menu import loading, menu, save, end
 from slots import setup
 
-# make sure the is a saves folder
+# sure the is a saves folder
 setup()
+
+
 
 
 def main():
@@ -17,7 +19,7 @@ def main():
     pygame.display.set_caption("SandBox")
     pygame.mouse.set_visible(False)
     slot = menu(win)
-    print(slot)
+    print(slot[0])
     loading(win, slot_text=f"slot {slot[0]}")
     run = True
     while run:

@@ -2,9 +2,9 @@ from .particle import Particle
 from .air import Air
 from .ash import Ash
 from .water import Water
-from .lava import Lava
 from .fire import Fire
 from .solid import Solid
+from .properties import wood_vals
 from random import random
 
 
@@ -18,15 +18,24 @@ class Wood(Particle, Solid):
     """
 
     colour = (90, 50, 6)
-    temps = 1
 
-    def __init__(self, x, y):
+    temp = wood_vals["start_temp"]
+
+    ### rules ###
+    max_temp = wood_vals["max_temp"]
+    min_temp = wood_vals["min_temp"]
+    density = wood_vals["density"]
+
+    def __init__(self, x, y, temp=temp):
         super().__init__(x, y, mass=1000, static=True, is_flame=False)
         Solid.__init__(self)
 
         self.update_colour()
         self.fire_count = -1
-        self.temp = Wood.temp
+        self.temp = temp
+
+    def to_liquid(self):
+        self.fire_count += 3
 
     @property
     def is_flame(self):
@@ -45,7 +54,7 @@ class Wood(Particle, Solid):
             rot = True
         if rot:
             if self.fire_count > 0:
-                self.fire_count = 0
+                self.fire_count = -10
             else: 
                 self.fire_count -= 1
 
@@ -95,7 +104,7 @@ class Wood(Particle, Solid):
 
         # check for rot level
         if self.colour[1] > 100:
-            return "dies"
+            return {"type" : "dies", "temp" : self.temp}
 
         # check if BURN
         elif self.colour[0] < 10 or self.colour[1] < 10:
@@ -124,6 +133,9 @@ class Wood(Particle, Solid):
 
         elif self.fire_count == 0:
             if random() > 0.4:
-                return Ash
+                return {"type" : Ash, "temp" : self.temp}
             else:
-                return "dies"
+                return {"type" : "dies", "temp" : self.temp}
+
+    
+        return self.check_temp()

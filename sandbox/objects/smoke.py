@@ -1,7 +1,7 @@
 from .particle import Particle
 from .gas import Gas
+from .properties import smoke_vals
 from random import random, randint
-
 
 class Smoke(Particle, Gas):
     """
@@ -17,15 +17,21 @@ class Smoke(Particle, Gas):
     """
 
     colour = (7, 53, 54)
-    temp = 9
+    
+    temp = smoke_vals["start_temp"]
 
-    def __init__(self, x, y, thick=1):
+    ### rules ###
+    max_temp = smoke_vals["max_temp"]
+    min_temp = smoke_vals["min_temp"]
+    density = smoke_vals["density"]
+
+    def __init__(self, x, y, thick=1, temp=temp):
         super().__init__(x, y, mass=-4)
         self.thickness = thick
         self.update_colour()
         self.wetness = 5
         self.timeout = randint(60, 80)
-        self.temp = Smoke.temp
+        self.temp = temp
 
 
     def to_liquid(self):
@@ -45,7 +51,7 @@ class Smoke(Particle, Gas):
         # check for timeout
         # timeout = 100 ± 10
         if self.life_len > self.timeout:
-            return "dies"
+            return {"type" : "dies", "temp" : self.temp}
 
         # update position
         if pos := self.move(board):

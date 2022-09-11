@@ -59,11 +59,15 @@ class Box:
                         colour = val.temp_colour
                     else:
                         colour = val.colour 
-                    pygame.draw.rect(
-                        win,
-                        colour,
-                        [j * CELL_WIDTH, i * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT],
-                    )
+                    try:
+                        pygame.draw.rect(
+                            win,
+                            colour,
+                            [j * CELL_WIDTH, i * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT],
+                        )
+                    except ValueError as e:
+                        print(val)
+                        raise e
                 elif type(val) == Fountain:
                     if show_fountain:
                         colour = val.colour
@@ -106,13 +110,15 @@ class Box:
             for item in row:
                 if item.count != fnum and item.mass > 0:  # if fnum same already updated
 
-                    # check for death in particle
-                    if (result := item.update(self.board)) == "dies":
+                     # check for death in particle
+                    if (result := item.update(self.board)) is None:
+                        pass
+                    elif result["type"] == "dies":
+                        item.load_move(self.board)
                         self.board[item.y, item.x] = Air(item.x, item.y)
-                    # if particle wants to go though a major change of behaviour
-                    elif result:
-                        self.board[item.y, item.x] = result(item.x, item.y)
-
+                    # if particle wants to go though a major change
+                    elif result["type"] is not None:
+                        self.board[item.y, item.x] = result["type"](item.x, item.y, temp=result["temp"]) 
                     # update count
                     self.board[item.y, item.x].count = fnum
             # move items
@@ -125,15 +131,17 @@ class Box:
         # update board for other things
         for row in self.board:
             for item in row:
-                if item.count != fnum and item.mass < 0:  # if fnum same already updated
+                if item.count != fnum and item.mass <= 0:  # if fnum same already updated
 
                     # check for death in particle
-                    if (result := item.update(self.board)) == "dies":
+                    if (result := item.update(self.board)) is None:
+                        pass
+                    elif result["type"] == "dies":
                         item.load_move(self.board)
                         self.board[item.y, item.x] = Air(item.x, item.y)
                     # if particle wants to go though a major change
                     elif result:
-                        self.board[item.y, item.x] = result(item.x, item.y)
+                        self.board[item.y, item.x] = result["type"](item.x, item.y, temp=result["temp"])
 
                     # update count
                     self.board[item.y, item.x].count = fnum

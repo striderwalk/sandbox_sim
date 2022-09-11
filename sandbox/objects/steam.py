@@ -1,6 +1,7 @@
 from .particle import Particle
 from .gas import Gas
 from .air import Air
+from .properties import steam_vals
 from random import random, randint
 
 
@@ -20,15 +21,21 @@ class Steam(Particle, Gas):
     """
 
     colour = (167, 203, 204)
-    temp = 9
+    
+    temp = steam_vals["start_temp"]
 
-    def __init__(self, x, y, thick=50):
+    ### rules ###
+    max_temp = steam_vals["max_temp"]
+    min_temp = steam_vals["min_temp"]
+    density = steam_vals["density"]
+
+    def __init__(self, x, y, thick=50, temp=temp):
         super().__init__(x, y, mass=-5)
         self.thickness = thick
         self.update_colour()
         self.wetness = 5
         self.life_lim = randint(90, 110)
-        self.temp = Steam.temp
+        self.temp = temp
 
 
     def to_liquid(self):
@@ -45,10 +52,6 @@ class Steam(Particle, Gas):
 
         # time since created
         self.life_len += 1
-
-        # check not at top of board
-        if self.y == 0:
-            return
 
         # update position
         if pos := self.move(board):

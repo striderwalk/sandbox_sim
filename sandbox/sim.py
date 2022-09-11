@@ -91,11 +91,15 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False, sh
             return {"type": "menu", "board": board, "img": get_sub_win(win, board)}
         elif res == "temp":
             show_temp = not show_temp
+        elif res == "update":
+            pause_time -= 1
+            board.update(win, fnum+1, False, show_temp)
+
 
         # display game data
-        fps_text = font.render(
-            f"{fnum}, fps={round(clock.get_fps(), 3)}", True, (0, 0, 0)
-        )
+        text = f"{fnum}, fps={round(clock.get_fps(), 3)}"
+        colour = [255*int(show_temp) for i in range(3)] 
+        fps_text = font.render(text, True, colour)
         win.blit(fps_text, (30, 30))
         if pause:
             paused_text = font.render("paused", True, (255, 0, 0))
@@ -106,4 +110,4 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False, sh
 
         win.fill((255, 255, 255))
         if not pause:
-            clock.tick(30)
+            clock.tick()

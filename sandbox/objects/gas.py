@@ -1,6 +1,5 @@
 from .air import Air
 from random import random, shuffle, randint
-from .rules import temp_rules
 
 
 class Gas:
@@ -45,5 +44,6 @@ class Gas:
 
     def check_temp(self):
         # if cold go to solid
-        if self.temp < temp_rules["gas"]["min"]:
-            return self.to_liquid(board) 
+        is_min_temp = type(self).min_temp is not None
+        if is_min_temp and self.temp < type(self).min_temp:
+            return {"type": self.to_liquid(), "temp": self.temp} 

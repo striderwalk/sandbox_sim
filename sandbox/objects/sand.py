@@ -1,6 +1,6 @@
 from .particle import Particle
 from .solid import Solid
-
+from .properties import sand_vals
 
 class Sand(Particle, Solid):
     """
@@ -9,13 +9,23 @@ class Sand(Particle, Solid):
     """
 
     colour = (222, 207, 111)
-    temp = 0
+    
+    temp = sand_vals["start_temp"]
 
-    def __init__(self, x, y):
+    ### rules ###
+    max_temp = sand_vals["max_temp"]
+    min_temp = sand_vals["min_temp"]
+    density = sand_vals["density"]
+
+    def __init__(self, x, y, temp=temp):
         super().__init__(x, y, mass=20)
         Solid.__init__(self)
         self.update_colour()
-        self.temp = Sand.temp
+        self.temp = temp
+
+    def to_liquid(self):
+        from .lava import Lava
+        return Lava
 
     def update(self, board):
         if res := self.check():
@@ -34,6 +44,6 @@ class Sand(Particle, Solid):
         # update pos
         if board[self.y + 1, self.x].mass < self.mass:
             self.moveTo(board, self.x, self.y + 1)
-        # check not at bottom of board
-        if self.y == len(board) - 1:
-            return
+
+
+        return self.check_temp()

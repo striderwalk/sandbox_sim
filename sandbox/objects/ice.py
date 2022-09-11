@@ -1,21 +1,20 @@
 from .particle import Particle
 from .solid import Solid
-from .properties import gren_vals
+from .properties import ice_vals
 
-class Gren(Particle, Solid):
+class Ice(Particle, Solid):
     """
-    gren is good
-
+    a solid water
     """
 
-    colour = (22, 166, 24)
+    colour = (63,208,212)
     
-    temp = gren_vals["start_temp"]
+    temp = ice_vals["start_temp"]
 
     ### rules ###
-    max_temp = gren_vals["max_temp"]
-    min_temp = gren_vals["min_temp"]
-    density = gren_vals["density"]
+    max_temp = ice_vals["max_temp"]
+    min_temp = ice_vals["min_temp"]
+    density = ice_vals["density"]
 
     def __init__(self, x, y, temp=temp):
         super().__init__(x, y, mass=1000, static=True)
@@ -23,9 +22,15 @@ class Gren(Particle, Solid):
         self.update_colour()
         self.temp = temp
 
+    def to_liquid(self):
+        from .water import Water
+        return Water
+
     def update(self, board):
         if res := self.check():
             return res
 
         # update temp
         self.update_temp(board)
+        return self.check_temp()
+

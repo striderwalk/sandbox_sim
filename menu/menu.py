@@ -25,7 +25,7 @@ def run(win):
     index = 0
     slots = Slots(get_saved())
     # make menu buttons
-    buttons = make_menu_buttons([("  play  ", load_slot), ("  exit  ", end)])
+    buttons = make_menu_buttons([("  start  ", load_slot), ("  exit  ", end)])
     background = Background()
     while True:
         # clear screen

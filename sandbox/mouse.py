@@ -24,12 +24,11 @@ class Mouse:
         self.size = size
 
     def scale(self, num):
-        # change cursor size
-        if num < 0 and 0 < self.size:
-            self.size += num
+        # find new size
+        new = self.size + num
 
-        elif self.size <= MAX_SIZE - 1:
-            self.size += num
+        if new > 0 and new < MAX_SIZE:
+            self.size = new
 
     def press(self, board, x, y, obj, *, keep=False, place_obj=None):
         # if keep only replace Air

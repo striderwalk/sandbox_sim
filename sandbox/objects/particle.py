@@ -1,9 +1,11 @@
 from random import randint
 import numpy as np
-import math
+from colour import Color
 
-print("this file has been loaded")
+HEAT_MAP = list(Color("#0000ff").range_to(Color("#ff0000"), 501))
+HEAT_MAP = [[i * 255 for i in colour.rgb] for colour in HEAT_MAP]
 
+    
 
 class Particle:
     """
@@ -14,7 +16,7 @@ class Particle:
      - find neighbours
     """
 
-    def __init__(self, x, y, mass=0, static=False, flamable=False, is_flame=False, health=100):
+    def __init__(self, x, y, mass=0, static=False, flamable=False, is_flame=False, health=100, obj=None):
         self.x = x
         self.y = y
         self.mass = mass
@@ -30,13 +32,14 @@ class Particle:
         self.load = None
         self.count = 0
         self.life_len = 0
+        if obj is not None:
+             self.next_temp = obj.temp
+        else:
+            self.next_temp = type(self).temp
 
     @property
     def temp_colour(self):
-        red  = self.temp * 30
-        if red > 255:
-            red = 255 
-        return (red, 0, 0)
+        return HEAT_MAP[int(min(500, self.temp+100))]
 
     def choice(self, options):
         probs = [1 / len(options) for _ in options]
@@ -50,28 +53,39 @@ class Particle:
 
 
     def update_temp(self, board):
-
+        if self.is_flame:
+            self.temp -= 0.1
         # find neigbours 
-        others = [self] # include self in avage
-        if self.y >= 0: # above
-            other = board[self.y][self.x]
+        others = [] # include self in avage
+        total = 1
+        if self.y > 0: # above
+            other = board[self.y-1][self.x]
             others.append(other)
+
         if self.y < len(board)-1: # below
-            other = board[self.y][self.x]
+            other = board[self.y+1][self.x]
             others.append(other)
+
         if self.x >= 0: # left 
-            other = board[self.y][self.x]
+            other = board[self.y][self.x-1]
             others.append(other)
+
         if self.x < len(board[self.y])-1: # right
-            other = board[self.y][self.x]
+            other = board[self.y][self.x+1]
             others.append(other)
 
-        # caculate new temp
         temp = 0
-        for i in others:
-            temp += other.temp
+        for other in others:
+            if type(other).__name__ != "Fountain":
+                density = type(other).density
+            else:
+                density = other.obj.density
 
-        self.temp = temp / len(others)
+            temp += other.temp*density
+            total += density
+
+        self.next_temp = temp / total
+
 
     def update_colour(self):
         # randomly change rbg colour values
@@ -108,6 +122,7 @@ class Particle:
         self.load = x, y
 
     def load_move(self, board):
+        self.temp = self.next_temp
         if not self.load:
             return
         x, y = self.load
@@ -135,4 +150,4 @@ class Particle:
             return False
 
     def __repr__(self):
-        return f"{type(self).__name__} of mass {self.mass} at {self.x}, {self.y}"
+        return f"{type(self).__name__} of mass {self.mass} and temp {self.temp} at {self.x}, {self.y}"

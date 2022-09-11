@@ -1,5 +1,6 @@
 from .particle import Particle
 from .gas import Gas
+from .properties import fume_vals
 from random import random, randint
 
 
@@ -18,16 +19,21 @@ class Fume(Particle, Gas):
     """
 
     colour = (214, 245, 167)
-    temp = 7
+    temp = fume_vals["start_temp"]
 
-    def __init__(self, x, y, thick=1):
+    ### rules ###
+    max_temp = fume_vals["max_temp"]
+    min_temp = fume_vals["min_temp"]
+    density = fume_vals["density"]
+
+    def __init__(self, x, y, thick=1, temp=temp):
         super().__init__(x, y, mass=-4)
         self.thickness = thick
         self.update_colour()
         self.wetness = 15
         self.timeout = randint(20, 35)
         self.strength = 1
-        self.temp = Fume.temp
+        self.temp = temp
 
     def check_other(self, board):
         # check below
@@ -67,7 +73,7 @@ class Fume(Particle, Gas):
         # check for timeout
         # timeout = 100 ± 10
         if self.life_len > self.timeout:
-            return "dies"
+            return {"type": "dies"}
 
 
         # update position
