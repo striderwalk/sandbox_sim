@@ -2,9 +2,9 @@ from .particle import Particle
 from .air import Air
 from .ash import Ash
 from .water import Water
-from .lava import Lava
 from .fire import Fire
 from .solid import Solid
+from .properties import wood_vals
 from random import random
 
 
@@ -18,11 +18,13 @@ class Wood(Particle, Solid):
     """
 
     colour = (90, 50, 6)
-    temp = 100
+    
+    temp = wood_vals["start_temp"]
 
     ### rules ###
-    max_temp = 150
-    min_temp = 0
+    max_temp = wood_vals["max_temp"]
+    min_temp = wood_vals["min_temp"]
+    density = wood_vals["density"]
 
     def __init__(self, x, y, temp=temp):
         super().__init__(x, y, mass=1000, static=True, is_flame=False)

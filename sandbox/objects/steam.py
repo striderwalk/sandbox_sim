@@ -1,6 +1,7 @@
 from .particle import Particle
 from .gas import Gas
 from .air import Air
+from .properties import steam_vals
 from random import random, randint
 
 
@@ -20,11 +21,13 @@ class Steam(Particle, Gas):
     """
 
     colour = (167, 203, 204)
-    temp = 250
+    
+    temp = steam_vals["start_temp"]
 
     ### rules ###
-    max_temp = 255
-    min_temp = 150
+    max_temp = steam_vals["max_temp"]
+    min_temp = steam_vals["min_temp"]
+    density = steam_vals["density"]
 
     def __init__(self, x, y, thick=50, temp=temp):
         super().__init__(x, y, mass=-5)

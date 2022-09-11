@@ -2,8 +2,8 @@ from .particle import Particle
 from .steam import Steam
 from .stone import Stone
 from .lava import Lava
+from .properties import water_vals
 from .liquid import Liquid
-
 
 class Water(Particle, Liquid):
     """
@@ -20,11 +20,13 @@ class Water(Particle, Liquid):
     """
 
     colour = (64, 154, 245)
-    temp = 110
+    
+    temp = water_vals["start_temp"]
 
     ### rules ###
-    max_temp = 200
-    min_temp = 20
+    max_temp = water_vals["max_temp"]
+    min_temp = water_vals["min_temp"]
+    density = water_vals["density"]
 
     def __init__(self, x, y, temp=temp):
         # make_steam stop water condense duplicating

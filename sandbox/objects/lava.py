@@ -2,7 +2,7 @@ from .particle import Particle
 from .liquid import Liquid
 from .steam import Steam
 from .stone import Stone
-
+from .properties import lava_vals
 
 class Lava(Particle, Liquid):
     """
@@ -20,11 +20,13 @@ class Lava(Particle, Liquid):
     """
 
     colour = (245, 134, 70)
-    temp = 255
     
+    temp = lava_vals["start_temp"]
+
     ### rules ###
-    max_temp = 255
-    min_temp = 200
+    max_temp = lava_vals["max_temp"]
+    min_temp = lava_vals["min_temp"]
+    density = lava_vals["density"]
 
     def __init__(self, x, y, temp=temp):
         super().__init__(x, y, mass=1, is_flame=True)

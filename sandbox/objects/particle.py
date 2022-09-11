@@ -36,7 +36,7 @@ class Particle:
     def temp_colour(self):
         red = self.temp
 
-        return (red, 0, 0)
+        return (min(max(red, 0), 255), 0, 0)
 
     def choice(self, options):
         probs = [1 / len(options) for _ in options]
@@ -53,20 +53,26 @@ class Particle:
         if self.is_flame:
             self.temp -= 0.1
         # find neigbours 
-        others = [self.temp] # include self in avage
-        if self.y >= 0: # above
+        others = self.temp # include self in avage
+        total = 1
+        if self.y > 0: # above
             other = board[self.y-1][self.x]
-            others.append(other.temp)
+            others += other.temp*type(other).density
+            total += type(other).density
         if self.y < len(board)-1: # below
             other = board[self.y+1][self.x]
-            others.append(other.temp)
+            others += other.temp*type(other).density
+            total += type(other).density
         if self.x >= 0: # left 
             other = board[self.y][self.x-1]
-            others.append(other.temp)
+            others += other.temp*type(other).density
+            total += type(other).density
         if self.x < len(board[self.y])-1: # right
             other = board[self.y][self.x+1]
-            others.append(other.temp)
-        self.next_temp = sum(others) / len(others)
+            others += other.temp*type(other).density
+            total += type(other).density
+
+        self.next_temp = others / total
 
 
     def update_colour(self):

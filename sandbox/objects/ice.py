@@ -1,6 +1,6 @@
 from .particle import Particle
 from .solid import Solid
-
+from .properties import ice_vals
 
 class Ice(Particle, Solid):
     """
@@ -8,12 +8,13 @@ class Ice(Particle, Solid):
     """
 
     colour = (63,208,212)
-    temp = 0
-
+    
+    temp = ice_vals["start_temp"]
 
     ### rules ###
-    max_temp = 20
-    min_temp = 0
+    max_temp = ice_vals["max_temp"]
+    min_temp = ice_vals["min_temp"]
+    density = ice_vals["density"]
 
     def __init__(self, x, y, temp=temp):
         super().__init__(x, y, mass=1000, static=True)

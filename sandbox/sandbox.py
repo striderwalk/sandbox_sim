@@ -118,8 +118,7 @@ class Box:
                         self.board[item.y, item.x] = Air(item.x, item.y)
                     # if particle wants to go though a major change
                     elif result["type"] is not None:
-                        self.board[item.y, item.x] = result["type"](item.x, item.y, temp=result["temp"])
-                        
+                        self.board[item.y, item.x] = result["type"](item.x, item.y, temp=result["temp"]) 
                     # update count
                     self.board[item.y, item.x].count = fnum
             # move items

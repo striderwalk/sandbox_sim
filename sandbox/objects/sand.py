@@ -1,6 +1,6 @@
 from .particle import Particle
 from .solid import Solid
-
+from .properties import sand_vals
 
 class Sand(Particle, Solid):
     """
@@ -9,11 +9,13 @@ class Sand(Particle, Solid):
     """
 
     colour = (222, 207, 111)
-    temp = 100
+    
+    temp = sand_vals["start_temp"]
 
     ### rules ###
-    max_temp = 200
-    min_temp = 0
+    max_temp = sand_vals["max_temp"]
+    min_temp = sand_vals["min_temp"]
+    density = sand_vals["density"]
 
     def __init__(self, x, y, temp=temp):
         super().__init__(x, y, mass=20)

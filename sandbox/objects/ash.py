@@ -1,7 +1,7 @@
 from .particle import Particle
 from .smoke import Smoke
 from .solid import Solid
-
+from .properties import ash_vals
 
 class Ash(Particle, Solid):
     """
@@ -10,11 +10,12 @@ class Ash(Particle, Solid):
     """
 
     colour = (54, 69, 79)
-    temp = 115
+    temp = ash_vals["start_temp"]
 
     ### rules ###
-    max_temp = 230
-    min_temp = 0 
+    max_temp = ash_vals["max_temp"]
+    min_temp = ash_vals["min_temp"]
+    density = ash_vals["density"]
 
     def __init__(self, x, y, temp=temp):
         super().__init__(x, y, mass=20)

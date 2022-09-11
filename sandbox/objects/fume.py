@@ -1,5 +1,6 @@
 from .particle import Particle
 from .gas import Gas
+from .properties import fume_vals
 from random import random, randint
 
 
@@ -18,11 +19,12 @@ class Fume(Particle, Gas):
     """
 
     colour = (214, 245, 167)
-    temp = 212
+    temp = fume_vals["start_temp"]
 
     ### rules ###
-    max_temp = 255
-    min_temp = 170
+    max_temp = fume_vals["max_temp"]
+    min_temp = fume_vals["min_temp"]
+    density = fume_vals["density"]
 
     def __init__(self, x, y, thick=1, temp=temp):
         super().__init__(x, y, mass=-4)

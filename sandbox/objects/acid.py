@@ -2,8 +2,8 @@ from .particle import Particle
 from .liquid import Liquid
 from .air import Air
 from .fume import Fume
+from .properties import acid_vals
 from random import randint, random
-
 
 class Acid(Particle, Liquid):
     """
@@ -12,11 +12,12 @@ class Acid(Particle, Liquid):
     """
 
     colour = (62, 243, 65)
-    temp = 85
+    temp = acid_vals["start_temp"]
 
     ### rules ###
-    max_temp = 170
-    min_temp = 0
+    max_temp = acid_vals["max_temp"]
+    min_temp = acid_vals["min_temp"]
+    density = acid_vals["density"]
 
     def __init__(self, x, y, temp=temp):
         super().__init__(x, y, mass=0.9)

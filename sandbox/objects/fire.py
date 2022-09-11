@@ -6,7 +6,7 @@ from .steam import Steam
 from .air import Air
 from random import random, randint, choice
 from colour import Color
-
+from .properties import fire_vals
 
 class Fire(Particle, Liquid):
     """
@@ -26,12 +26,12 @@ class Fire(Particle, Liquid):
     colour = (252, 152, 3)
     colours = list(Color(base_colour).range_to(Color("#fc0b03"), 5))
     colours = [[i * 255 for i in colour.rgb] for colour in colours]
-    temp = 175
-
+    temp = fire_vals["start_temp"]
 
     ### rules ###
-    max_temp = 255
-    min_temp = 100
+    max_temp = fire_vals["max_temp"]
+    min_temp = fire_vals["min_temp"]
+    density = fire_vals["density"]
 
     def __init__(self, x, y, player_made=True, temp=temp):
         super().__init__(x, y, mass=-1, static=False, is_flame=True)

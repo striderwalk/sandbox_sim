@@ -1,6 +1,6 @@
 from .particle import Particle
 from .solid import Solid
-
+from .properties import stone_vals
 
 class Stone(Particle, Solid):
     """
@@ -9,12 +9,13 @@ class Stone(Particle, Solid):
     """
 
     colour = (117, 127, 128)
-    temp = 100
-
+    
+    temp = stone_vals["start_temp"]
 
     ### rules ###
-    max_temp = 150
-    min_temp = 0
+    max_temp = stone_vals["max_temp"]
+    min_temp = stone_vals["min_temp"]
+    density = stone_vals["density"]
 
     def __init__(self, x, y, health=100, temp=temp):
         super().__init__(x, y, mass=1000, static=True, health=health)
