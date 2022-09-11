@@ -18,7 +18,7 @@ class Wood(Particle, Solid):
     """
 
     colour = (90, 50, 6)
-    
+
     temp = wood_vals["start_temp"]
 
     ### rules ###
@@ -54,7 +54,7 @@ class Wood(Particle, Solid):
             rot = True
         if rot:
             if self.fire_count > 0:
-                self.fire_count = 0
+                self.fire_count = -10
             else: 
                 self.fire_count -= 1
 

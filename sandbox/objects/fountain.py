@@ -15,6 +15,7 @@ class Fountain(Particle):
         self.obj = obj
 
         self.temp = obj.temp
+        self.density = obj.density
 
     def update(self, board):
         for _, other in self.get_neighbours(board, 3):
@@ -23,3 +24,6 @@ class Fountain(Particle):
                     board[other.y, other.x] = self.obj(other.x, other.y)
             elif type(other) != Fountain:
                 board[other.y, other.x] = self.obj(other.x, other.y)
+
+    def __repr__(self):
+        return f"{type(self).__name__} of object {self.obj.__name__}"

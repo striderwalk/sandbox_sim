@@ -110,4 +110,4 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False, sh
 
         win.fill((255, 255, 255))
         if not pause:
-            clock.tick(30)
+            clock.tick()
