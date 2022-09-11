@@ -11,7 +11,7 @@ class Particle:
      - find neighbours
     """
 
-    def __init__(self, x, y, mass=0, static=False, flamable=False, is_flame=False, health=100):
+    def __init__(self, x, y, mass=0, static=False, flamable=False, is_flame=False, health=100, obj=None):
         self.x = x
         self.y = y
         self.mass = mass
@@ -27,7 +27,10 @@ class Particle:
         self.load = None
         self.count = 0
         self.life_len = 0
-        self.next_temp = type(self).temp
+        if obj is not None:
+             self.next_temp = obj.temp
+        else:
+            self.next_temp = type(self).temp
 
     @property
     def temp_colour(self):
