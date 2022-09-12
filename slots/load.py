@@ -30,13 +30,17 @@ def load_path(path: str):
     # get save
     with open(path, "r") as file:
         data = json.load(file)
-        logging.info("loaded save")
-    return convert_data(data)
+        try:
+            data = convert_data(data)
+            logging.info("save loaded")
+        except IndexError as e:
+            logging.warning("save loaded but conversion failed - using empty board")
+    return data
 
 
 
 def load_slot(slot: int):
-    # check for vaild slot id
+    # check for valid slot id
     if type(slot) != int or slot < 0 or slot > 9:
         logging.warning(f"invalid slot when trying to load save {slot=}")
         return None
@@ -48,7 +52,4 @@ def load_slot(slot: int):
         return "empty"
 
     # get save
-    with open(file_name, "r") as file:
-        data = json.load(file)
-        logging.info("loaded save")
-    return convert_data(data)
+    return load_path(file_name)

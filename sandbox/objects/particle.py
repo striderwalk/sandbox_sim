@@ -1,6 +1,7 @@
 from random import randint
 import numpy as np
 from colour import Color
+import logging
 
 HEAT_MAP = list(Color("#0000ff").range_to(Color("#ff0000"), 501))
 HEAT_MAP = [[i * 255 for i in colour.rgb] for colour in HEAT_MAP]
@@ -39,7 +40,13 @@ class Particle:
 
     @property
     def temp_colour(self):
-        return HEAT_MAP[int(min(500, self.temp+100))]
+        try:
+            colour = HEAT_MAP[int(min(500, self.temp+100))]
+        except IndexError as e:
+            logging.critical(f"{type(self).__name__} at temp of {self.temp}")
+            raise e
+
+        return colour
 
     def choice(self, options):
         probs = [1 / len(options) for _ in options]
@@ -77,9 +84,9 @@ class Particle:
         temp = 0
         for other in others:
             if type(other).__name__ != "Fountain":
-                density = type(other).density
+                density = type(other).density**2
             else:
-                density = other.obj.density
+                density = other.obj.density**2
 
             temp += other.temp*density
             total += density

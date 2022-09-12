@@ -5,7 +5,7 @@ from .sandbox import Box
 from .get_particles import particles
 
 
-def input_handle(mouse, board, selection, index, pause):
+def input_handle(mouse, board, selection, index):
     keys = pygame.key.get_pressed()
     # scroll options
     if keys[pygame.K_LEFT]:
@@ -26,7 +26,7 @@ def input_handle(mouse, board, selection, index, pause):
         val = mouse.get_pos()
         if val[0] == "BOX":
             x, y = val[1:]
-            print(board.board[y, x], f" really at {x=}, {y=}")
+            logging.info(f"{board.board[y, x]} really at {x=}, {y=}")
 
     if keys[pygame.K_e]:
         val = mouse.get_pos()
@@ -51,10 +51,7 @@ def input_handle(mouse, board, selection, index, pause):
                 return "temp"
 
             if event.key == pygame.K_LSHIFT:
-                if pause:
-                    return "play"
-                else:
-                    return "stop"
+                return "toggle_play"
             if event.key == pygame.K_ESCAPE:
                 return "menu"
 

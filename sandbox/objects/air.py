@@ -25,5 +25,5 @@ class Air(Particle):
     def update(self, board):
         self.update_temp(board)
 
-        # if self.temp < Air.temp:
-            # self.next_temp += (self.next_temp - Air.temp)/2
+        if self.temp < Air.temp:
+            self.next_temp += Air.temp*0.7

@@ -8,6 +8,24 @@ from conts import ROWS, COLS, CELL_WIDTH, CELL_HEIGHT
 from .get_particles import particles
 
 
+def get_profiling_board():
+    # i don't like this code but done care enough to fix it
+    np.array([[Air(x, y) for x in range(COLS)] for y in range(ROWS)])
+    step = COLS // len(particles)
+    index_d = 0
+    for i in range(ROWS):
+        for j in range(COLS):
+            index_d = j // step
+            if j % step < 2:
+                self.add_particle(j, i, Stone, health=100000)
+                continue
+            try:
+                self.add_particle(j, i, particles[index_d])
+            except IndexError:
+                pass
+    #######################################################
+
+
 class Box:
     """
     a container for all particles
@@ -20,30 +38,22 @@ class Box:
 
     def __init__(self, board_data):
         # setup board
-        if type(board_data) != str:
+        if type(board_data) != str: # loaded board from file
             self.board = board_data
-            self.board = self.board[:ROWS, :COLS]
-        elif board_data == "empty":
+            if not np.array_equal(self.board,self.board[:ROWS, :COLS]):
+                logging.warning("board sized incorrectly resizing")
+                self.board = self.board[:ROWS, :COLS]
+        elif board_data == "empty": # no board
             self.board = np.array(
                 [[Air(x, y) for x in range(COLS)] for y in range(ROWS)]
             )
-        elif board_data == "profiling":
-            self.board = np.array(
-                [[Air(x, y) for x in range(COLS)] for y in range(ROWS)]
-            )
-            step = COLS // len(particles)
-            index_d = 0
-            for i in range(ROWS):
-                for j in range(COLS):
-                    index_d = j // step
-                    if j % step < 2:
-                        self.add_particle(j, i, Stone, health=100000)
-                        continue
-                    try:
-                        self.add_particle(j, i, particles[index_d])
-                    except IndexError:
-                        pass
-        print(f"created board of size {len(self.board)} x {len(self.board[0])}")
+            logging.info("created empty board")
+
+        elif board_data == "profiling": # setup for profiling
+            self.board = get_profiling_board()
+            logging.info("profile board made")
+
+
 
     def draw_particles(self, win, show_temp=False, show_fountain=True):
         # draw all particles
@@ -185,5 +195,5 @@ class Box:
             self.add_particle(x, y, obj)
 
     def reset(self):
-        # logging.info("user reset board")
+        logging.info("reseting board")
         self.board = np.array([[Air(x, y) for x in range(COLS)] for y in range(ROWS)])
