@@ -1,5 +1,6 @@
 import pygame
 import itertools
+import logging
 from .input_handler import input_handle
 from .mouse import Mouse
 from .selection import Selection
@@ -10,13 +11,17 @@ from .get_particles import particles, objects
 
 def get_sub_win(win, board):
     board.draw_particles(win)
-    return win.subsurface((0, 0, WIDTH, HEIGHT - LOWER_BOARDER)).copy()
+    image = win.subsurface((0, 0, WIDTH, HEIGHT - LOWER_BOARDER)).copy()
+    logging.info("captured image of board")
+    return image
 
 
 def time():
     pygame.init()
     win = pygame.display.set_mode((WIDTH, HEIGHT), flags=pygame.HIDDEN)
+    logggin.info("running sim in profiling mode")
     run_sim(win, slot=(0, "profiling"))
+
 
 
 def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False, show_temp=False):
@@ -28,11 +33,10 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False, sh
     font = pygame.font.SysFont(None, 24)
     # pygame.display.set_allow_screensaver()
 
-    # setupr
+    # setup
     board = Box(board_data)
     mouse = Mouse(size)
     selection = Selection(index)
-
     # make it rain
     if RAIN and not profiling:
         board.rain_type(objects.Water)
@@ -60,40 +64,40 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False, sh
         # update index
         index = selection.update(win, index)
         # handle input
-        res = input_handle(mouse, board, selection, index, pause)
-        if res == "reset":
+        result = input_handle(mouse, board, selection, index)
+        if result == "reset":
             # reset game
             if not profiling:
                 board.reset()
-                pause_time += fnum
+                pause_time += fnum # set frames to 0
                 pygame.event.get()
             else:
                 # profiler cannot reset
+                logging.error("board reset attempted in profiling modes")
                 pygame.quit()
                 return
-        elif res == "end":
+        elif result == "end":
             # quit
             if not profiling:
                 return {"type": "end", "board": board, "img": get_sub_win(win, board)}
             else:
                 pygame.quit()
                 return
-        elif res == "stop":
+        elif result == "toggle_play":
             # pause game
-            pause = True
-        elif res == "play":
-            # play fame
-            pause = False
-        elif type(res) == int:
+            pause = not pause
+        elif type(result) == int:
             # set new index
-            index = res
-        elif res == "menu":
+            index = result
+        elif result == "menu":
             return {"type": "menu", "board": board, "img": get_sub_win(win, board)}
-        elif res == "temp":
+        elif result == "temp":
             show_temp = not show_temp
-        elif res == "update":
+        elif result == "update":
             pause_time -= 1
             board.update(win, fnum+1, False, show_temp)
+        else:
+            logging.error(f"invalid result from input_handler of {result}")
 
 
         # display game data

@@ -87,7 +87,7 @@ class Fire(Particle, Liquid):
             if random() > 0.5:
                 return {"type": Smoke, "temp": self.temp}
             else:
-                return {"type": "dies"}
+                return {"type": Air, "temp": self.temp}
 
         self.update_colour(board)
         self.move(board)

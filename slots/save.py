@@ -36,8 +36,14 @@ def save_slot(board, slot, img):
     if not os.path.exists(folder_name):
         os.mkdir(folder_name)
 
+    try:
+        save_data = convert_board(board)
+    except IndexError as e:
+        logging.error("board convertion failded board data lost :(")
+
     # save slot
     with open(board_name, "w") as f:
+        json.dump(save_data, f, indent=4)
         logging.info(f"save board to slot {slot}")
-        json.dump(convert_board(board), f, indent=4)
+
     pygame.image.save(img, image_name)

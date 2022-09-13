@@ -12,7 +12,7 @@ air_vals = {
         "start_temp" : ROOM_TEMP ,
         "min_temp" : None,
         "max_temp" : None,
-        "density" : 0.01
+        "density" : 0.001
 
 }
 
@@ -42,7 +42,7 @@ gren_vals = {
         "start_temp" : ROOM_TEMP,
         "min_temp" : None,
         "max_temp" : None,
-        "density" : 2.5
+        "density" : 6
 }
 
 ice_vals = { 
@@ -56,7 +56,7 @@ lava_vals = {
         "start_temp" : 2000,
         "min_temp" : 1500,
         "max_temp" : None,
-        "density" : 2.5
+        "density" : 6
 }
 
 sand_vals = { 
@@ -84,7 +84,7 @@ stone_vals = {
         "start_temp" : ROOM_TEMP,
         "min_temp" : None,
         "max_temp" : 1500,
-        "density" : 2.5
+        "density" : 6
 }
 
 water_vals = { 

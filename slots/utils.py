@@ -1,10 +1,5 @@
 import os
 import logging
-import json
-import pygame
-import numpy as np
-
-
 
 def get_empty():
     # return index of first empty slot
@@ -27,4 +22,5 @@ def get_saved():
 def setup():
     # check saves folder
     if not os.path.exists("./saves"):
+        logging.info("save folder not found - making one")
         os.mkdir("./saves")
