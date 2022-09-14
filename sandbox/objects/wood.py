@@ -24,7 +24,7 @@ class Wood(Particle, Solid):
     ### rules ###
     max_temp = wood_vals["max_temp"]
     min_temp = wood_vals["min_temp"]
-    density = wood_vals["density"]
+    htrans_num = wood_vals["htrans_num"]
 
     def __init__(self, x, y, temp=temp):
         super().__init__(x, y, mass=1000, static=True, is_flame=False)

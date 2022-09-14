@@ -15,7 +15,7 @@ class Gren(Particle, Solid):
     ### rules ###
     max_temp = gren_vals["max_temp"]
     min_temp = gren_vals["min_temp"]
-    density = gren_vals["density"]
+    htrans_num = gren_vals["htrans_num"]
 
     def __init__(self, x, y, temp=temp):
         super().__init__(x, y, mass=1000, static=True)

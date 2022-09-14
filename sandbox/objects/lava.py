@@ -26,7 +26,7 @@ class Lava(Particle, Liquid):
     ### rules ###
     max_temp = lava_vals["max_temp"]
     min_temp = lava_vals["min_temp"]
-    density = lava_vals["density"]
+    htrans_num = lava_vals["htrans_num"]
 
     def __init__(self, x, y, temp=temp):
         super().__init__(x, y, mass=1, is_flame=True)
@@ -38,7 +38,7 @@ class Lava(Particle, Liquid):
         self.temp = temp
 
     def to_gas(self):
-        return No0ne
+        return None
 
     def to_solid(self):
         return Stone

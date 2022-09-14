@@ -15,7 +15,7 @@ class Stone(Particle, Solid):
     ### rules ###
     max_temp = stone_vals["max_temp"]
     min_temp = stone_vals["min_temp"]
-    density = stone_vals["density"]
+    htrans_num = stone_vals["htrans_num"]
 
     def __init__(self, x, y, health=100, temp=temp):
         super().__init__(x, y, mass=1000, static=True, health=health)

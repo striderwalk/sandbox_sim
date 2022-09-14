@@ -26,7 +26,7 @@ class Water(Particle, Liquid):
     ### rules ###
     max_temp = water_vals["max_temp"]
     min_temp = water_vals["min_temp"]
-    density = water_vals["density"]
+    htrans_num = water_vals["htrans_num"]
 
     def __init__(self, x, y, temp=temp):
         # make_steam stop water condense duplicating

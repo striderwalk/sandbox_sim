@@ -23,7 +23,7 @@ class Smoke(Particle, Gas):
     ### rules ###
     max_temp = smoke_vals["max_temp"]
     min_temp = smoke_vals["min_temp"]
-    density = smoke_vals["density"]
+    htrans_num = smoke_vals["htrans_num"]
 
     def __init__(self, x, y, thick=1, temp=temp):
         super().__init__(x, y, mass=-4)

@@ -15,7 +15,7 @@ class Ash(Particle, Solid):
     ### rules ###
     max_temp = ash_vals["max_temp"]
     min_temp = ash_vals["min_temp"]
-    density = ash_vals["density"]
+    htrans_num = ash_vals["htrans_num"]
 
     def __init__(self, x, y, temp=temp):
         super().__init__(x, y, mass=20)

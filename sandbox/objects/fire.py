@@ -31,7 +31,7 @@ class Fire(Particle, Liquid):
     ### rules ###
     max_temp = fire_vals["max_temp"]
     min_temp = fire_vals["min_temp"]
-    density = fire_vals["density"]
+    htrans_num = fire_vals["htrans_num"]
 
     def __init__(self, x, y, player_made=True, temp=temp):
         super().__init__(x, y, mass=-1, static=False, is_flame=True)

@@ -12,7 +12,7 @@ class Air(Particle):
     ### rules ###
     max_temp = air_vals["max_temp"]
     min_temp = air_vals["min_temp"]
-    density = air_vals["density"]
+    htrans_num = air_vals["htrans_num"]
     
     def __init__(self, x, y, temp=temp):
         super().__init__(x, y, mass=0)
@@ -20,10 +20,10 @@ class Air(Particle):
         self.temp = temp
 
     def to_liquid(self):
-        ...
+        self.temp = Air.min_temp
 
     def update(self, board):
         self.update_temp(board)
 
-        if self.temp < Air.temp:
-            self.next_temp += Air.temp*0.7
+        self.next_temp += (Air.temp-self.temp)*0.7
+        

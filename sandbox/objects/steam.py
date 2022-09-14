@@ -27,7 +27,7 @@ class Steam(Particle, Gas):
     ### rules ###
     max_temp = steam_vals["max_temp"]
     min_temp = steam_vals["min_temp"]
-    density = steam_vals["density"]
+    htrans_num = steam_vals["htrans_num"]
 
     def __init__(self, x, y, thick=50, temp=temp):
         super().__init__(x, y, mass=-5)

@@ -61,7 +61,9 @@ class Particle:
 
     def update_temp(self, board):
         if self.is_flame:
-            self.temp -= 0.1
+            self.next_temp = 0# self.temp * 0.7
+        else:
+            self.next_temp = 0
         # find neigbours 
         others = [] # include self in avage
         total = 1
@@ -84,14 +86,17 @@ class Particle:
         temp = 0
         for other in others:
             if type(other).__name__ != "Fountain":
-                density = type(other).density**2
+                htrans_num = type(other).htrans_num**2
             else:
-                density = other.obj.density**2
+                htrans_num = other.obj.htrans_num**2
 
-            temp += other.temp*density
-            total += density
+            temp += other.temp*htrans_num
+            total += htrans_num
 
-        self.next_temp = temp / total
+        temp += self.temp
+        total += 1/4
+
+        self.next_temp += temp / total
 
 
     def update_colour(self):

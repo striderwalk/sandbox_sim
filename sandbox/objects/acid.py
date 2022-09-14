@@ -11,13 +11,15 @@ class Acid(Particle, Liquid):
 
     """
 
+    
+
     colour = (62, 243, 65)
     temp = acid_vals["start_temp"]
 
     ### rules ###
     max_temp = acid_vals["max_temp"]
     min_temp = acid_vals["min_temp"]
-    density = acid_vals["density"]
+    htrans_num = acid_vals["htrans_num"]
 
     def __init__(self, x, y, temp=temp):
         super().__init__(x, y, mass=0.9)

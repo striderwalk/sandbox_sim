@@ -14,7 +14,7 @@ class Ice(Particle, Solid):
     ### rules ###
     max_temp = ice_vals["max_temp"]
     min_temp = ice_vals["min_temp"]
-    density = ice_vals["density"]
+    htrans_num = ice_vals["htrans_num"]
 
     def __init__(self, x, y, temp=temp):
         super().__init__(x, y, mass=1000, static=True)
