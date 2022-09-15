@@ -28,7 +28,7 @@ fire_vals = {
         "start_temp" : 650,
         "min_temp" : None,
         "max_temp" : None,
-        "htrans_num" : 1
+        "htrans_num" : 2
 }
 
 fume_vals = { 

@@ -38,7 +38,7 @@ class Ash(Particle, Solid):
 
         # if on top of wood turn to smoke
         if self.y < len(board) - 1 and board[self.y + 1][self.x].flamable:
-            return {"type": Smoke, "temp": self.temp}
+            return {"type": Smoke}
         # time since created
         self.life_len += 1
 

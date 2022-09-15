@@ -85,9 +85,9 @@ class Fire(Particle, Liquid):
 
         if self.life_len > self.life_lim:
             if random() > 0.5:
-                return {"type": Smoke, "temp": self.temp}
+                return {"type": Smoke}
             else:
-                return {"type": Air, "temp": self.temp}
+                return {"type": Air}
 
         self.update_colour(board)
         self.move(board)
@@ -95,6 +95,6 @@ class Fire(Particle, Liquid):
         # if on celling DIE
         if self.y == 0:
             if random() > 0.7:
-                return {"type": Smoke, "temp": self.temp}
+                return {"type": Smoke}
             else:
                 return {"type": "dies"}

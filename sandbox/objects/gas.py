@@ -21,9 +21,14 @@ class Gas:
             if 0 <= self.y + yoff < len(board) and 0 <= self.x + xoff < len(board[0]):
 
                 if type(board[self.y + yoff, self.x + xoff]) == Air:
-                    board[self.y + yoff, self.x + xoff] = type(self)(
-                        self.x + xoff, self.y + yoff, self.thickness * split_ratio
-                    )
+
+                    x = self.x + xoff
+                    y = self.y + yoff
+                    thick = self.thickness * split_ratio
+                    temp = self.next_temp
+
+                    board[self.y + yoff, self.x + xoff] = type(self)(x, y, thick=thick, temp=temp)
+                
                 self.thickness *= 1 - split_ratio
                 return
 
@@ -46,4 +51,4 @@ class Gas:
         # if cold go to solid
         is_min_temp = type(self).min_temp is not None
         if is_min_temp and self.temp < type(self).min_temp:
-            return {"type": self.to_liquid(), "temp": self.temp} 
+            return {"type": self.to_liquid()}

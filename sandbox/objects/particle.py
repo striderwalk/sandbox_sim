@@ -44,19 +44,9 @@ class Particle:
             colour = HEAT_MAP[int(min(500, self.temp+100))]
         except IndexError as e:
             logging.critical(f"{type(self).__name__} at temp of {self.temp}")
-            raise e
+            colour = (0,0,0)
 
         return colour
-
-    def choice(self, options):
-        probs = [1 / len(options) for _ in options]
-        x = np.random.rand()
-        cum = 0
-        for i, p in enumerate(probs):
-            cum += p
-            if x < cum:
-                break
-        return options[i]
 
 
     def update_temp(self, board):
@@ -93,8 +83,8 @@ class Particle:
             temp += other.temp*htrans_num
             total += htrans_num
 
-        temp += self.temp
-        total += 1/4
+        temp += self.temp*2
+        total += 1.5
 
         self.next_temp += temp / total
 

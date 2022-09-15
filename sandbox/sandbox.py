@@ -7,25 +7,6 @@ from .objects.fountain import Fountain
 from conts import ROWS, COLS, CELL_WIDTH, CELL_HEIGHT
 from .get_particles import particles
 
-
-def get_profiling_board():
-    # i don't like this code but done care enough to fix it
-    np.array([[Air(x, y) for x in range(COLS)] for y in range(ROWS)])
-    step = COLS // len(particles)
-    index_d = 0
-    for i in range(ROWS):
-        for j in range(COLS):
-            index_d = j // step
-            if j % step < 2:
-                self.add_particle(j, i, Stone, health=100000)
-                continue
-            try:
-                self.add_particle(j, i, particles[index_d])
-            except IndexError:
-                pass
-    #######################################################
-
-
 class Box:
     """
     a container for all particles
@@ -50,8 +31,26 @@ class Box:
             logging.info("created empty board")
 
         elif board_data == "profiling": # setup for profiling
-            self.board = get_profiling_board()
+
+            self.set_profiling_board()
             logging.info("profile board made")
+
+    def set_profiling_board(self):
+        # i don't like this code but done care enough to fix it
+        self.board = np.array([[Air(x, y) for x in range(COLS)] for y in range(ROWS)])
+        step = COLS // len(particles)
+        index_d = 0
+        for i in range(ROWS):
+            for j in range(COLS):
+                index_d = j // step
+                if j % step < 2:
+                    self.add_particle(j, i, Stone, health=100000)
+                    continue
+                try:
+                    self.add_particle(j, i, particles[index_d])
+                except IndexError:
+                    pass
+        #######################################################
 
 
 
@@ -128,7 +127,7 @@ class Box:
                         self.board[item.y, item.x] = Air(item.x, item.y)
                     # if particle wants to go though a major change
                     elif result["type"] is not None:
-                        self.board[item.y, item.x] = result["type"](item.x, item.y, temp=result["temp"]) 
+                        self.board[item.y, item.x] = result["type"](item.x, item.y, int(item.next_temp)) 
                     # update count
                     self.board[item.y, item.x].count = fnum
             # move items
@@ -143,16 +142,15 @@ class Box:
             for item in row:
                 if item.count != fnum and item.mass <= 0:  # if fnum same already updated
 
-                    # check for death in particle
+                   # check for death in particle
                     if (result := item.update(self.board)) is None:
                         pass
                     elif result["type"] == "dies":
                         item.load_move(self.board)
                         self.board[item.y, item.x] = Air(item.x, item.y)
                     # if particle wants to go though a major change
-                    elif result:
-                        self.board[item.y, item.x] = result["type"](item.x, item.y, temp=result["temp"])
-
+                    elif result["type"] is not None:
+                        self.board[item.y, item.x] = result["type"](item.x, item.y, int(item.next_temp)) 
                     # update count
                     self.board[item.y, item.x].count = fnum
 

@@ -51,7 +51,7 @@ class Smoke(Particle, Gas):
         # check for timeout
         # timeout = 100 ± 10
         if self.life_len > self.timeout:
-            return {"type" : "dies", "temp" : self.temp}
+            return {"type" : "dies"}
 
         # update position
         if pos := self.move(board):
