@@ -1,3 +1,5 @@
+import logging
+
 from .particle import Particle
 from .solid import Solid
 from .properties import stone_vals
@@ -21,10 +23,13 @@ class Stone(Particle, Solid):
         super().__init__(x, y, mass=1000, static=True, health=health)
         Solid.__init__(self)
         self.update_colour()
+        # if temp == Stone.temp:
+        #     logging.info(f"{temp}, {x}, {y}")
         self.temp = temp
 
     def to_liquid(self):
         from .lava import Lava
+        logging.debug(f"Stone of temp {self.temp} went to heaven")
         return Lava
 
     def update(self, board):

@@ -1,3 +1,5 @@
+import logging
+
 from .particle import Particle
 from .liquid import Liquid
 from .steam import Steam
@@ -29,7 +31,7 @@ class Lava(Particle, Liquid):
     htrans_num = lava_vals["htrans_num"]
 
     def __init__(self, x, y, temp=temp):
-        super().__init__(x, y, mass=1, is_flame=True)
+        super().__init__(x, y, mass=1.2, is_flame=True)
         Liquid.__init__(self)
 
         self.update_colour()
@@ -41,6 +43,7 @@ class Lava(Particle, Liquid):
         return None
 
     def to_solid(self):
+        logging.debug(f"Lava of temp {self.temp} fell to stone")
         return Stone
 
     def update(self, board):

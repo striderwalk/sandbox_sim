@@ -6,6 +6,7 @@ from .get_particles import particles
 
 
 def input_handle(mouse, board, selection, index):
+    mouse_val = mouse.get_pos()
     keys = pygame.key.get_pressed()
     # scroll options
     if keys[pygame.K_LEFT]:
@@ -13,6 +14,17 @@ def input_handle(mouse, board, selection, index):
     if keys[pygame.K_RIGHT]:
         selection.shift(3)
 
+    if keys[pygame.K_j]:
+        if mouse_val[0] == "BOX":
+            x, y = mouse_val[1:]
+            for _, other in board.board[y][x].get_neighbours(board.board, mouse.size):
+                other.temp += 30
+    if keys[pygame.K_k]:
+        if mouse_val[0] == "BOX":
+            x, y = mouse_val[1:]
+            for _, other in board.board[y][x].get_neighbours(board.board, mouse.size):
+                other.temp -= 30
+      
     # reset
     if keys[pygame.K_r]:
         board = Box("empty")
@@ -23,14 +35,12 @@ def input_handle(mouse, board, selection, index):
         # ensure all particle know their pos
         board.fix()
         # show type of particle clicked
-        val = mouse.get_pos()
-        if val[0] == "BOX":
-            x, y = val[1:]
+        if mouse_val[0] == "BOX":
+            x, y = mouse_val[1:]
             logging.info(f"{board.board[y, x]} really at {x=}, {y=}")
 
     if keys[pygame.K_e]:
-        val = mouse.get_pos()
-        if val[0] == "BOX":
+        if mouse_val[0] == "BOX":
             x, y = val[1:]
             # end neighbours
             mouse.press(board, x, y, Fountain, place_obj=particles[index])

@@ -54,7 +54,7 @@ ice_vals = {
 
 lava_vals = { 
         "start_temp" : 2000,
-        "min_temp" : 1500,
+        "min_temp" : 1000,
         "max_temp" : None,
         "htrans_num" : 12
 }
@@ -83,7 +83,7 @@ steam_vals = {
 stone_vals = { 
         "start_temp" : ROOM_TEMP,
         "min_temp" : None,
-        "max_temp" : 1500,
+        "max_temp" : 1000,
         "htrans_num" : 6
 }
 
@@ -95,7 +95,7 @@ water_vals = {
 }
 
 wood_vals = { 
-        "start_temp" : 600,
+        "start_temp" : ROOM_TEMP,
         "min_temp" : None,
         "max_temp" : None,
         "htrans_num" : 1.5

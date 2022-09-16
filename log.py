@@ -5,5 +5,5 @@ https://docs.python.org/3/howto/logging.html#:~:text=logging.basicconfig(format%
 FILE_NAME = "log.txt"
 
 def configer_logger():
-    logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)#, filename=FILE_NAME)
+    logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.INFO)#, filename=FILE_NAME)
     logging.info("setup logger")

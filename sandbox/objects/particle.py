@@ -41,8 +41,9 @@ class Particle:
     @property
     def temp_colour(self):
         try:
-            colour = HEAT_MAP[int(min(500, self.temp+100))]
-        except IndexError as e:
+            temp = self.temp
+            colour = HEAT_MAP[int(min(500, temp+100))]
+        except IndexError as e: # thing to cold
             logging.critical(f"{type(self).__name__} at temp of {self.temp}")
             colour = (0,0,0)
 
@@ -50,6 +51,7 @@ class Particle:
 
 
     def update_temp(self, board):
+
         if self.is_flame:
             self.next_temp = 0# self.temp * 0.7
         else:
@@ -75,16 +77,20 @@ class Particle:
 
         temp = 0
         for other in others:
-            if type(other).__name__ != "Fountain":
-                htrans_num = type(other).htrans_num**2
-            else:
+            if type(other).__name__ == "Fountain":
                 htrans_num = other.obj.htrans_num**2
+            elif self.temp <= other.temp and type(other).htrans_num < 1:
+                htrans_num = 1
+            elif self.type == "solid" and type(self) and type(other):
+                htrans_num = 1
+            else:
+                htrans_num = type(other).htrans_num**2
 
             temp += other.temp*htrans_num
             total += htrans_num
 
-        temp += self.temp*2
-        total += 1.5
+        temp += self.temp
+        total += 0.75
 
         self.next_temp += temp / total
 
@@ -124,7 +130,10 @@ class Particle:
         self.load = x, y
 
     def load_move(self, board):
+        # set current temp to next
         self.temp = self.next_temp
+
+        # check for a move
         if not self.load:
             return
         x, y = self.load
