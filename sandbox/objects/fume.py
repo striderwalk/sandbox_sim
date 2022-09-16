@@ -58,7 +58,6 @@ class Fume(Particle, Gas):
     def to_liquid(self):
         return "dies"
 
-
     def update(self, board):
         # check if update needed
         if self.check_self(board):
@@ -74,7 +73,6 @@ class Fume(Particle, Gas):
         # timeout = 100 ± 10
         if self.life_len > self.timeout:
             return {"type": "dies"}
-
 
         # update position
         if pos := self.move(board):

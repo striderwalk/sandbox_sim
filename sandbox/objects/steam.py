@@ -1,6 +1,5 @@
 from .particle import Particle
 from .gas import Gas
-from .air import Air
 from .properties import steam_vals
 from random import random, randint
 
@@ -21,7 +20,7 @@ class Steam(Particle, Gas):
     """
 
     colour = (167, 203, 204)
-    
+
     temp = steam_vals["start_temp"]
 
     ### rules ###
@@ -37,9 +36,9 @@ class Steam(Particle, Gas):
         self.life_lim = randint(90, 110)
         self.temp = temp
 
-
     def to_liquid(self):
         from .water import Water
+
         return Water
 
     def update(self, board):
@@ -62,4 +61,3 @@ class Steam(Particle, Gas):
             self.copy(board)
 
         return self.check_temp()
-

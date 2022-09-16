@@ -4,7 +4,6 @@ from .objects.fountain import Fountain
 from .sandbox import Box
 from .get_particles import particles
 
-
 def input_handle(mouse, board, selection, index):
     mouse_val = mouse.get_pos()
     keys = pygame.key.get_pressed()
@@ -17,14 +16,12 @@ def input_handle(mouse, board, selection, index):
     if keys[pygame.K_j]:
         if mouse_val[0] == "BOX":
             x, y = mouse_val[1:]
-            for _, other in board.board[y][x].get_neighbours(board.board, mouse.size):
-                other.temp += 30
+            mouse.heat_cells(board.board, x, y, 30)
     if keys[pygame.K_k]:
         if mouse_val[0] == "BOX":
             x, y = mouse_val[1:]
-            for _, other in board.board[y][x].get_neighbours(board.board, mouse.size):
-                other.temp -= 30
-      
+            mouse.heat_cells(board.board, x, y, -30)
+
     # reset
     if keys[pygame.K_r]:
         board = Box("empty")

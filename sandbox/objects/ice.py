@@ -2,13 +2,14 @@ from .particle import Particle
 from .solid import Solid
 from .properties import ice_vals
 
+
 class Ice(Particle, Solid):
     """
     a solid water
     """
 
-    colour = (63,208,212)
-    
+    colour = (63, 208, 212)
+
     temp = ice_vals["start_temp"]
 
     ### rules ###
@@ -24,6 +25,7 @@ class Ice(Particle, Solid):
 
     def to_liquid(self):
         from .water import Water
+
         return Water
 
     def update(self, board):
@@ -33,4 +35,3 @@ class Ice(Particle, Solid):
         # update temp
         self.update_temp(board)
         return self.check_temp()
-

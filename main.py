@@ -1,4 +1,5 @@
 from os import environ
+
 environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 import pygame
 from sandbox import run_sim
@@ -8,10 +9,9 @@ from menu import loading, menu, save, end
 from slots import setup
 from log import configer_logger
 
-# sure the is a saves folder
+# sure the is a saves folderb
 setup()
-configer_logger()   
-
+configer_logger()
 
 
 def main():

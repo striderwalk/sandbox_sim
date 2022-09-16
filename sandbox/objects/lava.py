@@ -1,10 +1,9 @@
 import logging
-
 from .particle import Particle
 from .liquid import Liquid
-from .steam import Steam
 from .stone import Stone
 from .properties import lava_vals
+
 
 class Lava(Particle, Liquid):
     """
@@ -22,7 +21,7 @@ class Lava(Particle, Liquid):
     """
 
     colour = (245, 134, 70)
-    
+
     temp = lava_vals["start_temp"]
 
     ### rules ###
@@ -57,10 +56,8 @@ class Lava(Particle, Liquid):
         # time since created
         self.life_len += 1
 
-
         # update position
         if pos := self.move(board):
             self.moveTo(board, *pos)
-
 
         return self.check_temp()

@@ -1,12 +1,11 @@
 from .particle import Particle
 from .liquid import Liquid
-from .water import Water
 from .smoke import Smoke
-from .steam import Steam
 from .air import Air
 from random import random, randint, choice
 from colour import Color
 from .properties import fire_vals
+
 
 class Fire(Particle, Liquid):
     """

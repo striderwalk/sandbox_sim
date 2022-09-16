@@ -1,6 +1,6 @@
 import json
 import os
-import logging 
+import logging
 import pygame
 from .key import keys
 
@@ -15,12 +15,11 @@ def convert_board(board):
             if not type(i).__name__ == "Fountain":
                 new = keys[type(i)]
             else:
-                new = [keys[type(i)],  keys[i.obj]]
+                new = [keys[type(i)], keys[i.obj]]
 
             data[-1].append(new)
 
     return data
-
 
 
 def save_slot(board, slot, img):

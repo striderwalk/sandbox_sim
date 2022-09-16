@@ -40,13 +40,18 @@ class Mouse:
             board.add_particle(x, y, obj, strict=keep)
 
         # set neighbours
-        for _, other in board.board[y][x].get_neighbours(board.board, self.size):
+        cell = board.board[y][x]
+        for _, other in cell.get_neighbours(board.board, self.size):
             if obj == Fountain:
                 board.add_particle(
                     other.x, other.y, obj, strict=keep, place_obj=place_obj
                 )
             else:
                 board.add_particle(other.x, other.y, obj, strict=keep)
+
+    def heat_cells(self, board, x, y, temp):
+        for _, other in board[y][x].get_neighbours(board, self.size):
+            other.temp += temp
 
     def get_pos(self):
         x, y = pygame.mouse.get_pos()
@@ -113,7 +118,7 @@ class Mouse:
                 except ValueError:  # Fountain not pick-able
                     if type(board.board[y, x]) == Fountain:
                         return particles.index(board.board[y, x].obj)
-
+                        
         # safe placements
         if pygame.mouse.get_pressed()[2]:
             pos = self.get_pos()

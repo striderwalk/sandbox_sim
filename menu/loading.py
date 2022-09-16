@@ -57,8 +57,7 @@ def run(win, time=100000, slot_text=None):
             )
         # update screen
         pygame.display.flip()
-        clock.tick(# set current temp to next
-        self.temp = self.next_temp)
+        clock.tick(FPS)
 
         # handle exiting
         for event in pygame.event.get():

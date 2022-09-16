@@ -3,6 +3,7 @@ from .smoke import Smoke
 from .solid import Solid
 from .properties import ash_vals
 
+
 class Ash(Particle, Solid):
     """
     a Particle that will fall
@@ -22,7 +23,6 @@ class Ash(Particle, Solid):
         Solid.__init__(self)
         self.update_colour()
         self.temp = temp
-
 
     def to_liquid(self):
         ### go to smoke for now ###

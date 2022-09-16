@@ -1,12 +1,10 @@
 from random import randint
-import numpy as np
 from colour import Color
 import logging
 
 HEAT_MAP = list(Color("#0000ff").range_to(Color("#ff0000"), 501))
 HEAT_MAP = [[i * 255 for i in colour.rgb] for colour in HEAT_MAP]
 
-    
 
 class Particle:
     """
@@ -17,7 +15,17 @@ class Particle:
      - find neighbours
     """
 
-    def __init__(self, x, y, mass=0, static=False, flamable=False, is_flame=False, health=100, obj=None):
+    def __init__(
+        self,
+        x,
+        y,
+        mass=0,
+        static=False,
+        flamable=False,
+        is_flame=False,
+        health=100,
+        obj=None,
+    ):
         self.x = x
         self.y = y
         self.mass = mass
@@ -34,7 +42,7 @@ class Particle:
         self.count = 0
         self.life_len = 0
         if obj is not None:
-             self.next_temp = obj.temp
+            self.next_temp = obj.temp
         else:
             self.next_temp = type(self).temp
 
@@ -42,37 +50,36 @@ class Particle:
     def temp_colour(self):
         try:
             temp = self.temp
-            colour = HEAT_MAP[int(min(500, temp+100))]
-        except IndexError as e: # thing to cold
+            colour = HEAT_MAP[int(min(500, temp + 100))]
+        except IndexError:  # thing to cold
             logging.critical(f"{type(self).__name__} at temp of {self.temp}")
-            colour = (0,0,0)
+            colour = (0, 0, 0)
 
         return colour
-
 
     def update_temp(self, board):
 
         if self.is_flame:
-            self.next_temp = 0# self.temp * 0.7
+            self.next_temp = 0  # self.temp * 0.7
         else:
             self.next_temp = 0
-        # find neigbours 
-        others = [] # include self in avage
+        # find neigbours
+        others = []  # include self in avage
         total = 1
-        if self.y > 0: # above
-            other = board[self.y-1][self.x]
+        if self.y > 0:  # above
+            other = board[self.y - 1][self.x]
             others.append(other)
 
-        if self.y < len(board)-1: # below
-            other = board[self.y+1][self.x]
+        if self.y < len(board) - 1:  # below
+            other = board[self.y + 1][self.x]
             others.append(other)
 
-        if self.x >= 0: # left 
-            other = board[self.y][self.x-1]
+        if self.x >= 0:  # left
+            other = board[self.y][self.x - 1]
             others.append(other)
 
-        if self.x < len(board[self.y])-1: # right
-            other = board[self.y][self.x+1]
+        if self.x < len(board[self.y]) - 1:  # right
+            other = board[self.y][self.x + 1]
             others.append(other)
 
         temp = 0
@@ -84,16 +91,15 @@ class Particle:
             elif self.type == "solid" and type(self) and type(other):
                 htrans_num = 1
             else:
-                htrans_num = type(other).htrans_num**2
+                htrans_num = type(other).htrans_num ** 2
 
-            temp += other.temp*htrans_num
+            temp += other.temp * htrans_num
             total += htrans_num
 
         temp += self.temp
         total += 0.75
 
         self.next_temp += temp / total
-
 
     def update_colour(self):
         # randomly change rbg colour values

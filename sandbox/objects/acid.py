@@ -5,13 +5,12 @@ from .fume import Fume
 from .properties import acid_vals
 from random import randint, random
 
+
 class Acid(Particle, Liquid):
     """
     a Particle never moves
 
     """
-
-    
 
     colour = (62, 243, 65)
     temp = acid_vals["start_temp"]
@@ -38,8 +37,8 @@ class Acid(Particle, Liquid):
     def check_other(self, board):
 
         up = self.y != 0
-        down = self.y < len(board)-1
-        left = self.x != len(board[0]) - 1 
+        down = self.y < len(board) - 1
+        left = self.x != len(board[0]) - 1
         right = self.x != 0
 
         # check below
@@ -67,7 +66,8 @@ class Acid(Particle, Liquid):
             board[self.y, self.x - 1].health -= self.strength
             action = True
 
-        if action and random() > 0.5 and type(board[self.y - 1, self.x]) in [Air, Acid]:
+        unkown_check = type(board[self.y - 1, self.x]) in [Air, Acid]
+        if action and random() > 0.5 and unkown_check:
             board[self.y - 1, self.x] = Fume(self.x, self.y - 1, self.next_temp)
 
     def update(self, board):

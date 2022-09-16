@@ -55,7 +55,7 @@ class Wood(Particle, Solid):
         if rot:
             if self.fire_count > 0:
                 self.fire_count = -10
-            else: 
+            else:
                 self.fire_count -= 1
 
             self.colour = (self.colour[0], self.colour[1] + 2, self.colour[2])
@@ -104,7 +104,7 @@ class Wood(Particle, Solid):
 
         # check for rot level
         if self.colour[1] > 100:
-            return {"type" : "dies"}
+            return {"type": "dies"}
 
         # check if BURN
         elif self.colour[0] < 10 or self.colour[1] < 10:
@@ -133,9 +133,8 @@ class Wood(Particle, Solid):
 
         elif self.fire_count == 0:
             if random() > 0.4:
-                return {"type" : Ash}
+                return {"type": Ash}
             else:
-                return {"type" : "dies"}
+                return {"type": "dies"}
 
-    
         return self.check_temp()

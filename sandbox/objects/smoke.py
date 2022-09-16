@@ -3,6 +3,7 @@ from .gas import Gas
 from .properties import smoke_vals
 from random import random, randint
 
+
 class Smoke(Particle, Gas):
     """
     a Particle that will rise randomly
@@ -17,7 +18,7 @@ class Smoke(Particle, Gas):
     """
 
     colour = (7, 53, 54)
-    
+
     temp = smoke_vals["start_temp"]
 
     ### rules ###
@@ -32,7 +33,6 @@ class Smoke(Particle, Gas):
         self.wetness = 5
         self.timeout = randint(60, 80)
         self.temp = temp
-
 
     def to_liquid(self):
         return "dies"
@@ -51,7 +51,7 @@ class Smoke(Particle, Gas):
         # check for timeout
         # timeout = 100 ± 10
         if self.life_len > self.timeout:
-            return {"type" : "dies"}
+            return {"type": "dies"}
 
         # update position
         if pos := self.move(board):

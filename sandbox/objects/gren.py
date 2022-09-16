@@ -2,6 +2,7 @@ from .particle import Particle
 from .solid import Solid
 from .properties import gren_vals
 
+
 class Gren(Particle, Solid):
     """
     gren is good
@@ -9,7 +10,7 @@ class Gren(Particle, Solid):
     """
 
     colour = (22, 166, 24)
-    
+
     temp = gren_vals["start_temp"]
 
     ### rules ###

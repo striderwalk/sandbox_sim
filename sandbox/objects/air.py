@@ -1,6 +1,7 @@
 from .particle import Particle
 from .properties import air_vals
 
+
 class Air(Particle):
     """
     DOCUMENTATION NEEDED
@@ -13,7 +14,7 @@ class Air(Particle):
     max_temp = air_vals["max_temp"]
     min_temp = air_vals["min_temp"]
     htrans_num = air_vals["htrans_num"]
-    
+
     def __init__(self, x, y, temp=temp):
         super().__init__(x, y, mass=0)
         self.colour = tuple(Air.colour)
@@ -28,5 +29,4 @@ class Air(Particle):
         # if abs(self.temp - Air.temp) > 500:
         #     print(self)
 
-        self.next_temp += (Air.temp-self.next_temp)*0.5
-            
+        self.next_temp += (Air.temp - self.next_temp) * 0.5

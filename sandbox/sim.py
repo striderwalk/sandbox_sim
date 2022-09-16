@@ -23,8 +23,9 @@ def time():
     run_sim(win, slot=(0, "profiling"))
 
 
-
-def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False, show_temp=False):
+def run_sim(
+    win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False, show_temp=False
+):
     slot, board_data = slot
     profiling = type(board_data) == str and board_data == "profiling"
     # setup pygame
@@ -69,7 +70,7 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False, sh
             # reset game
             if not profiling:
                 board.reset()
-                pause_time += fnum # set frames to 0
+                pause_time += fnum  # set frames to 0
                 pygame.event.get()
             else:
                 # profiler cannot reset
@@ -95,14 +96,13 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False, sh
             show_temp = not show_temp
         elif result == "update":
             pause_time -= 1
-            board.update(win, fnum+1, False, show_temp)
+            board.update(win, fnum + 1, False, show_temp)
         else:
             logging.error(f"invalid result from input_handler of {result}")
 
-
         # display game data
         text = f"{fnum}, fps={round(clock.get_fps(), 3)}"
-        colour = [255*int(show_temp) for i in range(3)] 
+        colour = [255 * int(show_temp) for i in range(3)]
         fps_text = font.render(text, True, colour)
         win.blit(fps_text, (30, 30))
         if pause:

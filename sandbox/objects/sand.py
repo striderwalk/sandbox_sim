@@ -2,6 +2,7 @@ from .particle import Particle
 from .solid import Solid
 from .properties import sand_vals
 
+
 class Sand(Particle, Solid):
     """
     a Particle that will fall
@@ -9,7 +10,7 @@ class Sand(Particle, Solid):
     """
 
     colour = (222, 207, 111)
-    
+
     temp = sand_vals["start_temp"]
 
     ### rules ###
@@ -25,6 +26,7 @@ class Sand(Particle, Solid):
 
     def to_liquid(self):
         from .lava import Lava
+
         return Lava
 
     def update(self, board):
@@ -44,6 +46,5 @@ class Sand(Particle, Solid):
         # update pos
         if board[self.y + 1, self.x].mass < self.mass:
             self.moveTo(board, self.x, self.y + 1)
-
 
         return self.check_temp()

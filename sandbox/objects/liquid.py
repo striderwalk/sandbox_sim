@@ -15,14 +15,11 @@ class Liquid:
     def check_temp(self):
         is_max_temp = type(self).max_temp is not None
         if is_max_temp and self.temp > type(self).max_temp:
-            return {"type" : self.to_gas()}
+            return {"type": self.to_gas()}
 
-        is_min_temp = type(self).min_temp is not  None
+        is_min_temp = type(self).min_temp is not None
         if is_min_temp and self.temp < type(self).min_temp:
-            return {"type" : self.to_solid()}
-        
-
-
+            return {"type": self.to_solid()}
 
     def move(self, board):
         """

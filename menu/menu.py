@@ -1,5 +1,5 @@
 import pygame
-from conts import *
+from conts import FPS
 from slots import get_saved, load_slot
 from buttons import Slots
 from end import end
@@ -21,7 +21,6 @@ from sandbox import Background
 def run(win):
     # pygame setup
     clock = pygame.time.Clock()
-    font = pygame.font.SysFont(None, 24)
     # save slots
     index = 0
     slots = Slots(get_saved())
@@ -51,6 +50,3 @@ def run(win):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     return index, buttons[0].click()(index)
-
-
-

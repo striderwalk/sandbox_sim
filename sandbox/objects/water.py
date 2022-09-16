@@ -1,9 +1,8 @@
 from .particle import Particle
 from .steam import Steam
-from .stone import Stone
-from .lava import Lava
 from .properties import water_vals
 from .liquid import Liquid
+
 
 class Water(Particle, Liquid):
     """
@@ -20,7 +19,7 @@ class Water(Particle, Liquid):
     """
 
     colour = (64, 154, 245)
-    
+
     temp = water_vals["start_temp"]
 
     ### rules ###

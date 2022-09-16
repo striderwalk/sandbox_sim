@@ -27,8 +27,10 @@ class Gas:
                     thick = self.thickness * split_ratio
                     temp = self.next_temp
 
-                    board[self.y + yoff, self.x + xoff] = type(self)(x, y, thick=thick, temp=temp)
-                
+                    board[self.y + yoff, self.x + xoff] = type(self)(
+                        x, y, thick=thick, temp=temp
+                    )
+
                 self.thickness *= 1 - split_ratio
                 return
 
