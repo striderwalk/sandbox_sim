@@ -1,7 +1,7 @@
 import pygame
 import math
 from random import randint
-from conts import WIDTH, HEIGHT
+from conts import WIDTH, HEIGHT, FPS
 
 """
  loading screen for transitions
@@ -57,7 +57,8 @@ def run(win, time=100000, slot_text=None):
             )
         # update screen
         pygame.display.flip()
-        clock.tick(30)
+        clock.tick(# set current temp to next
+        self.temp = self.next_temp)
 
         # handle exiting
         for event in pygame.event.get():

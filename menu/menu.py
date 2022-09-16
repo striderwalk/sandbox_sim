@@ -45,7 +45,7 @@ def run(win):
         pygame.draw.circle(win, (255, 0, 255), pos, 5)
 
         pygame.display.flip()
-        clock.tick(60)
+        clock.tick(FPS)
 
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:

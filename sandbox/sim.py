@@ -5,7 +5,7 @@ from .input_handler import input_handle
 from .mouse import Mouse
 from .selection import Selection
 from .sandbox import Box
-from conts import WIDTH, HEIGHT, LOWER_BOARDER
+from conts import WIDTH, HEIGHT, LOWER_BOARDER, FPS
 from .get_particles import particles, objects
 
 
@@ -115,4 +115,4 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False, sh
         win.fill((255, 255, 255))
 
         if not pause:
-            clock.tick()
+            clock.tick(FPS)
