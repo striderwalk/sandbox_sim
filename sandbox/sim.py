@@ -5,7 +5,7 @@ from .input_handler import input_handle
 from .mouse import Mouse
 from .selection import Selection
 from .sandbox import Box
-from conts import WIDTH, HEIGHT, LOWER_BOARDER
+from conts import WIDTH, HEIGHT, LOWER_BOARDER, FPS
 from .get_particles import particles, objects
 
 
@@ -19,12 +19,13 @@ def get_sub_win(win, board):
 def time():
     pygame.init()
     win = pygame.display.set_mode((WIDTH, HEIGHT), flags=pygame.HIDDEN)
-    logggin.info("running sim in profiling mode")
+    logging.info("running sim in profiling mode")
     run_sim(win, slot=(0, "profiling"))
 
 
-
-def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False, show_temp=False):
+def run_sim(
+    win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False, show_temp=False
+):
     slot, board_data = slot
     profiling = type(board_data) == str and board_data == "profiling"
     # setup pygame
@@ -69,7 +70,7 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False, sh
             # reset game
             if not profiling:
                 board.reset()
-                pause_time += fnum # set frames to 0
+                pause_time += fnum  # set frames to 0
                 pygame.event.get()
             else:
                 # profiler cannot reset
@@ -95,14 +96,13 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False, sh
             show_temp = not show_temp
         elif result == "update":
             pause_time -= 1
-            board.update(win, fnum+1, False, show_temp)
+            board.update(win, fnum + 1, False, show_temp)
         else:
             logging.error(f"invalid result from input_handler of {result}")
 
-
         # display game data
         text = f"{fnum}, fps={round(clock.get_fps(), 3)}"
-        colour = [255*int(show_temp) for i in range(3)] 
+        colour = [255 * int(show_temp) for i in range(3)]
         fps_text = font.render(text, True, colour)
         win.blit(fps_text, (30, 30))
         if pause:
@@ -113,5 +113,6 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False, sh
         pygame.display.flip()
 
         win.fill((255, 255, 255))
+
         if not pause:
-            clock.tick()
+            clock.tick(FPS)

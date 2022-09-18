@@ -1,6 +1,6 @@
 import pygame
 from buttons import Slots
-from conts import WIDTH, HEIGHT
+from conts import FPS
 from slots import save_slot, get_saved, get_empty
 from end import end
 from buttons import make_menu_buttons
@@ -20,7 +20,6 @@ def save_exit(*args):
 def run(win, board, img):
     # pygame setup
     clock = pygame.time.Clock()
-    font = pygame.font.SysFont(None, 24)
     # slots
     index = get_empty()
     slots = Slots(get_saved())
@@ -51,4 +50,4 @@ def run(win, board, img):
         pygame.draw.circle(win, (255, 0, 255), pos, 5)
 
         pygame.display.flip()
-        clock.tick(120)
+        clock.tick(FPS)

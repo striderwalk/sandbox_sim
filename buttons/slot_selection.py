@@ -16,8 +16,10 @@ class Slots:
         gap = WIDTH / 10
         slot_width = 50
         add = (gap - slot_width) / 2
+
+        y = HEIGHT - 50
         self.slots = [
-            Slot_Button(gap * i + add, HEIGHT - 50, slot_width, 40, f"slot {i}", val, i)
+            Slot_Button(gap*i+add, y, slot_width, 40, f"slot {i}", val, i)
             for i, val in enumerate(saved)
         ]
 

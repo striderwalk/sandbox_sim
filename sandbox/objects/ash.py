@@ -3,6 +3,7 @@ from .smoke import Smoke
 from .solid import Solid
 from .properties import ash_vals
 
+
 class Ash(Particle, Solid):
     """
     a Particle that will fall
@@ -15,14 +16,13 @@ class Ash(Particle, Solid):
     ### rules ###
     max_temp = ash_vals["max_temp"]
     min_temp = ash_vals["min_temp"]
-    density = ash_vals["density"]
+    htrans_num = ash_vals["htrans_num"]
 
     def __init__(self, x, y, temp=temp):
         super().__init__(x, y, mass=20)
         Solid.__init__(self)
         self.update_colour()
         self.temp = temp
-
 
     def to_liquid(self):
         ### go to smoke for now ###
@@ -38,7 +38,7 @@ class Ash(Particle, Solid):
 
         # if on top of wood turn to smoke
         if self.y < len(board) - 1 and board[self.y + 1][self.x].flamable:
-            return {"type": Smoke, "temp": self.temp}
+            return {"type": Smoke}
         # time since created
         self.life_len += 1
 

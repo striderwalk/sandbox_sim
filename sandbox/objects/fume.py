@@ -24,7 +24,7 @@ class Fume(Particle, Gas):
     ### rules ###
     max_temp = fume_vals["max_temp"]
     min_temp = fume_vals["min_temp"]
-    density = fume_vals["density"]
+    htrans_num = fume_vals["htrans_num"]
 
     def __init__(self, x, y, thick=1, temp=temp):
         super().__init__(x, y, mass=-4)
@@ -58,7 +58,6 @@ class Fume(Particle, Gas):
     def to_liquid(self):
         return "dies"
 
-
     def update(self, board):
         # check if update needed
         if self.check_self(board):
@@ -74,7 +73,6 @@ class Fume(Particle, Gas):
         # timeout = 100 ± 10
         if self.life_len > self.timeout:
             return {"type": "dies"}
-
 
         # update position
         if pos := self.move(board):

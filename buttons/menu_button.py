@@ -1,6 +1,4 @@
 import pygame
-from random import random
-from conts import WIDTH, HEIGHT
 
 pygame.font.init()
 
@@ -55,5 +53,4 @@ class Button:
                 return self.func
 
     def click(self):
-         return self.func
-
+        return self.func

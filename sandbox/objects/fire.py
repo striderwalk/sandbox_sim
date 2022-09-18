@@ -1,12 +1,11 @@
 from .particle import Particle
 from .liquid import Liquid
-from .water import Water
 from .smoke import Smoke
-from .steam import Steam
 from .air import Air
 from random import random, randint, choice
 from colour import Color
 from .properties import fire_vals
+
 
 class Fire(Particle, Liquid):
     """
@@ -31,7 +30,7 @@ class Fire(Particle, Liquid):
     ### rules ###
     max_temp = fire_vals["max_temp"]
     min_temp = fire_vals["min_temp"]
-    density = fire_vals["density"]
+    htrans_num = fire_vals["htrans_num"]
 
     def __init__(self, x, y, player_made=True, temp=temp):
         super().__init__(x, y, mass=-1, static=False, is_flame=True)
@@ -40,6 +39,9 @@ class Fire(Particle, Liquid):
         self.colours = Fire.colours
         self.player_made = player_made
         self.temp = temp
+
+    def to_solid(self):
+        return "dies"
 
     # make sure water steams
     def check_wood(self, board):
@@ -84,17 +86,16 @@ class Fire(Particle, Liquid):
         self.life_len += 1
 
         if self.life_len > self.life_lim:
-            if random() > 0.5:
-                return {"type": Smoke, "temp": self.temp}
+            if random() > 0.9:
+                return {"type": Smoke}
             else:
-                return {"type": Air, "temp": self.temp}
+                return {"type": Air}
 
         self.update_colour(board)
         self.move(board)
 
         # if on celling DIE
         if self.y == 0:
-            if random() > 0.7:
-                return {"type": Smoke, "temp": self.temp}
-            else:
-                return {"type": "dies"}
+            return {"type": "dies"}
+
+        return self.check_temp()

@@ -1,8 +1,9 @@
+import logging
 from .particle import Particle
 from .liquid import Liquid
-from .steam import Steam
 from .stone import Stone
 from .properties import lava_vals
+
 
 class Lava(Particle, Liquid):
     """
@@ -20,16 +21,16 @@ class Lava(Particle, Liquid):
     """
 
     colour = (245, 134, 70)
-    
+
     temp = lava_vals["start_temp"]
 
     ### rules ###
     max_temp = lava_vals["max_temp"]
     min_temp = lava_vals["min_temp"]
-    density = lava_vals["density"]
+    htrans_num = lava_vals["htrans_num"]
 
     def __init__(self, x, y, temp=temp):
-        super().__init__(x, y, mass=1, is_flame=True)
+        super().__init__(x, y, mass=1.2, is_flame=True)
         Liquid.__init__(self)
 
         self.update_colour()
@@ -38,9 +39,10 @@ class Lava(Particle, Liquid):
         self.temp = temp
 
     def to_gas(self):
-        return No0ne
+        return None
 
     def to_solid(self):
+        logging.debug(f"Lava of temp {self.temp} fell to stone")
         return Stone
 
     def update(self, board):
@@ -54,10 +56,8 @@ class Lava(Particle, Liquid):
         # time since created
         self.life_len += 1
 
-
         # update position
         if pos := self.move(board):
             self.moveTo(board, *pos)
-
 
         return self.check_temp()

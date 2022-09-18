@@ -1,10 +1,6 @@
-import pygame
-import itertools
-from conts import WIDTH, HEIGHT, LOWER_BOARDER
 from slots import load_path
-from .selection import Selection
 from .sandbox import Box
-from .get_particles import particles, objects
+
 
 
 class Background:

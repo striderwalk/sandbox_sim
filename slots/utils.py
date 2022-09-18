@@ -1,6 +1,7 @@
 import os
 import logging
 
+
 def get_empty():
     # return index of first empty slot
     for i in range(10):
@@ -16,7 +17,6 @@ def get_saved():
             yield f"./saves/slot_{i}/board.png"
         else:
             yield "./assets/cross.png"
-
 
 
 def setup():

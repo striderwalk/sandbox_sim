@@ -1,6 +1,4 @@
 import pygame
-from random import random
-from conts import WIDTH, HEIGHT
 
 pygame.font.init()
 

@@ -15,7 +15,7 @@ class Fountain(Particle):
         self.obj = obj
 
         self.temp = obj.temp
-        self.density = obj.density
+        self.htrans_num = obj.htrans_num
 
     def update(self, board):
         for _, other in self.get_neighbours(board, 3):

@@ -12,8 +12,8 @@ def test_placement():
             board.add_particle(x, y, particles[index])
             index = (index + 1) % len(particles)
 
-
     return board
+
 
 def test_update(board):
 
@@ -24,14 +24,7 @@ def test_update(board):
             i.update(board.board)
 
 
-
 def test_board():
     board = test_placement()
 
     test_update(board)
-
-
-
-
-
-

@@ -5,6 +5,7 @@ from .fume import Fume
 from .properties import acid_vals
 from random import randint, random
 
+
 class Acid(Particle, Liquid):
     """
     a Particle never moves
@@ -17,7 +18,7 @@ class Acid(Particle, Liquid):
     ### rules ###
     max_temp = acid_vals["max_temp"]
     min_temp = acid_vals["min_temp"]
-    density = acid_vals["density"]
+    htrans_num = acid_vals["htrans_num"]
 
     def __init__(self, x, y, temp=temp):
         super().__init__(x, y, mass=0.9)
@@ -36,8 +37,8 @@ class Acid(Particle, Liquid):
     def check_other(self, board):
 
         up = self.y != 0
-        down = self.y < len(board)-1
-        left = self.x != len(board[0]) - 1 
+        down = self.y < len(board) - 1
+        left = self.x != len(board[0]) - 1
         right = self.x != 0
 
         # check below
@@ -65,8 +66,9 @@ class Acid(Particle, Liquid):
             board[self.y, self.x - 1].health -= self.strength
             action = True
 
-        if action and random() > 0.5 and type(board[self.y - 1, self.x]) in [Air, Acid]:
-            board[self.y - 1, self.x] = Fume(self.x, self.y - 1)
+        unkown_check = type(board[self.y - 1, self.x]) in [Air, Acid]
+        if action and random() > 0.5 and unkown_check:
+            board[self.y - 1, self.x] = Fume(self.x, self.y - 1, self.next_temp)
 
     def update(self, board):
         self.life_len += 1
@@ -75,7 +77,7 @@ class Acid(Particle, Liquid):
         self.check_other(board)
         up = type(board[self.y - 1, self.x]) == Air
         if random() > 0.85 + (self.life_len / 1000) and up:
-            board[self.y - 1, self.x] = Fume(self.x, self.y - 1)
+            board[self.y - 1, self.x] = Fume(self.x, self.y - 1, self.next_temp)
 
         # update position
         if pos := self.move(board):

@@ -2,10 +2,10 @@ import json
 import os
 import logging
 import numpy as np
-import pygame
 from .key import keys
 
 inverted_keys = {key: value for (value, key) in keys.items()}
+
 
 def convert_data(data):
     board = []
@@ -33,10 +33,9 @@ def load_path(path: str):
         try:
             data = convert_data(data)
             logging.info("save loaded")
-        except IndexError as e:
+        except IndexError:
             logging.warning("save loaded but conversion failed - using empty board")
     return data
-
 
 
 def load_slot(slot: int):
