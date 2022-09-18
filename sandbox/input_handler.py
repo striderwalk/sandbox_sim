@@ -16,11 +16,11 @@ def input_handle(mouse, board, selection, index):
     if keys[pygame.K_j]:
         if mouse_val[0] == "BOX":
             x, y = mouse_val[1:]
-            mouse.heat_cells(board.board, x, y, 30)
+            mouse.heat_cells(board.board, x, y, 100)
     if keys[pygame.K_k]:
         if mouse_val[0] == "BOX":
             x, y = mouse_val[1:]
-            mouse.heat_cells(board.board, x, y, -30)
+            mouse.heat_cells(board.board, x, y, -100)
 
     # reset
     if keys[pygame.K_r]:
@@ -38,7 +38,7 @@ def input_handle(mouse, board, selection, index):
 
     if keys[pygame.K_e]:
         if mouse_val[0] == "BOX":
-            x, y = val[1:]
+            x, y = mouse_val[1:]
             # end neighbours
             mouse.press(board, x, y, Fountain, place_obj=particles[index])
 

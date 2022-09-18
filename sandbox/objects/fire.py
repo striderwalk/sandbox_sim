@@ -40,6 +40,9 @@ class Fire(Particle, Liquid):
         self.player_made = player_made
         self.temp = temp
 
+    def to_solid(self):
+        return "dies"
+
     # make sure water steams
     def check_wood(self, board):
         # import here to stop circular import
@@ -83,7 +86,7 @@ class Fire(Particle, Liquid):
         self.life_len += 1
 
         if self.life_len > self.life_lim:
-            if random() > 0.5:
+            if random() > 0.9:
                 return {"type": Smoke}
             else:
                 return {"type": Air}
@@ -93,7 +96,6 @@ class Fire(Particle, Liquid):
 
         # if on celling DIE
         if self.y == 0:
-            if random() > 0.7:
-                return {"type": Smoke}
-            else:
-                return {"type": "dies"}
+            return {"type": "dies"}
+
+        return self.check_temp()

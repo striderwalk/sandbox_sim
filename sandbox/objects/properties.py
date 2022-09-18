@@ -18,7 +18,7 @@ air_vals = {
 
 ash_vals = {"start_temp": 400, "min_temp": None, "max_temp": 600, "htrans_num": 1.5}
 
-fire_vals = {"start_temp": 650, "min_temp": None, "max_temp": None, "htrans_num": 2}
+fire_vals = {"start_temp": 650, "min_temp": 20, "max_temp": None, "htrans_num": 2}
 
 fume_vals = {
     "start_temp": ROOM_TEMP,
@@ -51,7 +51,7 @@ steam_vals = {
     "start_temp": 150,
     "min_temp": 100,
     "max_temp": None,
-    "htrans_num": 0.0001,
+    "htrans_num": 1,
 }
 
 stone_vals = {
@@ -66,6 +66,6 @@ water_vals = {"start_temp": ROOM_TEMP, "min_temp": 0, "max_temp": 100, "htrans_n
 wood_vals = {
     "start_temp": ROOM_TEMP,
     "min_temp": None,
-    "max_temp": None,
+    "max_temp": 200,
     "htrans_num": 1.5,
 }

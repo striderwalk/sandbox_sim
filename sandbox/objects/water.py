@@ -2,6 +2,7 @@ from .particle import Particle
 from .steam import Steam
 from .properties import water_vals
 from .liquid import Liquid
+from .ice import Ice
 
 
 class Water(Particle, Liquid):
@@ -40,7 +41,7 @@ class Water(Particle, Liquid):
         return Steam
 
     def to_solid(self):
-        return None
+        return Ice
 
     def update(self, board):
         if self.check_self(board):

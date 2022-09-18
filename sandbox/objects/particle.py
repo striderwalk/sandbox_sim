@@ -48,12 +48,10 @@ class Particle:
 
     @property
     def temp_colour(self):
-        try:
-            temp = self.temp
-            colour = HEAT_MAP[int(min(500, temp + 100))]
-        except IndexError:  # thing to cold
-            logging.critical(f"{type(self).__name__} at temp of {self.temp}")
+        if self.temp + 100 < 0:
             colour = (0, 0, 0)
+        else:
+            colour = HEAT_MAP[int(min(500, self.temp + 100))]
 
         return colour
 
@@ -85,10 +83,10 @@ class Particle:
         temp = 0
         for other in others:
             if type(other).__name__ == "Fountain":
-                htrans_num = other.obj.htrans_num**2
-            elif self.temp <= other.temp and type(other).htrans_num < 1:
+                htrans_num = other.obj.htrans_num ** 2
+            elif other.type == "solid" and type(self) == type(other):
                 htrans_num = 1
-            elif self.type == "solid" and type(self) and type(other):
+            elif abs(self.temp - other.temp) > 20 and type(other).htrans_num < 1:
                 htrans_num = 1
             else:
                 htrans_num = type(other).htrans_num ** 2
