@@ -4,7 +4,7 @@ from conts import (
     HEIGHT,
     WIDTH,
 )
-from .get_particles import particles
+from sandbox import particles
 from .button import Button
 
 

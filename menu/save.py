@@ -4,7 +4,7 @@ from conts import FPS
 from slots import save_slot, get_saved, get_empty
 from end import end
 from buttons import make_menu_buttons
-from sandbox import Background
+
 
 """
 GUI for saving board

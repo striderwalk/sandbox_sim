@@ -1,17 +1,16 @@
-import pygame
 import logging
 import numpy as np
 from random import randint
 from .objects import Stone, Air
 from .objects.fountain import Fountain
-from conts import ROWS, COLS, CELL_WIDTH, CELL_HEIGHT
+from conts import ROWS, COLS
 from .get_particles import particles
 
 class Box:
     """
     a container for all particles
     use for
-    - updating
+    - updating\
     - moving
     - drawing
     - adding new particles
@@ -54,41 +53,6 @@ class Box:
                     pass
         #######################################################
 
-    def draw_particles(self, win, show_temp=False, show_fountain=True):
-        # draw all particles
-        for i, row in enumerate(self.board):
-            for j, val in enumerate(row):
-                # if air not dawn to save time
-                if not show_temp:
-                    options = [Fountain, Air]
-                else:
-                    options = [Fountain]
-                if type(val) not in options:
-                    if show_temp:
-                        colour = val.temp_colour
-                    else:
-                        colour = val.colour
-                    try:
-                        pygame.draw.rect(
-                            win,
-                            colour,
-                            [j * CELL_WIDTH, i * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT],
-                        )
-                    except ValueError as e:
-                        print(val)
-                        raise e
-                elif type(val) == Fountain:
-                    if show_fountain:
-                        colour = val.colour
-                    else:
-                        colour = val.obj.colour
-
-                    pygame.draw.rect(
-                        win,
-                        colour,
-                        [j * CELL_WIDTH, i * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT],
-                    )
-
     def add_particle(
         self, x, y, obj, *, strict=False, place_obj=None, health=10
     ) -> None:
@@ -108,12 +72,26 @@ class Box:
         else:
             self.board[y, x] = obj(x, y)
 
-    def update(self, win, fnum, pause, show_temp, show_fountain=True):
-        # DRAW THINGS!!!!
-        self.draw_particles(win, show_temp, show_fountain)
-        if pause:
-            return
+    def press(self, size, x, y, obj, keep=False, place_obj=None):
+        # if keep only replace Air
+        # set mouse pos to obj
 
+        if obj == Fountain:
+            self.add_particle(x, y, obj, strict=keep, place_obj=place_obj)
+        else:
+            self.add_particle(x, y, obj, strict=keep)
+
+        # set neighbours
+        cell = self.board[y][x]
+        for _, other in cell.get_neighbours(self.board, size):
+            if obj == Fountain:
+                self.add_particle(
+                    other.x, other.y, obj, strict=keep, place_obj=place_obj
+                )
+            else:
+                self.add_particle(other.x, other.y, obj, strict=keep)
+
+    def update(self, fnum):
         # update board for heavy things
         for row in self.board[::-1]:
             for item in row:

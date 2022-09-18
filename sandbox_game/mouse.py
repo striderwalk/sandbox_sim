@@ -1,7 +1,7 @@
 import pygame
-from .objects.fountain import Fountain
-from .objects import Air
-from .get_particles import particles
+from sandbox.objects.fountain import Fountain
+from sandbox.objects import Air
+from sandbox import particles
 from conts import (
     CELL_WIDTH,
     CELL_HEIGHT,
@@ -30,24 +30,7 @@ class Mouse:
         if new > 0 and new < MAX_SIZE:
             self.size = new
 
-    def press(self, board, x, y, obj, *, keep=False, place_obj=None):
-        # if keep only replace Air
-        # set mouse pos to obj
 
-        if obj == Fountain:
-            board.add_particle(x, y, obj, strict=keep, place_obj=place_obj)
-        else:
-            board.add_particle(x, y, obj, strict=keep)
-
-        # set neighbours
-        cell = board.board[y][x]
-        for _, other in cell.get_neighbours(board.board, self.size):
-            if obj == Fountain:
-                board.add_particle(
-                    other.x, other.y, obj, strict=keep, place_obj=place_obj
-                )
-            else:
-                board.add_particle(other.x, other.y, obj, strict=keep)
 
     def heat_cells(self, board, x, y, temp):
         for _, other in board[y][x].get_neighbours(board, self.size):
@@ -101,26 +84,28 @@ class Mouse:
 
     def update(self, win, board, index):
         self.draw_mouse(win, particles[index])
-
+        clicks = []
         # check for input
         # unsafe placement
         if pygame.mouse.get_pressed()[0]:
             pos = self.get_pos()
             if pos[0] == "BOX":
-                self.press(board, *pos[1:], particles[index])
+                clicks.append({"type": "press", "value" : (self.size, *pos[1:], particles[index], False, None)})
 
         if pygame.mouse.get_pressed()[1]:
             pos = self.get_pos()
             if pos[0] == "BOX":
                 x, y = pos[1:]
                 try:
-                    return particles.index(type(board.board[y, x]))
+                    return particles.index(type(board[y, x]))
                 except ValueError:  # Fountain not pick-able
-                    if type(board.board[y, x]) == Fountain:
-                        return particles.index(board.board[y, x].obj)
+                    if type(board[y, x]) == Fountain:
+                        return particles.index(board[y, x].obj)
                         
         # safe placements
         if pygame.mouse.get_pressed()[2]:
             pos = self.get_pos()
             if pos[0] == "BOX":
-                board = self.press(board, *pos[1:], particles[index], keep=True)
+                 clicks.append({"type": "press", "value" : (self.size, *pos[1:], particles[index], True, None)})
+
+        return clicks

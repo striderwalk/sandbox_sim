@@ -1,12 +1,12 @@
 # profiler for project
-import sandbox
+from sandbox_game import time
 import cProfile
 import pstats
 import os
 
 print("timeing started please DON'T press anything")
 with cProfile.Profile() as pr:
-    sandbox.time()
+    time()
 print("timeing ended")
 
 st = pstats.Stats(pr)
