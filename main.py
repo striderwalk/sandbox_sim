@@ -9,6 +9,8 @@ from menu import loading, menu, save, end
 from slots import setup
 from log import configer_logger
 
+
+
 # sure the is a saves folder
 setup()
 configer_logger()

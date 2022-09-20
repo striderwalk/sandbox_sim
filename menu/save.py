@@ -4,7 +4,7 @@ from conts import FPS
 from slots import save_slot, get_saved, get_empty
 from end import end
 from buttons import make_menu_buttons
-
+from sandbox_game import Background
 
 """
 GUI for saving board
@@ -36,7 +36,7 @@ def run(win, board, img):
 
     while True:
         win.fill((255, 255, 255))
-        background.draw_background(win)
+        background.update(win)
         for i, button in enumerate(menu_buttons):
             button.draw(win)
             # handle clicks

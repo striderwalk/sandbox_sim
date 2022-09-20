@@ -1,5 +1,6 @@
 from slots import load_path
-from .sandbox import Box
+from sandbox import Box, update_sim
+from .draw import draw_board
 
 ############
 ## fix me ##
@@ -10,6 +11,7 @@ class Background:
         self.board = Box(load_path("./assets/menu_board.json"))
         self.fnum = -1
 
-    def draw_background(self, win):
+    def update(self, win):
         self.fnum += 1
-        self.board.update(win, self.fnum, False, False, show_fountain=False)
+        update_sim(self.board, self.fnum)
+        draw_board(win, self.board.board)

@@ -4,6 +4,7 @@ import logging
 
 HEAT_MAP = list(Color("#0000ff").range_to(Color("#ff0000"), 501))
 HEAT_MAP = [[i * 255 for i in colour.rgb] for colour in HEAT_MAP]
+THRESH_HOLD = 10
 
 
 class Particle:
@@ -55,30 +56,38 @@ class Particle:
 
         return colour
 
-    def update_temp(self, board):
-
-        if self.is_flame:
-            self.next_temp = 0  # self.temp * 0.7
-        else:
-            self.next_temp = 0
-        # find neigbours
-        others = []  # include self in avage
-        total = 1
+    def get_others(self, board,*,  key=lambda x : x):
+        others = []
         if self.y > 0:  # above
-            other = board[self.y - 1][self.x]
-            others.append(other)
+            yield board[self.y - 1][self.x]
+            # others.append(other)
 
         if self.y < len(board) - 1:  # below
-            other = board[self.y + 1][self.x]
-            others.append(other)
+            yield board[self.y + 1][self.x]
+            # others.append(other)
 
         if self.x >= 0:  # left
-            other = board[self.y][self.x - 1]
-            others.append(other)
+            yield board[self.y][self.x - 1]
+            # others.append(other)
 
         if self.x < len(board[self.y]) - 1:  # right
-            other = board[self.y][self.x + 1]
-            others.append(other)
+            yield board[self.y][self.x + 1]
+            # others.append(other)
+
+
+    def update_temp(self, board):
+        # profiler.start()
+        # find neigbours
+        others = list(self.get_others(board)) # include self in avage
+        total = 0
+
+        take_avg = 4
+        for i in others: 
+            if abs(i.temp - self.temp) <= THRESH_HOLD:
+                take_avg -= 1
+
+        if take_avg == 0:
+            return
 
         temp = 0
         for other in others:
@@ -95,10 +104,11 @@ class Particle:
             total += htrans_num
 
         temp += self.temp
-        total += 0.75
+        total += 1
 
-        self.next_temp += temp / total
+        self.next_temp = temp / total
 
+        
     def update_colour(self):
         # randomly change rbg colour values
         self.colour = tuple(type(self).colour)
@@ -166,3 +176,4 @@ class Particle:
 
     def __repr__(self):
         return f"{type(self).__name__} of mass {self.mass} and temp {self.temp} at {self.x}, {self.y}"
+

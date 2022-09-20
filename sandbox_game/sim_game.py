@@ -1,6 +1,7 @@
 import pygame
 import itertools
 import logging
+from conts import WIDTH, HEIGHT, LOWER_BOARDER, FPS, ROWS, COLS, CELL_WIDTH, CELL_HEIGHT
 from sandbox import Box, update_sim
 from sandbox.objects.fountain import Fountain
 from sandbox.get_particles import particles, objects
@@ -9,7 +10,7 @@ from sandbox.objects.fountain import Fountain
 from .input_handler import input_handle
 from .mouse import Mouse
 from .selection import Selection
-from conts import WIDTH, HEIGHT, LOWER_BOARDER, FPS, ROWS, COLS, CELL_WIDTH, CELL_HEIGHT
+from .draw import draw_board
 
 def get_sub_win(win, board):
     draw_board(win, board)
@@ -20,44 +21,10 @@ def get_sub_win(win, board):
 
 def time():
     pygame.init()
-    win = pygame.display.set_mode((WIDTH, HEIGHT), flags=pygame.HIDDEN)
+    win = pygame.display.set_mode((WIDTH, HEIGHT))#, flags=pygame.HIDDEN)
     logging.info("running sim in profiling mode")
     run_sim(win, slot=(0, "profiling"))
 
-def draw_board(win, board, show_temp=False, show_fountain=True):
-    # draw all particles
-    for i, row in enumerate(board.board):
-        for j, val in enumerate(row):
-            # if air not dawn to save time
-            if not show_temp:
-                options = [Fountain, Air]
-            else:
-                options = [Fountain]
-            if type(val) not in options:
-                if show_temp:
-                    colour = val.temp_colour
-                else:
-                    colour = val.colour
-                try:
-                    pygame.draw.rect(
-                        win,
-                        colour,
-                        [j * CELL_WIDTH, i * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT],
-                    )
-                except ValueError as e:
-                    print(val)
-                    raise e
-            elif type(val) == Fountain:
-                if show_fountain:
-                    colour = val.colour
-                else:
-                    colour = val.obj.colour
-
-                pygame.draw.rect(
-                    win,
-                    colour,
-                    [j * CELL_WIDTH, i * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT],
-                )
 def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False, show_temp=False):
 
     slot, board_data = slot
@@ -82,9 +49,12 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False, sh
     counter = itertools.count()
     for fnum in counter:
         # max profile time
-        if profiling and fnum >= 200:
-            pygame.quit()
-            return
+        if profiling:
+            if fnum >= 500:
+                pygame.quit()
+                return
+            else:
+                print(f"[{fnum} out of 500]", end = "\r")
 
         # make frame num stable if paused
         fnum -= pause_time
@@ -93,8 +63,8 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False, sh
 
         # print(board.debug())
         # update particles
-        draw_board(win, board, show_temp)
-        update_sim(board, fnum, clicks)
+        draw_board(win, board.board, show_temp)
+        update_sim(board, fnum, clicks, pause)
         # mouse input
         if type(val := mouse.update(win, board.board, index)) == int:
             index = val
@@ -121,7 +91,7 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False, sh
         elif result["type"] == "end":
             # quit
             if not profiling:
-                return {"type": "end", "board": board, "img": get_sub_win(win, board)}
+                return {"type": "end", "board": board, "img": get_sub_win(win, board.board)}
             else:
                 pygame.quit()
                 return
@@ -130,13 +100,13 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False, sh
             pause = not pause
         elif result["type"] == "menu":
 
-            return  {"type": "menu", "board": board, "img": get_sub_win(win, board)}
+            return  {"type": "menu", "board": board, "img": get_sub_win(win, board.board)}
         elif result["type"] == "temp":
             show_temp = not show_temp
             
         elif result["type"] == "update":
             pause_time -= 1
-            board.update(win, fnum + 1, False, show_temp)
+            update_sim(board, fnum)
         elif result["type"] == "rain":
             clicks.append(result)
         else:
