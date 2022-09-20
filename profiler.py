@@ -1,5 +1,4 @@
 # profiler for project
-from sandbox_game import time
 import cProfile
 import pstats
 import os
