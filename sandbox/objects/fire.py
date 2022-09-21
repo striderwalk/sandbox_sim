@@ -86,7 +86,7 @@ class Fire(Particle, Liquid):
         self.life_len += 1
 
         if self.life_len > self.life_lim:
-            if random() > 0.9:
+            if random() > 0.99:
                 return {"type": Smoke}
             else:
                 return {"type": Air}

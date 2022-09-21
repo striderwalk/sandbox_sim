@@ -4,7 +4,7 @@ from slots import get_saved, load_slot
 from buttons import Slots
 from end import end
 from buttons import make_menu_buttons
-from sandbox import Background
+from sandbox_game import Background
 
 
 """
@@ -30,7 +30,7 @@ def run(win):
     while True:
         # clear screen
         win.fill((255, 255, 255))
-        background.draw_background(win)
+        background.update(win)
         # check menu buttons
         for i, button in enumerate(buttons):
             button.draw(win)

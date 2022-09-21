@@ -1,17 +1,17 @@
-import pygame
 import logging
 import numpy as np
 from random import randint
 from .objects import Stone, Air
 from .objects.fountain import Fountain
-from conts import ROWS, COLS, CELL_WIDTH, CELL_HEIGHT
+from .objects.barrier import Barrier
+from conts import ROWS, COLS
 from .get_particles import particles
 
 class Box:
     """
     a container for all particles
     use for
-    - updating
+    - updating\
     - moving
     - drawing
     - adding new particles
@@ -21,19 +21,46 @@ class Box:
         # setup board
         if type(board_data) != str:  # loaded board from file
             self.board = board_data
-            if not np.array_equal(self.board, self.board[:ROWS, :COLS]):
+            if len(self.board) != ROWS or len(self.board[0]) != COLS:
                 logging.warning("board sized incorrectly resizing")
-                self.board = self.board[:ROWS, :COLS]
+                self.scale_board()
         elif board_data == "empty":  # no board
-            self.board = np.array(
-                [[Air(x, y) for x in range(COLS)] for y in range(ROWS)]
-            )
+            self.board = make_empty()
             logging.info("created empty board")
 
         elif board_data == "profiling":  # setup for profiling
 
             self.set_profiling_board()
             logging.info("profile board made")
+
+
+    def scale_board(self):
+        # check if board is to small
+        row_len = len(self.board)
+        col_len = len(self.board[0])
+
+        if row_len < ROWS:
+            diff = ROWS - row_len
+            adder = [[Air(0, 0) for i in range(col_len)] for _ in range(diff)]
+            self.board = np.append(self.board, adder, 0)
+
+        elif row_len > ROWS:
+            self.board = self.board[:ROWS, :]
+
+        if col_len < COLS:
+            
+            diff = COLS - col_len
+            self.board = np.append(self.board, [[Air(0, 0) for i in range(diff)] for _ in range(ROWS)], 1)
+            
+        elif col_len > COLS:
+            self.board = self.board[:COLS, :]
+
+        logging.info(f"resized board of size {row_len}x{col_len} to {ROWS}x{COLS}")
+        self.fix()
+
+
+
+
 
     def set_profiling_board(self):
         # i don't like this code but done care enough to fix it
@@ -46,7 +73,7 @@ class Box:
             for j in range(COLS):
                 index_d = j // step
                 if j % step < 2:
-                    self.add_particle(j, i, Stone, health=100000)
+                    self.add_particle(j, i, Barrier)
                     continue
                 try:
                     self.add_particle(j, i, particles[index_d])
@@ -54,45 +81,10 @@ class Box:
                     pass
         #######################################################
 
-    def draw_particles(self, win, show_temp=False, show_fountain=True):
-        # draw all particles
-        for i, row in enumerate(self.board):
-            for j, val in enumerate(row):
-                # if air not dawn to save time
-                if not show_temp:
-                    options = [Fountain, Air]
-                else:
-                    options = [Fountain]
-                if type(val) not in options:
-                    if show_temp:
-                        colour = val.temp_colour
-                    else:
-                        colour = val.colour
-                    try:
-                        pygame.draw.rect(
-                            win,
-                            colour,
-                            [j * CELL_WIDTH, i * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT],
-                        )
-                    except ValueError as e:
-                        print(val)
-                        raise e
-                elif type(val) == Fountain:
-                    if show_fountain:
-                        colour = val.colour
-                    else:
-                        colour = val.obj.colour
-
-                    pygame.draw.rect(
-                        win,
-                        colour,
-                        [j * CELL_WIDTH, i * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT],
-                    )
-
     def add_particle(
         self, x, y, obj, *, strict=False, place_obj=None, health=10
     ) -> None:
-        if obj not in particles and obj != Fountain:
+        if obj not in particles and obj not in [Fountain, Barrier]:
             raise TypeError(f"add_particle ask to place invalid particle {obj}")
 
         # add particle to board
@@ -108,12 +100,26 @@ class Box:
         else:
             self.board[y, x] = obj(x, y)
 
-    def update(self, win, fnum, pause, show_temp, show_fountain=True):
-        # DRAW THINGS!!!!
-        self.draw_particles(win, show_temp, show_fountain)
-        if pause:
-            return
+    def press(self, size, x, y, obj, keep=False, place_obj=None):
+        # if keep only replace Air
+        # set mouse pos to obj
 
+        if obj == Fountain:
+            self.add_particle(x, y, obj, strict=keep, place_obj=place_obj)
+        else:
+            self.add_particle(x, y, obj, strict=keep)
+
+        # set neighbours
+        cell = self.board[y][x]
+        for _, other in cell.get_neighbours(self.board, size):
+            if obj == Fountain:
+                self.add_particle(
+                    other.x, other.y, obj, strict=keep, place_obj=place_obj
+                )
+            else:
+                self.add_particle(other.x, other.y, obj, strict=keep)
+
+    def update(self, fnum):
         # update board for heavy things
         for row in self.board[::-1]:
             for item in row:
@@ -181,13 +187,13 @@ class Box:
 
         return vals
 
-    def fix(self) -> None:
+    def fix(self, talk=True) -> None:
         # tell each particle where there are
         for y, row in enumerate(self.board):
             for x, item in enumerate(row):
                 if type(item) == Air:
                     continue
-                if item.y != y or item.x != x:
+                if item.y != y or item.x != x and talk:
                     logging.warning(f"{item=} pos needed fixing to {x=}, {y=}")
                 item.x = x
                 item.y = y
@@ -201,3 +207,9 @@ class Box:
     def reset(self):
         logging.info("reseting board")
         self.board = np.array([[Air(x, y) for x in range(COLS)] for y in range(ROWS)])
+
+
+def make_empty():
+    return np.array(
+                [[Air(x, y) for x in range(COLS)] for y in range(ROWS)]
+            )
