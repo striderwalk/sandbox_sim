@@ -66,7 +66,7 @@ class Particle:
             yield board[self.y + 1][self.x]
             # others.append(other)
 
-        if self.x >= 0:  # left
+        if self.x > 0:  # left
             yield board[self.y][self.x - 1]
             # others.append(other)
 

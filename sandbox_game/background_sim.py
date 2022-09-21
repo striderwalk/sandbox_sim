@@ -14,4 +14,4 @@ class Background:
     def update(self, win):
         self.fnum += 1
         update_sim(self.board, self.fnum)
-        draw_board(win, self.board.board)
+        draw_board(win, self.board.board, show_fountain=False)

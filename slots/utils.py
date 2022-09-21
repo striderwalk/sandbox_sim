@@ -13,8 +13,11 @@ def get_saved():
     # return image of board if slot has been saved
     # if not return imgage if cross
     for i in range(10):
-        if os.path.exists(f"./saves/slot_{i}/board.png"):
-            yield f"./saves/slot_{i}/board.png"
+        if os.path.exists(f"./saves/slot_{i}/board.json"):
+            ## allow for slot with no img but board for debug / dev
+            if os.path.exists(f"./saves/slot_{i}/board.png"):
+                yield f"./saves/slot_{i}/board.png"
+            else: yield "./assets/empty.png"
         else:
             yield "./assets/cross.png"
 
