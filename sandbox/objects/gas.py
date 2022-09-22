@@ -9,6 +9,9 @@ class Gas:
      - spreading
     """
 
+    def __init__(self):
+        self.type = "gas"
+
     def copy(self, board):
         if self.thickness <= 1:
             return

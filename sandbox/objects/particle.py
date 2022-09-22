@@ -4,7 +4,7 @@ import logging
 
 HEAT_MAP = list(Color("#0000ff").range_to(Color("#ff0000"), 501))
 HEAT_MAP = [[i * 255 for i in colour.rgb] for colour in HEAT_MAP]
-THRESH_HOLD = 10
+THRESH_HOLD = 1
 
 
 class Particle:
@@ -16,17 +16,7 @@ class Particle:
      - find neighbours
     """
 
-    def __init__(
-        self,
-        x,
-        y,
-        mass=0,
-        static=False,
-        flamable=False,
-        is_flame=False,
-        health=100,
-        obj=None,
-    ):
+    def __init__( self,x,y,mass=0,static=False, flamable=False, is_flame=False, health=100, obj=None):
         self.x = x
         self.y = y
         self.mass = mass
@@ -92,16 +82,16 @@ class Particle:
         temp = 0
         for other in others:
             if type(other).__name__ == "Fountain":
-                htrans_num = other.obj.htrans_num ** 2
+                conduct = other.obj.conduct * other.obj.mass
             elif other.type == "solid" and type(self) == type(other):
-                htrans_num = 1
-            elif abs(self.temp - other.temp) > 20 and type(other).htrans_num < 1:
-                htrans_num = 1
+                conduct = 1
+            elif abs(self.temp - other.temp) > 20 and type(other).conduct < 1:
+                conduct = 1
             else:
-                htrans_num = type(other).htrans_num ** 2
+                conduct = type(other).conduct * other.mass
 
-            temp += other.temp * htrans_num
-            total += htrans_num
+            temp += other.temp * conduct 
+            total += conduct
 
         temp += self.temp
         total += 1
@@ -141,7 +131,8 @@ class Particle:
         return others
 
     def moveTo(self, board, x, y):
-        self.load = x, y
+        if not board[y][x].static:
+            self.load = x, y
 
     def load_move(self, board):
         # set current temp to next
@@ -175,5 +166,5 @@ class Particle:
             return False
 
     def __repr__(self):
-        return f"{type(self).__name__} of mass {self.mass} and temp {self.temp} at {self.x}, {self.y}"
+        return f"{type(self).__name__} of mass {self.mass} and, temp {self.temp}, health {self.health} at {self.x}, {self.y}"
 

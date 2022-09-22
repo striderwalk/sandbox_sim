@@ -27,10 +27,11 @@ class Lava(Particle, Liquid):
     ### rules ###
     max_temp = lava_vals["max_temp"]
     min_temp = lava_vals["min_temp"]
-    htrans_num = lava_vals["htrans_num"]
+    conduct = lava_vals["conduct"]
+    mass = lava_vals["mass"]
 
     def __init__(self, x, y, temp=temp):
-        super().__init__(x, y, mass=1.2, is_flame=True)
+        super().__init__(x, y, mass=Lava.mass, is_flame=True)
         Liquid.__init__(self)
 
         self.update_colour()
@@ -42,7 +43,7 @@ class Lava(Particle, Liquid):
         return None
 
     def to_solid(self):
-        logging.debug(f"Lava of temp {self.temp} fell to stone")
+        # logging.debug(f"Lava of temp {self.temp} fell to stone")
         return Stone
 
     def update(self, board):

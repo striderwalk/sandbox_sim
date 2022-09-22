@@ -24,10 +24,11 @@ class Wood(Particle, Solid):
     ### rules ###
     max_temp = wood_vals["max_temp"]
     min_temp = wood_vals["min_temp"]
-    htrans_num = wood_vals["htrans_num"]
+    conduct = wood_vals["conduct"]
+    mass = wood_vals["mass"]
 
     def __init__(self, x, y, temp=temp):
-        super().__init__(x, y, mass=1000, static=True, is_flame=False)
+        super().__init__(x, y, mass=Wood.mass, static=True, is_flame=False)
         Solid.__init__(self)
 
         self.update_colour()

@@ -21,7 +21,7 @@ def get_sub_win(win, board):
 
 def time():
     pygame.init()
-    win = pygame.display.set_mode((WIDTH, HEIGHT))#, flags=pygame.HIDDEN)
+    win = pygame.display.set_mode((WIDTH, HEIGHT), flags=pygame.HIDDEN)
     logging.info("running sim in profiling mode")
     run_sim(win, slot=(0, "profiling"))
 
@@ -64,7 +64,9 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False, sh
         # print(board.debug())
         # update particles
         draw_board(win, board.board, show_temp)
-        update_sim(board, fnum, clicks, pause)
+        pos = mouse.get_pos()
+        mouse_pos = pos[1:] if pos[0] == "BOX" else None
+        update_sim(board, fnum, clicks, mouse_pos, pause)
         # mouse input
         if type(val := mouse.update(win, board.board, index)) == int:
             index = val
@@ -77,6 +79,9 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False, sh
         clicks.extend(_clicks)
         if result is None:
             pass
+        elif result["handler"] == "sim":
+            clicks.append(result)
+
         elif result["type"] == "reset":
             # reset game
             if not profiling:
@@ -107,8 +112,6 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False, sh
         elif result["type"] == "update":
             pause_time -= 1
             update_sim(board, fnum)
-        elif result["type"] == "rain":
-            clicks.append(result)
         else:
             logging.error("internal event not hadled conseder using pygame events")
 

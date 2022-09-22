@@ -56,7 +56,7 @@ class Box:
             self.board = self.board[:COLS, :]
 
         logging.info(f"resized board of size {row_len}x{col_len} to {ROWS}x{COLS}")
-        self.fix()
+        self.fix(talk=False)
 
 
 
@@ -119,59 +119,39 @@ class Box:
             else:
                 self.add_particle(other.x, other.y, obj, strict=keep)
 
+
+    def update_row(self, row, types):
+        for item in row:
+            if item.type not in types:
+                continue
+                
+            # check for death in particle
+            if (result := item.update(self.board)) is None:
+                continue
+            elif result["type"] == "dies":
+                item.load_move(self.board)
+                self.board[item.y, item.x] = Air(item.x, item.y, item.temp)
+            # if particle wants to go though a major change
+            elif result["type"] is not None:
+                self.board[item.y, item.x] = result["type"](
+                    item.x, item.y, temp=item.next_temp)
+
+        # move items
+        for item in row[::2]:
+            item.load_move(self.board)
+        # move items
+        for item in row[1::2]:
+            item.load_move(self.board)
+
+
+
     def update(self, fnum):
-        # update board for heavy things
+        # update board 
         for row in self.board[::-1]:
-            for item in row:
-                if item.count != fnum and item.mass > 0:  # if fnum same already updated
-
-                    # check for death in particle
-                    if (result := item.update(self.board)) is None:
-                        pass
-                    elif result["type"] == "dies":
-                        item.load_move(self.board)
-                        self.board[item.y, item.x] = Air(item.x, item.y)
-                    # if particle wants to go though a major change
-                    elif result["type"] is not None:
-                        self.board[item.y, item.x] = result["type"](
-                            item.x, item.y, int(item.next_temp)
-                        )
-                    # update count
-                    self.board[item.y, item.x].count = fnum
-            # move items
-            for item in row[::2]:
-                item.load_move(self.board)
-            # move items
-            for item in row[1::2]:
-                item.load_move(self.board)
-
-        # update board for other things
+            self.update_row(row, ["solid", "liquid"])
+            #### add directioin finlter
         for row in self.board:
-            for item in row:
-                if (
-                    item.count != fnum and item.mass <= 0
-                ):  # if fnum same already updated
-
-                    # check for death in particle
-                    if (result := item.update(self.board)) is None:
-                        pass
-                    elif result["type"] == "dies":
-                        item.load_move(self.board)
-                        self.board[item.y, item.x] = Air(item.x, item.y)
-                    # if particle wants to go though a major change
-                    elif result["type"] is not None:
-                        self.board[item.y, item.x] = result["type"](
-                            item.x, item.y, int(item.next_temp)
-                        )
-                    # update count
-                    self.board[item.y, item.x].count = fnum
-
-            # move items
-            for item in row[::2]:
-                item.load_move(self.board)
-            # move items
-            for item in row[1::2]:
-                item.load_move(self.board)
+            self.update_row(row, ["gas"])
 
         # self.fix()
 
@@ -198,6 +178,19 @@ class Box:
                 item.x = x
                 item.y = y
                 item.load = None
+
+    def heat_cells(self, mouse_pos, change_temp, size):
+        # check for invaild pos
+        if not mouse_pos: 
+            return None
+        x, y = mouse_pos
+        if 0 > y or y > ROWS or 0 > x or x > COLS:
+            logging.warning(f"box cords {x=},{y=} from mouse not vaild")
+            return None
+
+        for _, other in self.board[y][x].get_neighbours(self.board, size):
+            other.temp += change_temp
+
 
     def rain_type(self, obj, num=1500) -> None:
         for _ in range(num):

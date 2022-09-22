@@ -12,10 +12,11 @@ class Fountain(Particle):
 
     def __init__(self, x, y, obj):
         super().__init__(x, y, mass=1000, static=True, obj=obj)
+        self.type = "solid"
         self.obj = obj
 
         self.temp = obj.temp
-        self.htrans_num = obj.htrans_num
+        self.conduct = obj.conduct
 
     def update(self, board):
         for _, other in self.get_neighbours(board, 3):

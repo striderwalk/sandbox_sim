@@ -32,14 +32,12 @@ class Mouse:
 
 
 
-    def heat_cells(self, board, x, y, temp):
-        for _, other in board[y][x].get_neighbours(board, self.size):
-            other.temp += temp
 
     def get_pos(self):
         x, y = pygame.mouse.get_pos()
         # return y of COLS*CELL_HEIGHT+10 to avoid boarder bugs
         if y > ROWS * CELL_HEIGHT - 3:
+            # i think this is meant to make sure clicks happen, but could be a bug??
             return ["CORD", x, ROWS * CELL_HEIGHT + 10]
         box_x = x // CELL_WIDTH
         box_y = y // CELL_HEIGHT

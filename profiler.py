@@ -2,6 +2,7 @@
 import cProfile
 import pstats
 import os
+from sandbox_game import time
 
 print("timeing started please DON'T press anything")
 with cProfile.Profile() as pr:

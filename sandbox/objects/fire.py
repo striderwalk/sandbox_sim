@@ -30,10 +30,11 @@ class Fire(Particle, Liquid):
     ### rules ###
     max_temp = fire_vals["max_temp"]
     min_temp = fire_vals["min_temp"]
-    htrans_num = fire_vals["htrans_num"]
+    conduct = fire_vals["conduct"]
+    mass = fire_vals["mass"]
 
     def __init__(self, x, y, player_made=True, temp=temp):
-        super().__init__(x, y, mass=-1, static=False, is_flame=True)
+        super().__init__(x, y, mass=Fire.mass, static=False, is_flame=True)
         self.life_lim = randint(15, 36)
         self.colour = choice(self.colours)
         self.colours = Fire.colours

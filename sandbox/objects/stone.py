@@ -18,20 +18,21 @@ class Stone(Particle, Solid):
     ### rules ###
     max_temp = stone_vals["max_temp"]
     min_temp = stone_vals["min_temp"]
-    htrans_num = stone_vals["htrans_num"]
+    conduct = stone_vals["conduct"]
+    mass = stone_vals["mass"]
 
     def __init__(self, x, y, health=100, temp=temp):
-        super().__init__(x, y, mass=1000, static=True, health=health)
+        super().__init__(x, y, mass=Stone.mass, static=True, health=health)
         Solid.__init__(self)
         self.update_colour()
         # if temp == Stone.temp:
-        #     logging.info(f"{temp}, {x}, {y}")
+            # logging.info("LIFE HAS NOT GONE WELL")
         self.temp = temp
 
     def to_liquid(self):
         from .lava import Lava
 
-        logging.debug(f"Stone of temp {self.temp} went to heaven")
+        # logging.debug(f"Stone of temp {self.temp} went to heaven")
         return Lava
 
     def update(self, board):

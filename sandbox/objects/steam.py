@@ -26,10 +26,12 @@ class Steam(Particle, Gas):
     ### rules ###
     max_temp = steam_vals["max_temp"]
     min_temp = steam_vals["min_temp"]
-    htrans_num = steam_vals["htrans_num"]
+    conduct = steam_vals["conduct"]
+    mass = steam_vals["mass"]
 
     def __init__(self, x, y, thick=50, temp=temp):
-        super().__init__(x, y, mass=-5)
+        super().__init__(x, y, mass=Steam.mass)
+        Gas.__init__(self)
         self.thickness = thick
         self.update_colour()
         self.wetness = 5

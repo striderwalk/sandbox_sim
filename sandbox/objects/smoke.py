@@ -24,10 +24,12 @@ class Smoke(Particle, Gas):
     ### rules ###
     max_temp = smoke_vals["max_temp"]
     min_temp = smoke_vals["min_temp"]
-    htrans_num = smoke_vals["htrans_num"]
+    conduct = smoke_vals["conduct"]
+    mass = smoke_vals["mass"]
 
     def __init__(self, x, y, thick=1, temp=temp):
-        super().__init__(x, y, mass=-4)
+        super().__init__(x, y, mass=Smoke.mass)
+        Gas.__init__(self)
         self.thickness = thick
         self.update_colour()
         self.wetness = 5

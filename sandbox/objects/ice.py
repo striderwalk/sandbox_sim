@@ -15,10 +15,11 @@ class Ice(Particle, Solid):
     ### rules ###
     max_temp = ice_vals["max_temp"]
     min_temp = ice_vals["min_temp"]
-    htrans_num = ice_vals["htrans_num"]
+    conduct = ice_vals["conduct"]
+    mass = ice_vals["mass"]
 
     def __init__(self, x, y, temp=temp):
-        super().__init__(x, y, mass=1000, static=True)
+        super().__init__(x, y, mass=Ice.mass, static=True)
         Solid.__init__(self)
         self.update_colour()
         self.temp = temp

@@ -18,10 +18,11 @@ class Acid(Particle, Liquid):
     ### rules ###
     max_temp = acid_vals["max_temp"]
     min_temp = acid_vals["min_temp"]
-    htrans_num = acid_vals["htrans_num"]
+    conduct = acid_vals["conduct"]
+    mass = acid_vals["mass"]
 
     def __init__(self, x, y, temp=temp):
-        super().__init__(x, y, mass=0.9)
+        super().__init__(x, y, mass=Acid.mass)
         Liquid.__init__(self)
         self.update_colour()
         self.wetness = 10
