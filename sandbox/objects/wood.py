@@ -44,15 +44,8 @@ class Wood(Particle, Solid):
 
     def rot(self, board):
         # if neighbour is water start to rot
-        rot = False
-        if self.y > 0 and type(board[self.y - 1, self.x]) == Water:
-            rot = True
-        if self.x > 0 and type(board[self.y, self.x - 1]) == Water:
-            rot = True
-        if self.y < len(board) - 1 and type(board[self.y + 1, self.x]) == Water:
-            rot = True
-        if self.x < len(board[self.y]) - 1 and type(board[self.y, self.x + 1]) == Water:
-            rot = True
+        rot = any([type(i) == Water for i in self.get_others(board)])
+
         if rot:
             if self.fire_count > 0:
                 self.fire_count = -10

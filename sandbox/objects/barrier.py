@@ -1,6 +1,4 @@
-import logging
 from .particle import Particle
-from .properties import stone_vals
 
 
 class Barrier(Particle):

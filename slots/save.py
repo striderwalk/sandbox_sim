@@ -37,8 +37,8 @@ def save_slot(board, slot, img):
 
     try:
         save_data = convert_board(board)
-    except IndexError as e:
-        logging.error("board convertion failded board data lost :(")
+    except IndexError:
+        logging.error("board convertion failded board data lost sorry :(")
 
     # save slot
     with open(board_name, "w") as f:

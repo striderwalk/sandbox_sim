@@ -38,24 +38,13 @@ class Fume(Particle, Gas):
         self.temp = temp
 
     def check_other(self, board):
-        # check below
-        if self.y < len(board) - 1 and board[self.y + 1, self.x].type == "solid":
-            # kill other
-            board[self.y + 1, self.x].health -= self.strength
+        # get them
+        others = self.get_others(board)
 
-        # check above
-        if self.y > 0 and board[self.y - 1, self.x].type == "solid":
-            # kill other
-            board[self.y - 1, self.x].health -= self.strength
-        # check left
-        if self.x < len(board) - 1 and board[self.y, self.x + 1].type == "solid":
-            # kill other
-            board[self.y, self.x + 1].health -= self.strength
-
-        # check right
-        if self.x != 0 and board[self.y, self.x - 1].type == "solid":
-            # kill other
-            board[self.y, self.x - 1].health -= self.strength
+        # punish them
+        for other in others:
+            if other.type == "solid":
+                other.health -= self.strength
 
     def to_liquid(self):
         return "dies"

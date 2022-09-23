@@ -1,12 +1,10 @@
 import pygame
 import itertools
 import logging
-from conts import WIDTH, HEIGHT, LOWER_BOARDER, FPS, ROWS, COLS, CELL_WIDTH, CELL_HEIGHT
+from conts import WIDTH, HEIGHT, LOWER_BOARDER, FPS
 from sandbox import Box, update_sim
 from sandbox.objects.fountain import Fountain
-from sandbox.get_particles import particles, objects
-from sandbox.objects import Stone, Air
-from sandbox.objects.fountain import Fountain
+from sandbox.get_particles import objects
 from .input_handler import input_handle
 from .mouse import Mouse
 from .selection import Selection
@@ -27,9 +25,11 @@ def time():
     run_sim(win, slot=(0, "profiling"))
 
 
+######### USE **KWARGS #########
 def run_sim(
     win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False, show_temp=False
 ):
+    ################################
 
     slot, board_data = slot
     profiling = type(board_data) == str and board_data == "profiling"

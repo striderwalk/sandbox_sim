@@ -48,11 +48,9 @@ class Box:
             self.board = self.board[:ROWS, :]
 
         if col_len < COLS:
-
             diff = COLS - col_len
-            self.board = np.append(
-                self.board, [[Air(0, 0) for i in range(diff)] for _ in range(ROWS)], 1
-            )
+            adder = [[Air(0, 0) for i in range(diff)] for _ in range(ROWS)]
+            self.board = np.append(self.board, adder, 1)
 
         elif col_len > COLS:
             self.board = self.board[:COLS, :]
@@ -77,9 +75,7 @@ class Box:
                     pass
         #######################################################
 
-    def add_particle(
-        self, x, y, obj, *, strict=False, place_obj=None, health=10
-    ) -> None:
+    def add_particle(self, x, y, obj, *, strict=False, place_obj=None, health=10):
         if obj not in particles and obj not in [Fountain, Barrier]:
             raise TypeError(f"add_particle ask to place invalid particle {obj}")
 
@@ -186,14 +182,12 @@ class Box:
             return None
 
         for _, other in self.board[y][x].get_neighbours(self.board, size):
-            try:
-                if (
-                    other.temp < type(other).max_temp
-                    and other.temp > type(other).min_temp
-                ):
-                    other.temp += change_temp
-            except Exception as e:
-                logging.error(f"{type(other).max_temp=} {type(other).min_temp=}")
+
+            # check for correct temp range
+            cool = other.temp < type(other).max_temp
+            warm = other.temp > type(other).min_temp
+            if cool and warm:
+                other.temp += change_temp
 
     def rain_type(self, obj, num=1500) -> None:
         for _ in range(num):

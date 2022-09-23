@@ -21,7 +21,9 @@ class Gas:
             xoff = randint(-2, 3)
             yoff = randint(-2, 3)
             # so if pos out of board no
-            if 0 <= self.y + yoff < len(board) and 0 <= self.x + xoff < len(board[0]):
+            y_axis = 0 <= self.y + yoff < len(board)
+            x_axis = 0 <= self.x + xoff < len(board[0])
+            if y_axis and x_axis:
 
                 if type(board[self.y + yoff, self.x + xoff]) == Air:
 

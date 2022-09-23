@@ -1,6 +1,6 @@
 from random import randint
 from colour import Color
-import logging
+
 
 HEAT_MAP = list(Color("#0000ff").range_to(Color("#ff0000"), 501))
 HEAT_MAP = [[i * 255 for i in colour.rgb] for colour in HEAT_MAP]
@@ -16,17 +16,12 @@ class Particle:
      - find neighbours
     """
 
-    def __init__(
-        self,
-        x,
-        y,
-        mass=0,
-        static=False,
-        flamable=False,
-        is_flame=False,
-        health=100,
-        obj=None,
-    ):
+
+
+
+    # USE **KWARGS NOW
+    def __init__(self, x, y, mass=0, static=False, flamable=False, is_flame=False, health=100, obj=None,): # USE **KWARGS
+    # USE **KWARGS DO IT
         self.x = x
         self.y = y
         self.mass = mass

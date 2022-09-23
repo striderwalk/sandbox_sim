@@ -1,5 +1,4 @@
 import pygame
-import logging
 from sandbox.objects.fountain import Fountain
 from sandbox import particles
 

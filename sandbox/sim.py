@@ -1,11 +1,4 @@
-import pygame
-import itertools
 import logging
-
-from .sandbox import Box
-from .objects import Stone, Air
-from .objects.fountain import Fountain
-from .get_particles import particles, objects
 
 
 def update_sim(board, fnum, events=[], mouse_pos=None, pause=False):

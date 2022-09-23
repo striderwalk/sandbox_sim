@@ -1,4 +1,3 @@
-import logging
 from .particle import Particle
 from .liquid import Liquid
 from .stone import Stone
