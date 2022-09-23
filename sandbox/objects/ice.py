@@ -21,7 +21,6 @@ class Ice(Particle, Solid):
     def __init__(self, x, y, temp=temp):
         super().__init__(x, y, mass=Ice.mass, static=True)
         Solid.__init__(self)
-        self.update_colour()
         self.temp = temp
 
     def to_liquid(self):

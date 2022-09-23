@@ -24,7 +24,6 @@ class Stone(Particle, Solid):
     def __init__(self, x, y, health=100, temp=temp):
         super().__init__(x, y, mass=Stone.mass, static=True, health=health)
         Solid.__init__(self)
-        self.update_colour()
         # if temp == Stone.temp:
         # logging.info("LIFE HAS NOT GONE WELL")
         self.temp = temp

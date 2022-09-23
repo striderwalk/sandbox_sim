@@ -8,6 +8,5 @@ FILE_NAME = "log.txt"
 
 def configer_logger():
     logging.basicConfig(
-        format="%(levelname)s:%(message)s", level=logging.DEBUG
-    )  # , filename=FILE_NAME)
+        format="%(levelname)s:%(message)s", level=logging.INFO)  # , filename=FILE_NAME)
     logging.info("setup logger")

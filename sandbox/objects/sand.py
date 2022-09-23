@@ -22,7 +22,6 @@ class Sand(Particle, Solid):
     def __init__(self, x, y, temp=temp):
         super().__init__(x, y, mass=Sand.mass)
         Solid.__init__(self)
-        self.update_colour()
         self.temp = temp
 
     def to_liquid(self):

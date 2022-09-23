@@ -33,7 +33,6 @@ class Lava(Particle, Liquid):
         super().__init__(x, y, mass=Lava.mass, is_flame=True)
         Liquid.__init__(self)
 
-        self.update_colour()
         self.wetness = 3
 
         self.temp = temp
@@ -46,9 +45,7 @@ class Lava(Particle, Liquid):
         return Stone
 
     def update(self, board):
-        # check if update needed
-        if self.check_self(board):
-            return
+
 
         # update temp
         self.update_temp(board)

@@ -22,7 +22,6 @@ class Ash(Particle, Solid):
     def __init__(self, x, y, temp=temp):
         super().__init__(x, y, mass=Ash.mass)
         Solid.__init__(self)
-        self.update_colour()
         self.temp = temp
 
     def to_liquid(self):
@@ -33,9 +32,8 @@ class Ash(Particle, Solid):
         if res := self.check():
             return res
         self.update_temp(board)
-        # check if update needed
-        if self.check_self(board):
-            return
+
+
 
         # if on top of wood turn to smoke
         if self.y < len(board) - 1 and board[self.y + 1][self.x].flamable:

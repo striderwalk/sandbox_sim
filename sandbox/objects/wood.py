@@ -31,7 +31,6 @@ class Wood(Particle, Solid):
         super().__init__(x, y, mass=Wood.mass, static=True, is_flame=False)
         Solid.__init__(self)
 
-        self.update_colour()
         self.fire_count = -1
         self.temp = temp
 
@@ -92,9 +91,7 @@ class Wood(Particle, Solid):
 
         # age
         self.life_len += 1
-        # check if update needed
-        if self.check_self(board):
-            return
+
 
         # check for rot level
         if self.colour[1] > 100:

@@ -33,7 +33,6 @@ class Steam(Particle, Gas):
         super().__init__(x, y, mass=Steam.mass)
         Gas.__init__(self)
         self.thickness = thick
-        self.update_colour()
         self.wetness = 5
         self.life_lim = randint(90, 110)
         self.temp = temp
@@ -44,9 +43,6 @@ class Steam(Particle, Gas):
         return Water
 
     def update(self, board):
-        # check if update needed
-        if self.check_self(board):
-            return
 
         # update temp
         self.update_temp(board)

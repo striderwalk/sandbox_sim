@@ -14,7 +14,7 @@ class Fountain(Particle):
         super().__init__(x, y, mass=1000, static=True, obj=obj)
         self.type = "solid"
         self.obj = obj
-
+        self.colour = Fountain.colour
         self.temp = obj.temp
         self.conduct = obj.conduct
 

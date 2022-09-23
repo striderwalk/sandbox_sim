@@ -8,4 +8,3 @@ keys = {}
 for index, i in enumerate(ext_particles):
     keys[i] = index
 
-print(keys)

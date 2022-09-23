@@ -34,7 +34,6 @@ class Water(Particle, Liquid):
         super().__init__(x, y, mass=Water.mass)
         Liquid.__init__(self)
 
-        self.update_colour()
         self.wetness = 10
         self.temp = temp
 
@@ -45,8 +44,6 @@ class Water(Particle, Liquid):
         return Ice
 
     def update(self, board):
-        if self.check_self(board):
-            return
 
         # update temp
         self.update_temp(board)

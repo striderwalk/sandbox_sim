@@ -31,7 +31,6 @@ class Smoke(Particle, Gas):
         super().__init__(x, y, mass=Smoke.mass)
         Gas.__init__(self)
         self.thickness = thick
-        self.update_colour()
         self.wetness = 5
         self.timeout = randint(60, 80)
         self.temp = temp
@@ -40,9 +39,7 @@ class Smoke(Particle, Gas):
         return "dies"
 
     def update(self, board):
-        # check if update needed
-        if self.check_self(board):
-            return
+
 
         # update temp
         self.update_temp(board)
