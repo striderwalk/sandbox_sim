@@ -8,9 +8,6 @@ from .objects.fountain import Fountain
 from .get_particles import particles, objects
 
 
-
-
-
 def update_sim(board, fnum, events=[], mouse_pos=None, pause=False):
     if not pause:
         board.update(fnum)
@@ -25,15 +22,10 @@ def update_sim(board, fnum, events=[], mouse_pos=None, pause=False):
         elif event["type"] == "heat":
             board.heat_cells(mouse_pos, *event["value"])
 
-        elif event["type"] == "fix": # debuging thing
+        elif event["type"] == "fix":  # debuging thing
             board.fix()
             if mouse_pos:
                 x, y = mouse_pos
                 logging.info(f"{board.board[y, x]} really at {x=}, {y=}")
 
-
     return board
-
-
-
-

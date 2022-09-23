@@ -12,6 +12,7 @@ from .mouse import Mouse
 from .selection import Selection
 from .draw import draw_board
 
+
 def get_sub_win(win, board):
     draw_board(win, board)
     image = win.subsurface((0, 0, WIDTH, HEIGHT - LOWER_BOARDER)).copy()
@@ -25,7 +26,10 @@ def time():
     logging.info("running sim in profiling mode")
     run_sim(win, slot=(0, "profiling"))
 
-def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False, show_temp=False):
+
+def run_sim(
+    win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False, show_temp=False
+):
 
     slot, board_data = slot
     profiling = type(board_data) == str and board_data == "profiling"
@@ -54,7 +58,7 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False, sh
                 pygame.quit()
                 return
             else:
-                print(f"[{fnum} out of 500]", end = "\r")
+                print(f"[{fnum} out of 500]", end="\r")
 
         # make frame num stable if paused
         fnum -= pause_time
@@ -96,7 +100,11 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False, sh
         elif result["type"] == "end":
             # quit
             if not profiling:
-                return {"type": "end", "board": board, "img": get_sub_win(win, board.board)}
+                return {
+                    "type": "end",
+                    "board": board,
+                    "img": get_sub_win(win, board.board),
+                }
             else:
                 pygame.quit()
                 return
@@ -105,10 +113,14 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False, sh
             pause = not pause
         elif result["type"] == "menu":
 
-            return  {"type": "menu", "board": board, "img": get_sub_win(win, board.board)}
+            return {
+                "type": "menu",
+                "board": board,
+                "img": get_sub_win(win, board.board),
+            }
         elif result["type"] == "temp":
             show_temp = not show_temp
-            
+
         elif result["type"] == "update":
             pause_time -= 1
             update_sim(board, fnum)

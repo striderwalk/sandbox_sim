@@ -1,6 +1,5 @@
 import pygame
 import math
-from random import randint
 from conts import WIDTH, HEIGHT, FPS
 
 """
@@ -38,8 +37,9 @@ def run(win, time=100000, slot_text=None):
         raidus = 15
         for i in range(8):
             # find pos of dot
-            x = raidus * math.cos(theata - i * dtheata) + ((WIDTH + size[0]) / 2) + 20
-            y = raidus * math.sin(theata - i * dtheata) + ((HEIGHT) / 2)
+            angle = theata - i * dtheata
+            x = raidus * math.cos(angle) + ((WIDTH + size[0]) / 2) + 20
+            y = raidus * math.sin(angle) + ((HEIGHT) / 2)
             pygame.draw.circle(win, (colour, colour, colour), (x, y), 4)
             colour += 10
             # raidus change cus it look better

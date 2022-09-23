@@ -16,7 +16,17 @@ class Particle:
      - find neighbours
     """
 
-    def __init__( self,x,y,mass=0,static=False, flamable=False, is_flame=False, health=100, obj=None):
+    def __init__(
+        self,
+        x,
+        y,
+        mass=0,
+        static=False,
+        flamable=False,
+        is_flame=False,
+        health=100,
+        obj=None,
+    ):
         self.x = x
         self.y = y
         self.mass = mass
@@ -46,8 +56,7 @@ class Particle:
 
         return colour
 
-    def get_others(self, board,*,  key=lambda x : x):
-        others = []
+    def get_others(self, board):
         if self.y > 0:  # above
             yield board[self.y - 1][self.x]
             # others.append(other)
@@ -64,15 +73,14 @@ class Particle:
             yield board[self.y][self.x + 1]
             # others.append(other)
 
-
     def update_temp(self, board):
         # profiler.start()
         # find neigbours
-        others = list(self.get_others(board)) # include self in avage
+        others = list(self.get_others(board))  # include self in avage
         total = 0
 
         take_avg = 4
-        for i in others: 
+        for i in others:
             if abs(i.temp - self.temp) <= THRESH_HOLD:
                 take_avg -= 1
 
@@ -88,9 +96,9 @@ class Particle:
             elif abs(self.temp - other.temp) > 20 and type(other).conduct < 1:
                 conduct = 1
             else:
-                conduct = type(other).conduct * other.mass
+                conduct = type(other).conduct * type(other).mass
 
-            temp += other.temp * conduct 
+            temp += other.temp * conduct
             total += conduct
 
         temp += self.temp
@@ -98,7 +106,6 @@ class Particle:
 
         self.next_temp = temp / total
 
-        
     def update_colour(self):
         # randomly change rbg colour values
         self.colour = tuple(type(self).colour)
@@ -167,4 +174,3 @@ class Particle:
 
     def __repr__(self):
         return f"{type(self).__name__} of mass {self.mass} and, temp {self.temp}, health {self.health} at {self.x}, {self.y}"
-

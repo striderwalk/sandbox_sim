@@ -38,16 +38,22 @@ class Gas:
                 return
 
     def move(self, board):
-        if self.y <= 0:
-            return
-        moves = []
-        if self.x > 0 and board[self.y - 1, self.x - 1].mass < self.y:
-            moves.append((self.x - 1, self.y - 1))
-        if (
-            self.x < len(board[self.y]) - 1
-            and board[self.y - 1, self.x + 1].mass < self.y
-        ):
-            moves.append((self.x + 1, self.y - 1))
+        left = self.x > 0
+        right = self.x < len(board[self.y]) - 1
+        up = self.y > 0
+
+        others = []
+        if up:
+            others.append(board[self.y - 1][self.x])
+
+        if left and up:
+            others.append(board[self.y - 1][self.x - 1])
+
+        if right and up:
+            others.append(board[self.y - 1][self.x + 1])
+
+        moves = [(i.x, i.y) for i in others if i.mass < self.mass or type(i) == Air]
+
         if len(moves) != 0:
             shuffle(moves)
             return moves[0]

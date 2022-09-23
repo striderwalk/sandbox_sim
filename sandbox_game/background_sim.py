@@ -6,6 +6,7 @@ from .draw import draw_board
 ## fix me ##
 ############
 
+
 class Background:
     def __init__(self):
         self.board = Box(load_path("./assets/menu_board.json"))

@@ -19,7 +19,7 @@ class Slots:
 
         y = HEIGHT - 50
         self.slots = [
-            Slot_Button(gap*i+add, y, slot_width, 40, f"slot {i}", val, i)
+            Slot_Button(gap * i + add, y, slot_width, 40, f"slot {i}", val, i)
             for i, val in enumerate(saved)
         ]
 

@@ -1,6 +1,7 @@
 from .particle import Particle
 from .properties import air_vals
 
+
 class Air(Particle):
     """
     DOCUMENTATION NEEDED

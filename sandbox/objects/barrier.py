@@ -1,7 +1,5 @@
 import logging
-
 from .particle import Particle
-from .solid import Solid
 from .properties import stone_vals
 
 
@@ -18,6 +16,7 @@ class Barrier(Particle):
     def __init__(self, x, y):
         super().__init__(x, y, mass=1000, static=True)
         self.temp = 22
+        self.type = "debug"
 
     def update(self, board):
-        return
+        ...

@@ -7,6 +7,7 @@ from .objects.barrier import Barrier
 from conts import ROWS, COLS
 from .get_particles import particles
 
+
 class Box:
     """
     a container for all particles
@@ -33,7 +34,6 @@ class Box:
             self.set_profiling_board()
             logging.info("profile board made")
 
-
     def scale_board(self):
         # check if board is to small
         row_len = len(self.board)
@@ -48,25 +48,21 @@ class Box:
             self.board = self.board[:ROWS, :]
 
         if col_len < COLS:
-            
+
             diff = COLS - col_len
-            self.board = np.append(self.board, [[Air(0, 0) for i in range(diff)] for _ in range(ROWS)], 1)
-            
+            self.board = np.append(
+                self.board, [[Air(0, 0) for i in range(diff)] for _ in range(ROWS)], 1
+            )
+
         elif col_len > COLS:
             self.board = self.board[:COLS, :]
 
         logging.info(f"resized board of size {row_len}x{col_len} to {ROWS}x{COLS}")
         self.fix(talk=False)
 
-
-
-
-
     def set_profiling_board(self):
         # i don't like this code but done care enough to fix it
-        self.board = np.array(
-             [[Air(x, y) for x in range(COLS)] for y in range(ROWS)]
-            )
+        self.board = np.array([[Air(x, y) for x in range(COLS)] for y in range(ROWS)])
         step = COLS // len(particles)
         index_d = 0
         for i in range(ROWS):
@@ -119,22 +115,24 @@ class Box:
             else:
                 self.add_particle(other.x, other.y, obj, strict=keep)
 
-
     def update_row(self, row, types):
         for item in row:
+            # check if type can be updated
             if item.type not in types:
                 continue
-                
-            # check for death in particle
+
+            # update item
             if (result := item.update(self.board)) is None:
                 continue
+            # check for death in particle
             elif result["type"] == "dies":
                 item.load_move(self.board)
-                self.board[item.y, item.x] = Air(item.x, item.y, item.temp)
+                self.board[item.y, item.x] = Air(item.x, item.y, temp=item.temp)
             # if particle wants to go though a major change
             elif result["type"] is not None:
                 self.board[item.y, item.x] = result["type"](
-                    item.x, item.y, temp=item.next_temp)
+                    item.x, item.y, temp=item.next_temp
+                )
 
         # move items
         for item in row[::2]:
@@ -143,16 +141,15 @@ class Box:
         for item in row[1::2]:
             item.load_move(self.board)
 
-
-
     def update(self, fnum):
-        # update board 
+        # update board
         for row in self.board[::-1]:
             self.update_row(row, ["solid", "liquid"])
-            #### add directioin finlter
+
         for row in self.board:
             self.update_row(row, ["gas"])
 
+        logging.debug(f"updating board {fnum}")
         # self.fix()
 
     def debug(self) -> list:
@@ -181,7 +178,7 @@ class Box:
 
     def heat_cells(self, mouse_pos, change_temp, size):
         # check for invaild pos
-        if not mouse_pos: 
+        if not mouse_pos:
             return None
         x, y = mouse_pos
         if 0 > y or y > ROWS or 0 > x or x > COLS:
@@ -189,8 +186,14 @@ class Box:
             return None
 
         for _, other in self.board[y][x].get_neighbours(self.board, size):
-            other.temp += change_temp
-
+            try:
+                if (
+                    other.temp < type(other).max_temp
+                    and other.temp > type(other).min_temp
+                ):
+                    other.temp += change_temp
+            except Exception as e:
+                logging.error(f"{type(other).max_temp=} {type(other).min_temp=}")
 
     def rain_type(self, obj, num=1500) -> None:
         for _ in range(num):
@@ -203,6 +206,4 @@ class Box:
 
 
 def make_empty():
-    return np.array(
-                [[Air(x, y) for x in range(COLS)] for y in range(ROWS)]
-            )
+    return np.array([[Air(x, y) for x in range(COLS)] for y in range(ROWS)])

@@ -10,17 +10,18 @@ from slots import setup
 from log import configer_logger
 
 
-
-# sure the is a saves folder
+####### setup #######
 setup()
 configer_logger()
+#####################
 
 
+######################## A mess ##############################
 def main():
     pygame.init()
     win = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("SandBox")
-    pygame.mouse.set_visible(False) 
+    pygame.mouse.set_visible(False)
     slot = menu(win)
     logging.info(f"loaded slot {slot[0]}")
     loading(win, slot_text=f"slot {slot[0]}")
@@ -37,6 +38,8 @@ def main():
             loading(win)
             slot = menu(win)
 
+
+###############################################################
 
 if __name__ == "__main__":
     main()

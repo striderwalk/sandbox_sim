@@ -16,6 +16,7 @@ from sandbox_game import Background
     ???clear save slot???
 
 """
+font = pygame.font.SysFont(None, 24)
 
 
 def run(win):
@@ -43,8 +44,11 @@ def run(win):
         pos = pygame.mouse.get_pos()
         pygame.draw.circle(win, (255, 0, 255), pos, 5)
 
-        pygame.display.flip()
         clock.tick(FPS)
+        text = f"fps={round(clock.get_fps(), 3)}"
+        fps_text = font.render(text, True, (0, 0, 0))
+        win.blit(fps_text, (30, 30))
+        pygame.display.flip()
 
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:

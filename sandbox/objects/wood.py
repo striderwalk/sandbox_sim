@@ -38,7 +38,6 @@ class Wood(Particle, Solid):
     def to_liquid(self):
         self.fire_count += 3
 
-
     @property
     def is_flame(self):
         return self.fire_count > 0
@@ -137,7 +136,6 @@ class Wood(Particle, Solid):
             if random() > 0.4:
                 return {"type": Ash}
             else:
-                return {"type": "dies"} 
-
+                return {"type": "dies"}
 
         return self.check_temp()

@@ -26,7 +26,7 @@ class Stone(Particle, Solid):
         Solid.__init__(self)
         self.update_colour()
         # if temp == Stone.temp:
-            # logging.info("LIFE HAS NOT GONE WELL")
+        # logging.info("LIFE HAS NOT GONE WELL")
         self.temp = temp
 
     def to_liquid(self):
