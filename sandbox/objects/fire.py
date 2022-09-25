@@ -42,7 +42,7 @@ class Fire(Particle, Gas):
         self.player_made = player_made
         self.temp = temp
 
-    def to_solid(self):
+    def to_liquid(self):
         return "dies"
 
     # make sure water steams
@@ -50,7 +50,7 @@ class Fire(Particle, Gas):
         # import here to stop circular import
         from .wood import Wood
 
-        for _, other in self.get_neighbours(board, 2):
+        for other in self.get_others(board):
             if type(other) == Wood:
                 if other.fire_count > 0:
                     break

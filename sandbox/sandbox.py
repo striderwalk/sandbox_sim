@@ -123,12 +123,11 @@ class Box:
             # check for death in particle
             elif result["type"] == "dies":
                 item.load_move(self.board)
-                self.board[item.y, item.x] = Air(item.x, item.y, temp=item.temp)
+                self.board[item.y, item.x] = Air(item.x, item.y, temp=item.next_temp)
             # if particle wants to go though a major change
             elif result["type"] is not None:
-                self.board[item.y, item.x] = result["type"](
-                    item.x, item.y, temp=item.next_temp
-                )
+                obj = result["type"]
+                self.board[item.y, item.x] = obj(item.x, item.y, temp=item.next_temp)
 
         # move items
         for item in row[::2]:

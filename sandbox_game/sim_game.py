@@ -20,7 +20,7 @@ def get_sub_win(win, board):
 
 def time():
     pygame.init()
-    win = pygame.display.set_mode((WIDTH, HEIGHT), flags=pygame.HIDDEN)
+    win = pygame.display.set_mode((WIDTH, HEIGHT))#, flags=pygame.HIDDEN)
     logging.info("running sim in profiling mode")
     run_sim(win, slot=(0, "profiling"))
 
