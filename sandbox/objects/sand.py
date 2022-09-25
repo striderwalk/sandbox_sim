@@ -16,12 +16,12 @@ class Sand(Particle, Solid):
     ### rules ###
     max_temp = sand_vals["max_temp"]
     min_temp = sand_vals["min_temp"]
-    htrans_num = sand_vals["htrans_num"]
+    conduct = sand_vals["conduct"]
+    mass = sand_vals["mass"]
 
     def __init__(self, x, y, temp=temp):
-        super().__init__(x, y, mass=20)
+        super().__init__(x, y, mass=Sand.mass)
         Solid.__init__(self)
-        self.update_colour()
         self.temp = temp
 
     def to_liquid(self):

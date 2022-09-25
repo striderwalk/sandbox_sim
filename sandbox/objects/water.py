@@ -26,14 +26,14 @@ class Water(Particle, Liquid):
     ### rules ###
     max_temp = water_vals["max_temp"]
     min_temp = water_vals["min_temp"]
-    htrans_num = water_vals["htrans_num"]
+    conduct = water_vals["conduct"]
+    mass = water_vals["mass"]
 
     def __init__(self, x, y, temp=temp):
         # make_steam stop water condense duplicating
-        super().__init__(x, y, mass=1)
+        super().__init__(x, y, mass=Water.mass)
         Liquid.__init__(self)
 
-        self.update_colour()
         self.wetness = 10
         self.temp = temp
 
@@ -44,8 +44,6 @@ class Water(Particle, Liquid):
         return Ice
 
     def update(self, board):
-        if self.check_self(board):
-            return
 
         # update temp
         self.update_temp(board)

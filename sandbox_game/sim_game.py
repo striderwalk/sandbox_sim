@@ -1,16 +1,15 @@
 import pygame
 import itertools
 import logging
-from conts import WIDTH, HEIGHT, LOWER_BOARDER, FPS, ROWS, COLS, CELL_WIDTH, CELL_HEIGHT
+from conts import WIDTH, HEIGHT, LOWER_BOARDER, FPS
 from sandbox import Box, update_sim
 from sandbox.objects.fountain import Fountain
-from sandbox.get_particles import particles, objects
-from sandbox.objects import Stone, Air
-from sandbox.objects.fountain import Fountain
+from sandbox.get_particles import objects
 from .input_handler import input_handle
 from .mouse import Mouse
 from .selection import Selection
 from .draw import draw_board
+
 
 def get_sub_win(win, board):
     draw_board(win, board)
@@ -25,7 +24,12 @@ def time():
     logging.info("running sim in profiling mode")
     run_sim(win, slot=(0, "profiling"))
 
-def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False, show_temp=False):
+
+######### USE **KWARGS #########
+def run_sim(
+    win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False, show_temp=False
+):
+    ################################
 
     slot, board_data = slot
     profiling = type(board_data) == str and board_data == "profiling"
@@ -54,7 +58,7 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False, sh
                 pygame.quit()
                 return
             else:
-                print(f"[{fnum} out of 500]", end = "\r")
+                print(f"[{fnum} out of 500]", end="\r")
 
         # make frame num stable if paused
         fnum -= pause_time
@@ -64,7 +68,9 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False, sh
         # print(board.debug())
         # update particles
         draw_board(win, board.board, show_temp)
-        update_sim(board, fnum, clicks, pause)
+        pos = mouse.get_pos()
+        mouse_pos = pos[1:] if pos[0] == "BOX" else None
+        update_sim(board, fnum, clicks, mouse_pos, pause)
         # mouse input
         if type(val := mouse.update(win, board.board, index)) == int:
             index = val
@@ -77,6 +83,9 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False, sh
         clicks.extend(_clicks)
         if result is None:
             pass
+        elif result["handler"] == "sim":
+            clicks.append(result)
+
         elif result["type"] == "reset":
             # reset game
             if not profiling:
@@ -91,7 +100,11 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False, sh
         elif result["type"] == "end":
             # quit
             if not profiling:
-                return {"type": "end", "board": board, "img": get_sub_win(win, board.board)}
+                return {
+                    "type": "end",
+                    "board": board,
+                    "img": get_sub_win(win, board.board),
+                }
             else:
                 pygame.quit()
                 return
@@ -100,15 +113,17 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False, sh
             pause = not pause
         elif result["type"] == "menu":
 
-            return  {"type": "menu", "board": board, "img": get_sub_win(win, board.board)}
+            return {
+                "type": "menu",
+                "board": board,
+                "img": get_sub_win(win, board.board),
+            }
         elif result["type"] == "temp":
             show_temp = not show_temp
-            
+
         elif result["type"] == "update":
             pause_time -= 1
             update_sim(board, fnum)
-        elif result["type"] == "rain":
-            clicks.append(result)
         else:
             logging.error("internal event not hadled conseder using pygame events")
 

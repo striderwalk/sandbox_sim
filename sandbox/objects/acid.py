@@ -18,12 +18,12 @@ class Acid(Particle, Liquid):
     ### rules ###
     max_temp = acid_vals["max_temp"]
     min_temp = acid_vals["min_temp"]
-    htrans_num = acid_vals["htrans_num"]
+    conduct = acid_vals["conduct"]
+    mass = acid_vals["mass"]
 
     def __init__(self, x, y, temp=temp):
-        super().__init__(x, y, mass=0.9)
+        super().__init__(x, y, mass=Acid.mass)
         Liquid.__init__(self)
-        self.update_colour()
         self.wetness = 10
         self.strength = randint(15, 17)
         self.temp = temp
@@ -68,7 +68,8 @@ class Acid(Particle, Liquid):
 
         unkown_check = type(board[self.y - 1, self.x]) in [Air, Acid]
         if action and random() > 0.5 and unkown_check:
-            board[self.y - 1, self.x] = Fume(self.x, self.y - 1, self.next_temp)
+            new = Fume(self.x, self.y - 1, self.next_temp)
+            board[self.y - 1, self.x] = new
 
     def update(self, board):
         self.life_len += 1
@@ -77,7 +78,9 @@ class Acid(Particle, Liquid):
         self.check_other(board)
         up = type(board[self.y - 1, self.x]) == Air
         if random() > 0.85 + (self.life_len / 1000) and up:
-            board[self.y - 1, self.x] = Fume(self.x, self.y - 1, self.next_temp)
+
+            new = Fume(self.x, self.y - 1, self.next_temp)
+            board[self.y - 1, self.x] = new
 
         # update position
         if pos := self.move(board):

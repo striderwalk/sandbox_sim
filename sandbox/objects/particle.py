@@ -1,10 +1,10 @@
 from random import randint
 from colour import Color
-import logging
+from .utils import update_colour
 
 HEAT_MAP = list(Color("#0000ff").range_to(Color("#ff0000"), 501))
 HEAT_MAP = [[i * 255 for i in colour.rgb] for colour in HEAT_MAP]
-THRESH_HOLD = 10
+THRESH_HOLD = 1
 
 
 class Particle:
@@ -12,21 +12,14 @@ class Particle:
     base class for all particles
      - stores pos
      - allows movement
-     - find colour
-     - find neighbours
     """
 
-    def __init__(
-        self,
-        x,
-        y,
-        mass=0,
-        static=False,
-        flamable=False,
-        is_flame=False,
-        health=100,
-        obj=None,
-    ):
+
+
+
+    # USE **KWARGS NOW
+    def __init__(self, x, y, mass=0, static=False, flamable=False, is_flame=False, health=100, obj=None,): # USE **KWARGS
+    # USE **KWARGS DO IT
         self.x = x
         self.y = y
         self.mass = mass
@@ -47,6 +40,8 @@ class Particle:
         else:
             self.next_temp = type(self).temp
 
+        self.colour = update_colour(type(self).colour)
+
     @property
     def temp_colour(self):
         if self.temp + 100 < 0:
@@ -56,8 +51,7 @@ class Particle:
 
         return colour
 
-    def get_others(self, board,*,  key=lambda x : x):
-        others = []
+    def get_others(self, board):
         if self.y > 0:  # above
             yield board[self.y - 1][self.x]
             # others.append(other)
@@ -74,15 +68,14 @@ class Particle:
             yield board[self.y][self.x + 1]
             # others.append(other)
 
-
     def update_temp(self, board):
         # profiler.start()
         # find neigbours
-        others = list(self.get_others(board)) # include self in avage
+        others = list(self.get_others(board))  # include self in avage
         total = 0
 
         take_avg = 4
-        for i in others: 
+        for i in others:
             if abs(i.temp - self.temp) <= THRESH_HOLD:
                 take_avg -= 1
 
@@ -92,31 +85,23 @@ class Particle:
         temp = 0
         for other in others:
             if type(other).__name__ == "Fountain":
-                htrans_num = other.obj.htrans_num ** 2
+                conduct = other.obj.conduct * other.obj.mass
             elif other.type == "solid" and type(self) == type(other):
-                htrans_num = 1
-            elif abs(self.temp - other.temp) > 20 and type(other).htrans_num < 1:
-                htrans_num = 1
+                conduct = 1
+            elif abs(self.temp - other.temp) > 20 and type(other).conduct < 1:
+                conduct = 1
             else:
-                htrans_num = type(other).htrans_num ** 2
+                conduct = type(other).conduct * type(other).mass
 
-            temp += other.temp * htrans_num
-            total += htrans_num
+            temp += other.temp * conduct
+            total += conduct
 
         temp += self.temp
         total += 1
 
         self.next_temp = temp / total
 
-        
-    def update_colour(self):
-        # randomly change rbg colour values
-        self.colour = tuple(type(self).colour)
-        r = (self.colour[0] + randint(-5, 5)) % 255
-
-        g = (self.colour[1] + randint(-5, 5)) % 255
-        b = (self.colour[2] + randint(-5, 5)) % 255
-        self.colour = (r, g, b)
+    
 
     def get_neighbours(self, board, dis) -> list:
         # THIS IS SLOW DO NOT USE IN UPDATES
@@ -141,7 +126,8 @@ class Particle:
         return others
 
     def moveTo(self, board, x, y):
-        self.load = x, y
+        if not board[y][x].static:
+            self.load = x, y
 
     def load_move(self, board):
         # set current temp to next
@@ -162,18 +148,5 @@ class Particle:
         self.y = y
         self.load = None
 
-    def check_self(self, board):
-        if self.y > 0 and type(board[self.y - 1, self.x]) != type(self):
-            return False
-        if self.x > 0 and type(board[self.y, self.x - 1]) != type(self):
-            return False
-        if self.y < len(board) - 1 and type(board[self.y + 1, self.x]) != type(self):
-            return False
-        if self.x < len(board[self.y]) - 1 and type(board[self.y, self.x + 1]) != type(
-            self
-        ):
-            return False
-
     def __repr__(self):
-        return f"{type(self).__name__} of mass {self.mass} and temp {self.temp} at {self.x}, {self.y}"
-
+        return f"{type(self).__name__} of mass {self.mass} and, temp {self.temp}, health {self.health} at {self.x}, {self.y}"

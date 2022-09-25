@@ -24,44 +24,32 @@ class Fume(Particle, Gas):
     ### rules ###
     max_temp = fume_vals["max_temp"]
     min_temp = fume_vals["min_temp"]
-    htrans_num = fume_vals["htrans_num"]
+    conduct = fume_vals["conduct"]
+    mass = fume_vals["mass"]
 
     def __init__(self, x, y, thick=1, temp=temp):
-        super().__init__(x, y, mass=-4)
+        super().__init__(x, y, mass=Fume.mass)
+        Gas.__init__(self)
         self.thickness = thick
-        self.update_colour()
         self.wetness = 15
         self.timeout = randint(20, 35)
         self.strength = 1
         self.temp = temp
 
     def check_other(self, board):
-        # check below
-        if self.y < len(board) - 1 and board[self.y + 1, self.x].type == "solid":
-            # kill other
-            board[self.y + 1, self.x].health -= self.strength
+        # get them
+        others = self.get_others(board)
 
-        # check above
-        if self.y > 0 and board[self.y - 1, self.x].type == "solid":
-            # kill other
-            board[self.y - 1, self.x].health -= self.strength
-        # check left
-        if self.x < len(board) - 1 and board[self.y, self.x + 1].type == "solid":
-            # kill other
-            board[self.y, self.x + 1].health -= self.strength
-
-        # check right
-        if self.x != 0 and board[self.y, self.x - 1].type == "solid":
-            # kill other
-            board[self.y, self.x - 1].health -= self.strength
+        # punish them
+        for other in others:
+            if other.type == "solid":
+                other.health -= self.strength
 
     def to_liquid(self):
         return "dies"
 
     def update(self, board):
-        # check if update needed
-        if self.check_self(board):
-            return
+
 
         # update temp
         self.update_temp(board)

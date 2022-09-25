@@ -16,12 +16,12 @@ class Ash(Particle, Solid):
     ### rules ###
     max_temp = ash_vals["max_temp"]
     min_temp = ash_vals["min_temp"]
-    htrans_num = ash_vals["htrans_num"]
+    conduct = ash_vals["conduct"]
+    mass = ash_vals["mass"]
 
     def __init__(self, x, y, temp=temp):
-        super().__init__(x, y, mass=20)
+        super().__init__(x, y, mass=Ash.mass)
         Solid.__init__(self)
-        self.update_colour()
         self.temp = temp
 
     def to_liquid(self):
@@ -32,9 +32,8 @@ class Ash(Particle, Solid):
         if res := self.check():
             return res
         self.update_temp(board)
-        # check if update needed
-        if self.check_self(board):
-            return
+
+
 
         # if on top of wood turn to smoke
         if self.y < len(board) - 1 and board[self.y + 1][self.x].flamable:

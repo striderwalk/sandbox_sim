@@ -3,6 +3,7 @@ from conts import CELL_WIDTH, CELL_HEIGHT
 from sandbox.objects import Air
 from sandbox.objects.fountain import Fountain
 
+
 def draw_board(win, board, show_temp=False, show_fountain=True):
     # draw all particles
     for i, row in enumerate(board):
@@ -10,7 +11,6 @@ def draw_board(win, board, show_temp=False, show_fountain=True):
             # if air don't draw to save time
             if type(val) == Air and not show_temp:
                 continue
-                
 
             if show_temp:
                 colour = val.temp_colour

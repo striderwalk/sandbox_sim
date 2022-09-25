@@ -1,5 +1,5 @@
 from .particle import Particle
-from .liquid import Liquid
+from .gas import Gas
 from .smoke import Smoke
 from .air import Air
 from random import random, randint, choice
@@ -7,7 +7,7 @@ from colour import Color
 from .properties import fire_vals
 
 
-class Fire(Particle, Liquid):
+class Fire(Particle, Gas):
     """
     move
      - random up left or right
@@ -30,17 +30,19 @@ class Fire(Particle, Liquid):
     ### rules ###
     max_temp = fire_vals["max_temp"]
     min_temp = fire_vals["min_temp"]
-    htrans_num = fire_vals["htrans_num"]
+    conduct = fire_vals["conduct"]
+    mass = fire_vals["mass"]
 
     def __init__(self, x, y, player_made=True, temp=temp):
-        super().__init__(x, y, mass=-1, static=False, is_flame=True)
+        super().__init__(x, y, mass=Fire.mass, static=False, is_flame=True)
+        Gas.__init__(self)
         self.life_lim = randint(15, 36)
         self.colour = choice(self.colours)
         self.colours = Fire.colours
         self.player_made = player_made
         self.temp = temp
 
-    def to_solid(self):
+    def to_liquid(self):
         return "dies"
 
     # make sure water steams
@@ -48,7 +50,7 @@ class Fire(Particle, Liquid):
         # import here to stop circular import
         from .wood import Wood
 
-        for _, other in self.get_neighbours(board, 2):
+        for other in self.get_others(board):
             if type(other) == Wood:
                 if other.fire_count > 0:
                     break
@@ -60,20 +62,6 @@ class Fire(Particle, Liquid):
     def update_colour(self, board):
         index = randint(0, len(self.colours) - 1)
         self.colour = self.colours[index]
-
-    def move(self, board):
-        if self.y <= 0:
-            return
-        moves = []
-        if self.x > 0 and type(board[self.y - 1, self.x - 1]) == Air:
-            moves.append((self.x - 1, self.y - 1))
-        if (
-            self.x < len(board[self.y]) - 1
-            and type(board[self.y - 1, self.x + 1]) == Air
-        ):
-            moves.append((self.x + 1, self.y - 1))
-        if len(moves) != 0:
-            self.moveTo(board, *choice(moves))
 
     def update(self, board):
         # update temp
@@ -92,7 +80,9 @@ class Fire(Particle, Liquid):
                 return {"type": Air}
 
         self.update_colour(board)
-        self.move(board)
+        # update position
+        if pos := self.move(board):
+            self.moveTo(board, *pos)
 
         # if on celling DIE
         if self.y == 0:

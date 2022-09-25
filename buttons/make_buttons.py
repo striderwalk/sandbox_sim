@@ -24,7 +24,8 @@ def make_menu_buttons(data, xoff=0, yoff=-100):
 
     x = WIDTH / 2 - button_width / 2 + xoff
     top_y = HEIGHT / 2 - (maxy + gap * button_num) / 2 + yoff
-    y_size = (button_height + gap)
+    y_size = button_height + gap
     return [
-        Button(x, top_y + y_size * index, button_width, button_height, *i) for index, i in enumerate(data)
+        Button(x, top_y + y_size * index, button_width, button_height, *i)
+        for index, i in enumerate(data)
     ]
