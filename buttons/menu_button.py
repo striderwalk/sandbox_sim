@@ -26,11 +26,11 @@ class Button:
         pos = pygame.mouse.get_pos()
         # set colour based on mouse pos
         if self.rect.collidepoint(pos):
-            rect_colour = (20, 20, 25)
+            rect_colour = (21, 54, 66)
             text_colour = (235, 235, 235)
         else:
             rect_colour = (235, 235, 235)
-            text_colour = (20, 20, 25)
+            text_colour = (21, 54, 66)
 
         # draw box
         pygame.draw.rect(win, rect_colour, self.rect, border_radius=3)

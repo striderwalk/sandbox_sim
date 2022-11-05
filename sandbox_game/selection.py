@@ -1,10 +1,8 @@
 import pygame
-from conts import (
-    LOWER_BOARDER,
-    HEIGHT,
-    WIDTH,
-)
+
+from conts import LOWER_BOARDER, HEIGHT, WIDTH
 from sandbox import particles
+
 from .button import Button
 
 
@@ -24,9 +22,10 @@ class Selection:
         for i, obj in enumerate(particles):
 
             x = size * i
-            y = HEIGHT - LOWER_BOARDER + 3
-            self.buttons.append(Button(x, y, size, obj.__name__, obj.colour))
-
+            y = HEIGHT - LOWER_BOARDER
+            # self.buttons.append(Button(x, y, size, obj.__name__, obj.colour))
+            button = Button(x, y, size, obj.__name__, obj.colour)
+            self.buttons.append(button)
         self.buttons[self.index].down()
         # to prevent selection changing when warping
         self.draw_buttons = self.buttons
@@ -42,15 +41,18 @@ class Selection:
         for button in moved_buttons:
 
             if button.x + button.size < 0:
+
                 moved_buttons.remove(button)
                 button.move_to(
-                    moved_buttons[-1].x + moved_buttons[-1].size, moved_buttons[-1].y
+                    moved_buttons[-1].x +
+                    moved_buttons[-1].size, moved_buttons[-1].y
                 )
                 moved_buttons.append(button)
 
-            if button.x > WIDTH:
+            elif button.x > WIDTH:
                 moved_buttons.remove(button)
-                button.move_to(moved_buttons[0].x - button.size, moved_buttons[0].y)
+                button.move_to(
+                    moved_buttons[0].x - button.size, moved_buttons[0].y)
                 moved_buttons.insert(0, button)
 
         self.draw_buttons = moved_buttons

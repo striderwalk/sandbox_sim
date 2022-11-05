@@ -53,7 +53,6 @@ class Wood(Particle, Solid):
 
             self.colour = (self.colour[0], self.colour[1] + 2, self.colour[2])
 
-   
     def check_extinguish(self, board):
 
         for other in self.get_others(board):
@@ -75,7 +74,6 @@ class Wood(Particle, Solid):
 
         # age
         self.life_len += 1
-
 
         # check for rot level
         if self.colour[1] > 100:
@@ -111,5 +109,3 @@ class Wood(Particle, Solid):
                 return {"type": "dies"}
 
         return self.check_temp()
-
-

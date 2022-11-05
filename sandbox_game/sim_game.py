@@ -3,7 +3,6 @@ import itertools
 import logging
 from conts import WIDTH, HEIGHT, LOWER_BOARDER, FPS
 from sandbox import Box, update_sim
-from sandbox.objects.fountain import Fountain
 from sandbox.get_particles import objects
 from .input_handler import input_handle
 from .mouse import Mouse
@@ -20,7 +19,7 @@ def get_sub_win(win, board):
 
 def time():
     pygame.init()
-    win = pygame.display.set_mode((WIDTH, HEIGHT))#, flags=pygame.HIDDEN)
+    win = pygame.display.set_mode((WIDTH, HEIGHT))  # , flags=pygame.HIDDEN)
     logging.info("running sim in profiling mode")
     run_sim(win, slot=(0, "profiling"))
 
@@ -125,7 +124,8 @@ def run_sim(
             pause_time -= 1
             update_sim(board, fnum)
         else:
-            logging.error("internal event not hadled conseder using pygame events")
+            logging.error(
+                "internal event not hadled conseder using pygame events")
 
         # display game data
         text = f"{fnum}, fps={round(clock.get_fps(), 3)}"

@@ -1,5 +1,6 @@
 from random import randint
 
+
 def update_colour(colour):
     # randomly change rbg colour values
     colour = tuple(colour)

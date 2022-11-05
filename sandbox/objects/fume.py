@@ -50,7 +50,6 @@ class Fume(Particle, Gas):
 
     def update(self, board):
 
-
         # update temp
         self.update_temp(board)
 

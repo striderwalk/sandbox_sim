@@ -1,5 +1,5 @@
 from .air import Air
-from random import random, shuffle, randint
+from random import random, choice, randint
 
 
 class Gas:
@@ -54,11 +54,11 @@ class Gas:
         if right and up:
             others.append(board[self.y - 1][self.x + 1])
 
-        moves = [(i.x, i.y) for i in others if i.mass < self.mass or type(i) == Air]
+        moves = [(i.x, i.y)
+                 for i in others if i.mass < self.mass or isinstance(i, Air)]
 
         if len(moves) != 0:
-            shuffle(moves)
-            return moves[0]
+            return choice(moves)
 
     def check_temp(self):
         # if cold go to solid

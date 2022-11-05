@@ -80,8 +80,8 @@ lava_vals = {
 sand_vals = {
     "start_temp": ROOM_TEMP,
     "min_temp": MIN_TEMP,
-    "max_temp": 1000,
-    "mass": 3,
+    "max_temp": 2000,
+    "mass": 12,
     "conduct": 0.0025,
 }
 
@@ -104,7 +104,7 @@ steam_vals = {
 stone_vals = {
     "start_temp": ROOM_TEMP,
     "min_temp": MIN_TEMP,
-    "max_temp": 1000,
+    "max_temp": 2000,
     "mass": 3,
     "conduct": 1.8,
 }
