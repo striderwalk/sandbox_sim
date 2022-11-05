@@ -10,21 +10,15 @@ from slots import setup
 from log import configer_logger
 
 
-####### setup #######
-setup()
-configer_logger()
-#####################
-
-
 ######################## A mess ##############################
 def main():
     pygame.init()
     win = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("SandBox")
     pygame.mouse.set_visible(False)
-    slot = menu(win)
+    slot = (0, "empty")#menu(win)
     logging.info(f"loaded slot {slot[0]}")
-    loading(win, slot_text=f"slot {slot[0]}")
+    # loading(win, slot_text=f"slot {slot[0]}")
     run = True
     while run:
         if (res := run_sim(win, slot))["type"] == "end":
@@ -42,4 +36,8 @@ def main():
 ###############################################################
 
 if __name__ == "__main__":
+    # setup
+    setup()
+    configer_logger()
+    # run
     main()

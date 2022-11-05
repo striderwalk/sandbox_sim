@@ -1,9 +1,12 @@
 import pygame
-
+import numpy as np
+import math
 from conts import LOWER_BOARDER, HEIGHT, WIDTH
 from sandbox import particles
 
 from .button import Button
+
+CENTER_X = WIDTH / 2
 
 
 class Selection:
@@ -14,6 +17,7 @@ class Selection:
     """
 
     def __init__(self, index=0):
+        self.vel = 0
         self.buttons = []
         # current selection
         self.index = index
@@ -22,13 +26,14 @@ class Selection:
         for i, obj in enumerate(particles):
 
             x = size * i
-            y = HEIGHT - LOWER_BOARDER
-            # self.buttons.append(Button(x, y, size, obj.__name__, obj.colour))
+            y = HEIGHT - LOWER_BOARDER + 3
+            # button = Button(x, y, size, obj.__name__, obj.colour))
             button = Button(x, y, size, obj.__name__, obj.colour)
             self.buttons.append(button)
         self.buttons[self.index].down()
         # to prevent selection changing when warping
         self.draw_buttons = self.buttons
+        self.shift((WIDTH - size) / 2)
 
     def shift(self, num):
         # move all buttons
@@ -58,10 +63,8 @@ class Selection:
         self.draw_buttons = moved_buttons
 
     def update(self, win, index):
+        self.shift(self.vel)
         # draw background
-        pygame.draw.rect(
-            win, (0, 0, 0), (0, HEIGHT - LOWER_BOARDER, WIDTH, LOWER_BOARDER)
-        )
         self.index = index
 
         # draw buttons
@@ -85,4 +88,9 @@ class Selection:
 
         # return selected
         self.index = res[0]
+        index_x = self.buttons[self.index].rect.center[0]
+        if abs((diff := CENTER_X - index_x)) > 5:
+            shift = math.log(abs(diff))
+            self.shift(shift if CENTER_X > index_x else -shift)
+
         return self.index

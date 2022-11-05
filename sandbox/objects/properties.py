@@ -25,7 +25,7 @@ air_vals = {
     "min_temp": MIN_TEMP,
     "max_temp": MAX_TEMP,
     "mass": 0.01,
-    "conduct": 0.025,
+    "conduct": 1,
 }
 
 
@@ -66,7 +66,7 @@ ice_vals = {
     "min_temp": MIN_TEMP,
     "max_temp": 0,
     "mass": 0.92,
-    "conduct": 2.2,
+    "conduct": 2.5,
 }
 
 lava_vals = {

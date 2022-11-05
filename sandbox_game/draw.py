@@ -4,7 +4,7 @@ from sandbox.objects import Air
 from sandbox.objects.fountain import Fountain
 
 
-def draw_board(win, board, show_temp=False, show_fountain=True):
+def draw_board(surf, board, show_temp=False, show_fountain=True):
     # draw all particles
     for i, row in enumerate(board):
         for j, val in enumerate(row):
@@ -20,10 +20,12 @@ def draw_board(win, board, show_temp=False, show_fountain=True):
                 colour = val.colour
             try:
                 pygame.draw.rect(
-                    win,
+                    surf,
                     colour,
                     [j * CELL_WIDTH, i * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT],
                 )
             except ValueError as e:
                 print(val)
                 raise e
+
+    return surf

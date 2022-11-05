@@ -50,6 +50,10 @@ class Particle:
         self.colour = update_colour(type(self).colour)
 
     @property
+    def pos(self):
+        return self.x, self.y
+
+    @property
     def temp_colour(self):
         if self.temp + 100 < 0:
             colour = (0, 0, 0)
@@ -150,4 +154,4 @@ class Particle:
         self.load = None
 
     def __repr__(self):
-        return f"{type(self).__name__} of mass {self.mass} and, temp {self.temp}, health {self.health} at {self.x}, {self.y}"
+        return f"{type(self).__name__} mass={self.mass} temp={self.temp} health={self.health} pos={self.x},{self.y}"

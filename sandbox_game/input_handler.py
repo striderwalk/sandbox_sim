@@ -1,4 +1,5 @@
 import pygame
+import sys
 from sandbox.objects.fountain import Fountain
 from sandbox import particles
 
@@ -20,7 +21,8 @@ def process_events(events, mouse, index):
         # refactor this #
         #################
         if event.type == pygame.QUIT:
-            result = {"handler": "main", "type": "end"}
+            pygame.quit()
+            sys.exit()
 
         if event.type == pygame.KEYDOWN:
             # select next item
@@ -31,7 +33,8 @@ def process_events(events, mouse, index):
                 index = (index - 1) % len(particles)
 
             elif event.key == pygame.K_SPACE:
-                result = {"handler": "sim", "type": "rain", "value": particles[index]}
+                result = {"handler": "sim", "type": "rain",
+                          "value": particles[index]}
 
             elif event.key in result_map:
                 # get rid of endless elif
@@ -59,10 +62,12 @@ def input_handle(mouse, board, selection, index):
         selection.shift(3)
 
     if keys[pygame.K_j]:
-        clicks.append({"handler": "sim", "type": "heat", "value": [50, mouse.size]})
+        clicks.append({"handler": "sim", "type": "heat",
+                       "value": [50, mouse.size]})
 
     if keys[pygame.K_k]:
-        clicks.append({"handler": "sim", "type": "heat", "value": [-50, mouse.size]})
+        clicks.append({"handler": "sim", "type": "heat",
+                       "value": [-50, mouse.size]})
 
     if keys[pygame.K_e]:
         # place fountain

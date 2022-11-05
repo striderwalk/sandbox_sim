@@ -1,5 +1,5 @@
 import pygame
-from conts import FPS
+from conts import FPS, WHITE
 from slots import get_saved, load_slot
 from buttons import Slots
 from end import end
@@ -30,7 +30,7 @@ def run(win):
     background = Background()
     while True:
         # clear screen
-        win.fill((255, 255, 255))
+        win.fill(WHITE)
         background.update(win)
         # check menu buttons
         for i, button in enumerate(buttons):

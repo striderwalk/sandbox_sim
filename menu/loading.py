@@ -1,6 +1,6 @@
 import pygame
 import math
-from conts import WIDTH, HEIGHT, FPS
+from conts import WIDTH, HEIGHT, FPS, WHITE
 
 """
  loading screen for transitions
@@ -30,7 +30,7 @@ def run(win, time=100000, slot_text=None):
     # can be specfied but look bad if to lower than 15
     run_time = min(15, time)
     for i in range(run_time):
-        win.fill((255, 255, 255))
+        win.fill(WHITE)
         # draw loading circle dots thing
         # colour used to fade dots
         colour = 150

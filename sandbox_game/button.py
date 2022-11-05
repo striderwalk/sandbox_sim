@@ -88,8 +88,7 @@ font = pygame.font.Font("assets/fonts/joystix monospace.ttf", 10)
 class Button:
     def __init__(self, x, y, size, name, colour):
         image = pygame.Surface((size, size))
-        image.fill((0, 0, 0))
-        pygame.draw.rect(image, colour, (1, 1, size - 2, size - 2))
+        image.fill(colour)
         self.image = image
         self.text = name
         self.x = x

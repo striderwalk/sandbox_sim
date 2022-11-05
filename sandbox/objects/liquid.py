@@ -1,6 +1,5 @@
 from .air import Air
 from random import shuffle
-TYPES = ["solid", "debug"]
 
 
 class Liquid:
@@ -52,24 +51,25 @@ class Liquid:
             shuffle(moves)
             return moves[-1]
 
+        self_type = type(self)
+        max_x = cols - 1
         for i in range(1, self.wetness):
-            left = left and self.x > i and board[self.y][self.x -
-                                                         i].type not in TYPES
-            max_x = cols - i
-            right = right and self.x < max_x and board[self.y][self.x +
-                                                               i].type not in TYPES
+            left = left and self.x > i
 
-            # check move left
-            if left and board[self.y][self.x - i].mass < self.mass:
-                if type(board[self.y][self.x - i]) == Air:
-                    moves.append((self.x - i, self.y))
-                else:
+            right = right and self.x < max_x
+
+            if left:
+                left_item = board[self.y, self.x - 1]
+                if isinstance(left_item, Air):
+                    moves.append(left_item.pos)
+                elif not isinstance(left_item, self_type) or isinstance(left_item, Air):
                     left = False
-            # check move right
-            if right and board[self.y][self.x + i].mass < self.mass:
-                if type(board[self.y][self.x + i]) == Air:
-                    moves.append((self.x + i, self.y))
-                else:
+
+            if right:
+                right_item = board[self.y, self.x + 1]
+                if isinstance(right_item, Air):
+                    moves.append(right_item.pos)
+                elif not isinstance(right_item, self_type):
                     right = False
 
             # choose move
