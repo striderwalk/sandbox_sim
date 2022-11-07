@@ -34,49 +34,22 @@ class Acid(Particle, Liquid):
     def to_solid(self):
         return None
 
-    def check_other(self, board):
-
-        up = self.y != 0
-        down = self.y < len(board) - 1
-        left = self.x != len(board[0]) - 1
-        right = self.x != 0
-
+    def check_other(self, others):
         # check below
         action = False
-        if down and board[self.y + 1, self.x].type == "solid":
-            # kill other
-            board[self.y + 1, self.x].health -= self.strength
-            action = True
-
-        # check above
-        if up and board[self.y - 1, self.x].type == "solid":
-            # kill other
-            board[self.y - 1, self.x].health -= self.strength
-            action = True
-
-        # check left
-        if left and board[self.y, self.x + 1].type == "solid":
-            # kill other
-            board[self.y, self.x + 1].health -= self.strength
-            action = True
-
-        # check right
-        if right and board[self.y, self.x - 1].type == "solid":
-            # kill other
-            board[self.y, self.x - 1].health -= self.strength
-            action = True
-
-        unkown_check = type(board[self.y - 1, self.x]) in [Air, Acid]
-        if action and random() > 0.5 and unkown_check:
-            new = Fume(self.x, self.y - 1, self.next_temp)
-            board[self.y - 1, self.x] = new
+        for other in others:
+            if other.type == "solid":
+                other.health -= self.strength
+                action = True
 
     def update(self, board):
         self.life_len += 1
-        self.update_temp(board)
+        others = self.get_others(board)
+        self.update_temp(others)
 
-        self.check_other(board)
-        up = type(board[self.y - 1, self.x]) == Air
+        self.check_other(others)
+
+        up = isinstance(board[self.y - 1, self.x], Air)
         if random() > 0.85 + (self.life_len / 1000) and up:
 
             new = Fume(self.x, self.y - 1, self.next_temp)

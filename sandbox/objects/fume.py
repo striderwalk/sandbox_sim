@@ -51,7 +51,8 @@ class Fume(Particle, Gas):
     def update(self, board):
 
         # update temp
-        self.update_temp(board)
+        others = list(self.get_others(board))
+        self.update_temp(others)
 
         # time since created
         self.life_len += 1

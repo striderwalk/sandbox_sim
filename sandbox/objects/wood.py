@@ -41,7 +41,7 @@ class Wood(Particle, Solid):
     def is_flame(self):
         return self.fire_count > 0
 
-    def rot(self, board, others):
+    def rot(self, others):
         # if neighbour is water start to rot
         rot = any([type(i) == Water for i in others])
 
@@ -69,10 +69,10 @@ class Wood(Particle, Solid):
         if res := self.check():
             return res
 
-        others = self.get_others(board)
+        others = list(self.get_others(board))
 
         # update temp
-        self.update_temp(board)
+        self.update_temp(others)
 
         # age
         self.life_len += 1
@@ -87,7 +87,7 @@ class Wood(Particle, Solid):
 
         # rot self
         if self.life_len % 10 == 1:
-            self.rot(board, others)
+            self.rot(others)
 
         if self.fire_count > 0:
             self.check_extinguish(board, others)

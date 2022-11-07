@@ -54,9 +54,9 @@ if __name__ == "__main__":
     # setup
     setup()
     # run
-    if args.debug:
-        configer_logger(logging.DEBUG)
     if args.info:
         configer_logger(logging.INFO)
+    elif args.debug:
+        configer_logger(logging.DEBUG)
 
     main(args.debug)

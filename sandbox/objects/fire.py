@@ -46,11 +46,11 @@ class Fire(Particle, Gas):
         return "dies"
 
     # make sure water steams
-    def check_wood(self, board):
+    def check_wood(self, others):
         # import here to stop circular import
         from .wood import Wood
 
-        for other in self.get_others(board):
+        for other in others:
             if type(other) == Wood:
                 if other.fire_count > 0:
                     break
@@ -65,11 +65,10 @@ class Fire(Particle, Gas):
 
     def update(self, board):
         # update temp
-        self.update_temp(board)
+        others = list(self.get_others(board))
+        self.update_temp(others)
         # check for wood to BURN!!
-        self.check_wood(board)
-        # if val := self.check_water(board):
-        #     return val
+        self.check_wood(others)
         # time since created
         self.life_len += 1
 

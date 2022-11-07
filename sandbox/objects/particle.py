@@ -79,13 +79,12 @@ class Particle:
             yield board[self.y, self.x + 1]
             # others.append(other)
 
-    def update_temp(self, board):
+    def update_temp(self, others):
         # profiler.start()
         # find neigbours
         # include self in average
-        others = list(self.get_others(board))
-        total = 0
 
+        total = 0
         if all(abs(i.temp - self.temp) <= THRESH_HOLD for i in others):
             return
 
@@ -93,10 +92,6 @@ class Particle:
         for other in others:
             if type(other).__name__ == "Fountain":
                 continue
-            # elif other.type == "solid" and type(self) == type(other):
-            #     conduct = 1
-            # elif abs(self.temp - other.temp) > 20 and type(other).conduct < 1:
-            #     conduct = 1
             else:
                 conduct = type(other).conduct * type(other).mass
 

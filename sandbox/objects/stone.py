@@ -35,7 +35,8 @@ class Stone(Particle, Solid):
         return Lava
 
     def update(self, board):
-        self.update_temp(board)
+        others = list(self.get_others(board))
+        self.update_temp(others)
 
         if res := self.check():
             return res
