@@ -1,4 +1,4 @@
-from random import randint
+import numpy as np
 from colour import Color
 from .utils import update_colour
 
@@ -14,12 +14,19 @@ class Particle:
      - allows movement
     """
 
-
-
-
     # USE **KWARGS NOW
-    def __init__(self, x, y, mass=0, static=False, flamable=False, is_flame=False, health=100, obj=None,): # USE **KWARGS
-    # USE **KWARGS DO IT
+    def __init__(
+        self,
+        x,
+        y,
+        mass=0,
+        static=False,
+        flamable=False,
+        is_flame=False,
+        health=100,
+        obj=None,
+    ):  # USE **KWARGS
+        # USE **KWARGS DO IT
         self.x = x
         self.y = y
         self.mass = mass
@@ -43,6 +50,10 @@ class Particle:
         self.colour = update_colour(type(self).colour)
 
     @property
+    def pos(self):
+        return self.x, self.y
+
+    @property
     def temp_colour(self):
         if self.temp + 100 < 0:
             colour = (0, 0, 0)
@@ -53,43 +64,39 @@ class Particle:
 
     def get_others(self, board):
         if self.y > 0:  # above
-            yield board[self.y - 1][self.x]
+            yield board[self.y - 1, self.x]
             # others.append(other)
 
         if self.y < len(board) - 1:  # below
-            yield board[self.y + 1][self.x]
+            yield board[self.y + 1, self.x]
             # others.append(other)
 
         if self.x > 0:  # left
-            yield board[self.y][self.x - 1]
+            yield board[self.y, self.x - 1]
             # others.append(other)
 
         if self.x < len(board[self.y]) - 1:  # right
-            yield board[self.y][self.x + 1]
+            yield board[self.y, self.x + 1]
             # others.append(other)
 
     def update_temp(self, board):
         # profiler.start()
         # find neigbours
-        others = list(self.get_others(board))  # include self in avage
+        # include self in average
+        others = list(self.get_others(board))
         total = 0
 
-        take_avg = 4
-        for i in others:
-            if abs(i.temp - self.temp) <= THRESH_HOLD:
-                take_avg -= 1
-
-        if take_avg == 0:
+        if all(abs(i.temp - self.temp) <= THRESH_HOLD for i in others):
             return
 
         temp = 0
         for other in others:
             if type(other).__name__ == "Fountain":
-                conduct = other.obj.conduct * other.obj.mass
-            elif other.type == "solid" and type(self) == type(other):
-                conduct = 1
-            elif abs(self.temp - other.temp) > 20 and type(other).conduct < 1:
-                conduct = 1
+                continue
+            # elif other.type == "solid" and type(self) == type(other):
+            #     conduct = 1
+            # elif abs(self.temp - other.temp) > 20 and type(other).conduct < 1:
+            #     conduct = 1
             else:
                 conduct = type(other).conduct * type(other).mass
 
@@ -100,8 +107,6 @@ class Particle:
         total += 1
 
         self.next_temp = temp / total
-
-    
 
     def get_neighbours(self, board, dis) -> list:
         # THIS IS SLOW DO NOT USE IN UPDATES
@@ -149,4 +154,4 @@ class Particle:
         self.load = None
 
     def __repr__(self):
-        return f"{type(self).__name__} of mass {self.mass} and, temp {self.temp}, health {self.health} at {self.x}, {self.y}"
+        return f"{type(self).__name__} mass={self.mass} temp={self.temp} health={self.health} pos={self.x},{self.y}"

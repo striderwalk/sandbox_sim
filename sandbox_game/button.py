@@ -1,41 +1,39 @@
 import pygame
+from conts import RED, BLACK
 
 pygame.font.init()
-font = pygame.font.SysFont(None, 24)
+font = pygame.font.Font("assets/fonts/joystix monospace.ttf", 10)
 
 
 class Button:
-    """
-    a class to represent buttons
-     - handle drawing
-     - handle
-    """
-
-    def __init__(self, x, y, size, text, colour):
-        self.rect = pygame.Rect((x, y), (size, size))
-        self.rect.topleft = (x, y)
-        self.size = size
+    def __init__(self, x, y, size, obj):
+        image = pygame.Surface((size, size))
+        image.fill(obj.colour)
+        self.image = image
+        self.text = obj.__name__
+        self.obj = obj
         self.x = x
         self.y = y
-        self.colour = colour
-        self.text = text
+        self.rect = pygame.Rect((x, y, size, size))
+        self.size = size
         self.clicked = False
 
+    @property
+    def pos(self):
+        return self.x, self.y
+
     def draw(self, win):
-        # draw button on screen
-        pygame.draw.rect(win, self.colour, self.rect, border_radius=3)
         if self.clicked:
-            text_colour = (245, 10, 10)
+            text_color = RED
         else:
-            text_colour = (0, 0, 0)
-        img = font.render(self.text, True, text_colour)
-        win.blit(
-            img,
-            (
-                self.rect.centerx - img.get_size()[0] / 2,
-                self.rect.centery - img.get_size()[1] / 2,
-            ),
-        )
+            text_color = BLACK
+
+        text = font.render(self.text, False, text_color)
+        image = self.image.copy()
+        x = (image.get_width() - text.get_width()) / 2
+        y = (image.get_height() - text.get_height()) / 2
+        image.blit(text, (x, y))
+        win.blit(image, self.pos)
 
     def check_click(self):
         action = False
@@ -43,7 +41,6 @@ class Button:
         if self.rect.collidepoint(pos):
             if pygame.mouse.get_pressed()[0] and not self.clicked:
                 action = True
-
         return action
 
     def move(self, new_x, new_y):

@@ -30,7 +30,8 @@ class Sand(Particle, Solid):
         return Lava
 
     def update(self, board):
-        if res := self.check():
+        res = self.check()
+        if res:
             return res
 
         # update temp

@@ -1,3 +1,4 @@
+import argparse
 from os import environ
 
 environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
@@ -10,18 +11,17 @@ from slots import setup
 from log import configer_logger
 
 
-####### setup #######
-setup()
-configer_logger()
-#####################
-
-
 ######################## A mess ##############################
-def main():
+def main(debug=False):
     pygame.init()
-    win = pygame.display.set_mode((WIDTH, HEIGHT))
+    win = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
     pygame.display.set_caption("SandBox")
     pygame.mouse.set_visible(False)
+
+    if debug:
+        run_sim(win)
+
+    # normal game
     slot = menu(win)
     logging.info(f"loaded slot {slot[0]}")
     loading(win, slot_text=f"slot {slot[0]}")
@@ -42,4 +42,21 @@ def main():
 ###############################################################
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "-d", "--debug", action="store_true", help="turn on debugging mode"
+    )
+    parser.add_argument(
+        "-i", "--info", action="store_true", help="set logging level to info"
+    )
+    args = parser.parse_args()
+
+    # setup
+    setup()
+    # run
+    if args.debug:
+        configer_logger(logging.DEBUG)
+    if args.info:
+        configer_logger(logging.INFO)
+
+    main(args.debug)

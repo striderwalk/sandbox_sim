@@ -1,9 +1,9 @@
 import logging
 
 
-def update_sim(board, fnum, events=[], mouse_pos=None, pause=False):
+def update_sim(board, events=[], mouse_pos=None, pause=False):
     if not pause:
-        board.update(fnum)
+        board.update()
 
     for event in events:
         if event["type"] == "press":

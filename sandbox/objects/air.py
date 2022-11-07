@@ -27,8 +27,4 @@ class Air(Particle):
 
     def update(self, board):
         self.update_temp(board)
-
-        # if abs(self.temp - Air.temp) > 500:
-        #     print(self)
-
-        self.next_temp += (Air.temp - self.next_temp) * 0.5
+        self.next_temp += (Air.temp - self.next_temp) * 0.1

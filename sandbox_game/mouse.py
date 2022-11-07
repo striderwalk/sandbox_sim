@@ -77,18 +77,19 @@ class Mouse:
             width=1,
         )
 
-    def update(self, win, board, index):
-        self.draw_mouse(win, particles[index])
-        clicks = []
+    def update(self, win, board, obj):
+        self.draw_mouse(win, obj)
+        events = []
         # check for input
         # unsafe placement
         if pygame.mouse.get_pressed()[0]:
             pos = self.get_pos()
             if pos[0] == "BOX":
-                clicks.append(
+                events.append(
                     {
+                        "handler": "sim",
                         "type": "press",
-                        "value": (self.size, *pos[1:], particles[index], False, None),
+                        "value": (self.size, *pos[1:], obj, False, None),
                     }
                 )
 
@@ -96,21 +97,22 @@ class Mouse:
             pos = self.get_pos()
             if pos[0] == "BOX":
                 x, y = pos[1:]
-                try:
-                    return particles.index(type(board[y, x]))
-                except ValueError:  # Fountain not pick-able
-                    if type(board[y, x]) == Fountain:
-                        return particles.index(board[y, x].obj)
+                obj = type(board[y, x])
+                if isinstance(obj, Fountain):
+                    obj = obj.obj
+
+                events.append({"handler": "selection", "type": "press", "value": obj})
 
         # safe placements
         if pygame.mouse.get_pressed()[2]:
             pos = self.get_pos()
             if pos[0] == "BOX":
-                clicks.append(
+                events.append(
                     {
+                        "handler": "sim",
                         "type": "press",
-                        "value": (self.size, *pos[1:], particles[index], True, None),
+                        "value": (self.size, *pos[1:], obj, True, None),
                     }
                 )
 
-        return clicks
+        return events

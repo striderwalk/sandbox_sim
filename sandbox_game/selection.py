@@ -1,11 +1,10 @@
-import pygame
-from conts import (
-    LOWER_BOARDER,
-    HEIGHT,
-    WIDTH,
-)
+import math
+from conts import LOWER_BOARDER, HEIGHT, WIDTH
 from sandbox import particles
+import errors
 from .button import Button
+
+CENTER_X = WIDTH / 2
 
 
 class Selection:
@@ -19,68 +18,101 @@ class Selection:
         self.buttons = []
         # current selection
         self.index = index
-
         size = LOWER_BOARDER - 5
         for i, obj in enumerate(particles):
 
             x = size * i
             y = HEIGHT - LOWER_BOARDER + 3
-            self.buttons.append(Button(x, y, size, obj.__name__, obj.colour))
-
+            button = Button(x, y, size, obj)
+            self.buttons.append(button)
         self.buttons[self.index].down()
         # to prevent selection changing when warping
-        self.draw_buttons = self.buttons
+        self.shift((WIDTH - size) / 2)
+
+    @property
+    def selected(self):
+        return self.buttons[self.index].obj
+
+    def set_index(self, obj) -> None:
+        self.index = self._find_index(obj)
+
+    def _find_index(self, obj):
+        for index, button in enumerate(self.buttons):
+            if button.obj is obj:
+                return index
+        raise errors.ObjectNotFound(obj)
 
     def shift(self, num):
+        cur_selected = self.buttons[self.index]
+        # return
         # move all buttons
         moved_buttons = []
-        for button in self.draw_buttons:
+        for button in self.buttons:
             button.move(num, 0)
             moved_buttons.append(button)
 
         # handle wrapping
+        buttons = moved_buttons.copy()
         for button in moved_buttons:
-
+            # check to far to the left
             if button.x + button.size < 0:
-                moved_buttons.remove(button)
-                button.move_to(
-                    moved_buttons[-1].x + moved_buttons[-1].size, moved_buttons[-1].y
-                )
-                moved_buttons.append(button)
+                x = buttons[-1].x + button.size
+                y = buttons[-1].y
+                buttons.remove(button)
+                button.move_to(x, y)
+                buttons.append(button)
 
-            if button.x > WIDTH:
-                moved_buttons.remove(button)
-                button.move_to(moved_buttons[0].x - button.size, moved_buttons[0].y)
-                moved_buttons.insert(0, button)
+            elif button.x > WIDTH:
+                x = buttons[0].x - button.size
+                y = buttons[0].y
+                buttons.remove(button)
+                button.move_to(x, y)
+                buttons.insert(0, button)
 
-        self.draw_buttons = moved_buttons
+        last_x = buttons[0].x
+        for i in buttons[1:]:
+            last_x += i.size
+            i.move_to(last_x, i.y)
 
-    def update(self, win, index):
-        # draw background
-        pygame.draw.rect(
-            win, (0, 0, 0), (0, HEIGHT - LOWER_BOARDER, WIDTH, LOWER_BOARDER)
-        )
-        self.index = index
+        self.buttons = buttons
+        self.index = self.buttons.index(cur_selected)
 
-        # draw buttons
-        for i, button in enumerate(self.draw_buttons):
-            button.draw(win)
-
+    def update(self, win):
         # check for clicks
-        res = []
+        clicks = []
         for i, button in enumerate(self.buttons):
             if button.check_click():
-                res.append(i)
-        # handle no selection
-        if len(res) == 0:
-            res.append(index)
-        # set click button
-        for i, button in enumerate(self.buttons):
-            if i != res[0]:
-                button.up()
-            else:
-                button.down()
+                clicks.append(i)
 
-        # return selected
-        self.index = res[0]
+        if clicks:
+            self.index = clicks[0]
+
+        for i in self.buttons:
+            i.up()
+
+        self.buttons[self.index].down()
+
+        index_x = self.buttons[self.index].rect.center[0]
+        diff = CENTER_X - index_x
+        if abs(diff) > 5:
+            shift = 2 * math.log(abs(diff) + 1)
+            self.shift(shift if CENTER_X > index_x else -shift)
+
+        # draw buttons
+        for i, button in enumerate(self.buttons):
+            button.draw(win)
+
         return self.index
+
+    def handle(self, event):
+        if event["type"] == "left":
+            self.index -= 1
+
+        elif event["type"] == "right":
+            self.index += 1
+        elif event["type"] == "press":
+            self.index = self._find_index((event["value"]))
+        else:
+            raise errors.EventNotHandled(event)
+
+        self.index %= len(self.buttons)

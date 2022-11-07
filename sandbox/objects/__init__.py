@@ -10,12 +10,12 @@ from .ash import Ash
 from .smoke import Smoke
 from .fume import Fume
 from .acid import Acid
-from .gren import Gren
+from .gren import Gren  # solid
 from .steam import Steam
 from .water import Water
-from .ice import Ice
-from .sand import Sand
+from .ice import Ice  # solid
+from .sand import Sand  # solid
 from .lava import Lava
-from .stone import Stone
-from .wood import Wood
+from .stone import Stone  # solid
+from .wood import Wood  # solid
 from .fire import Fire

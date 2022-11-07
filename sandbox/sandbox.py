@@ -136,7 +136,7 @@ class Box:
         for item in row[1::2]:
             item.load_move(self.board)
 
-    def update(self, fnum):
+    def update(self):
         # update board
         for row in self.board[::-1]:
             self.update_row(row, ["solid", "liquid"])
@@ -144,7 +144,6 @@ class Box:
         for row in self.board:
             self.update_row(row, ["gas"])
 
-        logging.debug(f"updating board {fnum}")
         # self.fix()
 
     def debug(self) -> list:

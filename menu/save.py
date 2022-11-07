@@ -1,6 +1,6 @@
 import pygame
 from buttons import Slots
-from conts import FPS
+from conts import FPS, WHITE
 from slots import save_slot, get_saved, get_empty
 from end import end
 from buttons import make_menu_buttons
@@ -35,7 +35,7 @@ def run(win, board, img):
     background = Background()
 
     while True:
-        win.fill((255, 255, 255))
+        win.fill(WHITE)
         background.update(win)
         for i, button in enumerate(menu_buttons):
             button.draw(win)

@@ -25,7 +25,7 @@ air_vals = {
     "min_temp": MIN_TEMP,
     "max_temp": MAX_TEMP,
     "mass": 0.01,
-    "conduct": 0.025,
+    "conduct": 1,
 }
 
 
@@ -66,7 +66,7 @@ ice_vals = {
     "min_temp": MIN_TEMP,
     "max_temp": 0,
     "mass": 0.92,
-    "conduct": 2.2,
+    "conduct": 2.5,
 }
 
 lava_vals = {
@@ -80,8 +80,8 @@ lava_vals = {
 sand_vals = {
     "start_temp": ROOM_TEMP,
     "min_temp": MIN_TEMP,
-    "max_temp": 1000,
-    "mass": 3,
+    "max_temp": 2000,
+    "mass": 12,
     "conduct": 0.0025,
 }
 
@@ -104,7 +104,7 @@ steam_vals = {
 stone_vals = {
     "start_temp": ROOM_TEMP,
     "min_temp": MIN_TEMP,
-    "max_temp": 1000,
+    "max_temp": 2000,
     "mass": 3,
     "conduct": 1.8,
 }
