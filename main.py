@@ -1,5 +1,5 @@
+import sys
 from os import environ
-
 environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 import pygame
 from sandbox_game import run_sim
@@ -11,14 +11,18 @@ from log import configer_logger
 
 
 ######################## A mess ##############################
-def main():
+def main(debug=False):
     pygame.init()
-    win = pygame.display.set_mode((WIDTH, HEIGHT))
+    win = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
     pygame.display.set_caption("SandBox")
     pygame.mouse.set_visible(False)
-    slot = (0, "empty")#menu(win)
+
+    if debug:
+        run_sim(win)
+    # normal game
+    slot = menu(win)
     logging.info(f"loaded slot {slot[0]}")
-    # loading(win, slot_text=f"slot {slot[0]}")
+    loading(win, slot_text=f"slot {slot[0]}")
     run = True
     while run:
         if (res := run_sim(win, slot))["type"] == "end":
@@ -38,6 +42,9 @@ def main():
 if __name__ == "__main__":
     # setup
     setup()
-    configer_logger()
+
     # run
-    main()
+    if len(sys.argv) > 1 and sys.argv[1] == "--debug":
+        configer_logger(logging.INFO)
+        main(debug=True)
+    main(debug=False)

@@ -82,7 +82,7 @@ class Particle:
     def update_temp(self, board):
         # profiler.start()
         # find neigbours
-        # include self in avage
+        # include self in average
         others = list(self.get_others(board))
         total = 0
 

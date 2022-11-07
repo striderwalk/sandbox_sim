@@ -4,6 +4,7 @@ import logging
 from conts import WIDTH, HEIGHT, LOWER_BOARDER, FPS, WHITE, BLACK
 from sandbox import Box, update_sim
 from sandbox.get_particles import objects
+from errors import EventNotHandled
 from .input_handler import input_handle
 from .mouse import Mouse
 from .selection import Selection
@@ -46,6 +47,7 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False):
 
     ###### MAIN LOOP #######
     for fnum in counter:
+
         # make frame num stable if paused
         fnum -= pause_time
         if game.pause:
@@ -64,51 +66,56 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False):
         if isinstance(val, int):
             index = val
         elif isinstance(val, list):
-            clicks = val
-
-        update_sim(board, clicks, mouse_pos, game.pause)
+            clicks.extend(val)
 
         # update index
-        index = selection.update(win, index)
+        index = selection.update(win)
 
         # handle input
-        index, _clicks, result = input_handle(mouse, board, selection, index)
+        _clicks, event = input_handle(mouse, board, index)
         clicks.extend(_clicks)
-        if result is None:
+        if event is None:
             pass
-        elif result["handler"] == "sim":
-            clicks.append(result)
+        elif event["handler"] == "sim":
+            clicks.append(event)
 
-        elif result["type"] == "reset":  # reset game
+        elif event["handler"] == "game":
+            game.handle(event)
+        elif event["handler"] == "selection":
+            selection.handle(event)
+
+        elif event["type"] == "reset":  # reset game
             board.reset()
             pause_time += fnum  # set frames to 0
             pygame.event.get()
 
-        elif result["type"] == "end":  # quit
+        elif event["type"] == "end":  # quit
             return {
                 "type": "end",
                 "board": board,
                 "img": get_sub_win(win, board.board),
             }
 
-        elif result["type"] == "toggle_play":  # pause game
+        elif event["type"] == "toggle_play":  # pause game
             game.toggle_pause()
 
-        elif result["type"] == "menu":
+        elif event["type"] == "menu":
             return {
                 "type": "menu",
                 "board": board,
                 "img": get_sub_win(win, board.board),
             }
-        elif result["type"] == "temp":
-            show_temp = not show_temp
+        elif event["type"] == "temp":
+            game.toggle_show_temp()
 
-        elif result["type"] == "update":
+        elif event["type"] == "update":
             pause_time -= 1
-            update_sim(board, fnum)
+            update_sim(board)
         else:
-            logging.error("internal event not handled")
+            raise EventNotHandled(event)
 
+        update_sim(board, clicks, mouse_pos, game.pause)
+        clicks = []
         # display game data
         text = f"{fnum}, fps={round(clock.get_fps(), 3)}"
         colour = [255 * int(game.show_temp) for i in range(3)]
@@ -118,6 +125,7 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False):
             paused_text = font.render("paused", True, (255, 0, 0))
             win.blit(paused_text, (WIDTH - paused_text.get_size()[0] - 10, 30))
         # update screen
+
         pygame.display.flip()
 
         win.fill(BLACK)

@@ -73,7 +73,6 @@ class Acid(Particle, Liquid):
 
     def update(self, board):
         self.life_len += 1
-
         self.update_temp(board)
 
         self.check_other(board)

@@ -36,21 +36,7 @@ class Liquid:
         # check move down
         if down and board[self.y + 1][self.x].mass < self.mass:
             return (self.x, self.y + 1)
-
         moves = []
-        # check move left
-        if down and left and board[self.y + 1][self.x - 1].mass < self.mass:
-            moves.append((self.x - 1, self.y + 1))
-
-        # check move right
-        if down and right and board[self.y + 1][self.x + 1].mass < self.mass:
-            moves.append((self.x + 1, self.y + 1))
-
-        # choose move
-        if len(moves) > 0:
-            shuffle(moves)
-            return moves[-1]
-
         self_type = type(self)
         max_x = cols - 1
         for i in range(1, self.wetness):
@@ -62,6 +48,8 @@ class Liquid:
                 left_item = board[self.y, self.x - 1]
                 if isinstance(left_item, Air):
                     moves.append(left_item.pos)
+                    left = False
+
                 elif not isinstance(left_item, self_type) or isinstance(left_item, Air):
                     left = False
 
@@ -69,6 +57,8 @@ class Liquid:
                 right_item = board[self.y, self.x + 1]
                 if isinstance(right_item, Air):
                     moves.append(right_item.pos)
+                    right = False
+
                 elif not isinstance(right_item, self_type):
                     right = False
 

@@ -7,8 +7,8 @@ https://docs.python.org/3/howto/logging.html#:~:text=logging.basicconfig(format%
 FILE_NAME = "log.txt"
 
 
-def configer_logger():
+def configer_logger(level=logging.ERROR):
     logging.basicConfig(
-        format="%(levelname)s: %(message)s", level=logging.INFO
+        format="%(levelname)s: %(message)s", level=level
     )  # , filename=FILE_NAME)
     logging.info("setup logger")

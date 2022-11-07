@@ -1,8 +1,7 @@
-import pygame
-import numpy as np
 import math
 from conts import LOWER_BOARDER, HEIGHT, WIDTH
 from sandbox import particles
+from errors import EventNotHandled
 
 from .button import Button
 
@@ -17,11 +16,9 @@ class Selection:
     """
 
     def __init__(self, index=0):
-        self.vel = 0
         self.buttons = []
         # current selection
         self.index = index
-
         size = LOWER_BOARDER - 5
         for i, obj in enumerate(particles):
 
@@ -32,65 +29,78 @@ class Selection:
             self.buttons.append(button)
         self.buttons[self.index].down()
         # to prevent selection changing when warping
-        self.draw_buttons = self.buttons
         self.shift((WIDTH - size) / 2)
 
     def shift(self, num):
+        cur_selected = self.buttons[self.index]
+        # return
         # move all buttons
         moved_buttons = []
-        for button in self.draw_buttons:
+        for button in self.buttons:
             button.move(num, 0)
             moved_buttons.append(button)
 
         # handle wrapping
+        buttons = moved_buttons.copy()
         for button in moved_buttons:
-
+            # check to far to the left
             if button.x + button.size < 0:
-
-                moved_buttons.remove(button)
-                button.move_to(
-                    moved_buttons[-1].x +
-                    moved_buttons[-1].size, moved_buttons[-1].y
-                )
-                moved_buttons.append(button)
+                x = buttons[-1].x + button.size
+                y = buttons[-1].y
+                buttons.remove(button)
+                button.move_to(x, y)
+                buttons.append(button)
 
             elif button.x > WIDTH:
-                moved_buttons.remove(button)
-                button.move_to(
-                    moved_buttons[0].x - button.size, moved_buttons[0].y)
-                moved_buttons.insert(0, button)
+                x = buttons[0].x - button.size
+                y = buttons[0].y
+                buttons.remove(button)
+                button.move_to(x, y)
+                buttons.insert(0, button)
 
-        self.draw_buttons = moved_buttons
+        last_x = buttons[0].x
+        for i in buttons[1:]:
+            last_x += i.size
+            i.move_to(last_x, i.y)
 
-    def update(self, win, index):
-        self.shift(self.vel)
-        # draw background
-        self.index = index
+        self.buttons = buttons
+        self.index = self.buttons.index(cur_selected)
 
-        # draw buttons
-        for i, button in enumerate(self.draw_buttons):
-            button.draw(win)
-
+    def update(self, win):
         # check for clicks
-        res = []
+        clicks = []
         for i, button in enumerate(self.buttons):
             if button.check_click():
-                res.append(i)
-        # handle no selection
-        if len(res) == 0:
-            res.append(index)
-        # set click button
-        for i, button in enumerate(self.buttons):
-            if i != res[0]:
-                button.up()
-            else:
-                button.down()
+                clicks.append(i)
 
-        # return selected
-        self.index = res[0]
+        if clicks:
+            self.index = clicks[0]
+
+        for i in self.buttons:
+            i.up()
+
+        self.buttons[self.index].down()
+
         index_x = self.buttons[self.index].rect.center[0]
-        if abs((diff := CENTER_X - index_x)) > 5:
-            shift = math.log(abs(diff))
+        diff = CENTER_X - index_x
+        if abs(diff) > 5:
+            shift = 2 * math.log(abs(diff) + 1)
             self.shift(shift if CENTER_X > index_x else -shift)
 
+        # draw buttons
+        for i, button in enumerate(self.buttons):
+            button.draw(win)
+
         return self.index
+
+    def handle(self, event):
+        if event["type"] == "left":
+            self.index -= 1
+
+        elif event["type"] == "right":
+            self.index += 1
+
+        else:
+            raise EventNotHandled(event)
+
+        self.index %= len(self.buttons)
