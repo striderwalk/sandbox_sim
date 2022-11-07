@@ -1,8 +1,7 @@
 import math
 from conts import LOWER_BOARDER, HEIGHT, WIDTH
 from sandbox import particles
-from errors import EventNotHandled
-
+import errors
 from .button import Button
 
 CENTER_X = WIDTH / 2
@@ -24,12 +23,24 @@ class Selection:
 
             x = size * i
             y = HEIGHT - LOWER_BOARDER + 3
-            # button = Button(x, y, size, obj.__name__, obj.colour))
-            button = Button(x, y, size, obj.__name__, obj.colour)
+            button = Button(x, y, size, obj)
             self.buttons.append(button)
         self.buttons[self.index].down()
         # to prevent selection changing when warping
         self.shift((WIDTH - size) / 2)
+
+    @property
+    def selected(self):
+        return self.buttons[self.index].obj
+
+    def set_index(self, obj) -> None:
+        self.index = self._find_index(obj)
+
+    def _find_index(self, obj):
+        for index, button in enumerate(self.buttons):
+            if button.obj is obj:
+                return index
+        raise errors.ObjectNotFound(obj)
 
     def shift(self, num):
         cur_selected = self.buttons[self.index]
@@ -99,8 +110,9 @@ class Selection:
 
         elif event["type"] == "right":
             self.index += 1
-
+        elif event["type"] == "press":
+            self.index = self._find_index((event["value"]))
         else:
-            raise EventNotHandled(event)
+            raise errors.EventNotHandled(event)
 
         self.index %= len(self.buttons)

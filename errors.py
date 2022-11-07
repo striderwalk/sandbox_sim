@@ -5,6 +5,11 @@
 
 class EventNotHandled(Exception):
     def __init__(self, event):
-        text = f"handler={event['handler']}"
-        self.message = text
+        self.message = f"handler={event['handler']}"
+        super().__init__(self.message)
+
+
+class ObjectNotFound(Exception):
+    def __init__(self, obj):
+        self.message = f"{obj}"
         super().__init__(self.message)

@@ -11,6 +11,7 @@ class Liquid:
 
     def __init__(self):
         self.type = "liquid"
+        self.has_moved = 0
 
     def check_temp(self):
         is_max_temp = type(self).max_temp is not None
@@ -21,12 +22,30 @@ class Liquid:
         if is_min_temp and self.temp < type(self).min_temp:
             return {"type": self.to_solid()}
 
+    def check_air(self, board):
+        """
+        check for contact with air
+        """
+        for i in self.get_others(board):
+            if isinstance(i, Air):
+                return True
+
+        return False
+
     def move(self, board):
         """
         - first move down
         - move down left/ down right
         - move left/ right
         """
+        if self.has_moved != 0:
+            if self.check_air(board):
+                self.has_moved = 0
+            else:
+                self.has_moved -= 1
+
+            return
+
         cols = len(board[self.y])
 
         down = self.y < len(board) - 1
@@ -36,7 +55,18 @@ class Liquid:
         # check move down
         if down and board[self.y + 1][self.x].mass < self.mass:
             return (self.x, self.y + 1)
+
         moves = []
+        if down and left and board[self.y + 1][self.x - 1].mass < self.mass:
+            moves.append((self.x - 1, self.y + 1))
+
+        if down and right and board[self.y + 1][self.x + 1].mass < self.mass:
+            moves.append((self.x + 1, self.y + 1))
+
+        if moves:  # can be ased to import random.choice
+            shuffle(moves)
+            return moves[-1]
+
         self_type = type(self)
         max_x = cols - 1
         for i in range(1, self.wetness):
@@ -63,6 +93,9 @@ class Liquid:
                     right = False
 
             # choose move
-            if len(moves) > 0:
+            if moves:
                 shuffle(moves)
                 return moves[-1]
+            else:
+                # don't move for 3 times cus speed
+                self.has_moved += 3

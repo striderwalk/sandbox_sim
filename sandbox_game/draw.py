@@ -18,14 +18,11 @@ def draw_board(surf, board, show_temp=False, show_fountain=True):
                 colour = val.obj.colour
             else:
                 colour = val.colour
-            try:
-                pygame.draw.rect(
-                    surf,
-                    colour,
-                    [j * CELL_WIDTH, i * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT],
-                )
-            except ValueError as e:
-                print(val)
-                raise e
+
+            pygame.draw.rect(
+                surf,
+                colour,
+                [j * CELL_WIDTH, i * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT],
+            )
 
     return surf

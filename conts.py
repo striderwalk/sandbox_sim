@@ -1,13 +1,13 @@
 # all constants
 WIDTH, HEIGHT = 840, 707  # board size is 700, 625
 LOWER_BOARDER = 77
-CELL_WIDTH, CELL_HEIGHT = 7, 7
+CELL_WIDTH, CELL_HEIGHT = 5, 5
 COLS = int(WIDTH // CELL_WIDTH)
 ROWS = int((HEIGHT - LOWER_BOARDER) // CELL_HEIGHT)
 
 FPS = 30
-# print(f"{ROWS=}, {COLS=}, {CELL_WIDTH=}, {CELL_HEIGHT=}")
 
+# colours
 TEXT_COLOUR = (21, 54, 66)
 BG_COLOUR = (235, 235, 235)
 BLACK = (0, 0, 0)

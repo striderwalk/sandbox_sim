@@ -11,7 +11,6 @@ result_map = {
     pygame.K_LEFT: {"handler": "selection", "type": "left"},
     pygame.K_RIGHT: {"handler": "selection", "type": "right"},
     pygame.K_LCTRL: {"handler": "selection", "type": "left"},
-
     pygame.K_t: {"handler": "main", "type": "temp"},
     pygame.K_r: {"handler": "main", "type": "reset"},
     pygame.K_q: {"handler": "sim", "type": "fix"},
@@ -19,7 +18,7 @@ result_map = {
 
 
 def process_events(events, mouse):
-    result = None
+    result = []
 
     for event in events:
         #################
@@ -32,12 +31,13 @@ def process_events(events, mouse):
         if event.type == pygame.KEYDOWN:
 
             if event.key == pygame.K_SPACE:
-                result = {"handler": "sim", "type": "rain",
-                          "value": particles[index]}
+                result.append(
+                    {"handler": "sim", "type": "rain", "value": particles[index]}
+                )
 
             elif event.key in result_map:
                 # get rid of endless elif
-                result = result_map[event.key]
+                result.append(result_map[event.key])
 
         # change press size
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -46,7 +46,6 @@ def process_events(events, mouse):
                 mouse.scale(1)
             if event.button == 5:
                 mouse.scale(-1)
-
     return result
 
 
@@ -56,12 +55,10 @@ def input_handle(mouse, board, index):
     clicks = []
 
     if keys[pygame.K_j]:
-        clicks.append({"handler": "sim", "type": "heat",
-                       "value": [50, mouse.size]})
+        clicks.append({"handler": "sim", "type": "heat", "value": [50, mouse.size]})
 
     if keys[pygame.K_k]:
-        clicks.append({"handler": "sim", "type": "heat",
-                       "value": [-50, mouse.size]})
+        clicks.append({"handler": "sim", "type": "heat", "value": [-50, mouse.size]})
 
     if keys[pygame.K_e]:  # place fountain
         if mouse_val[0] == "BOX":
@@ -75,5 +72,4 @@ def input_handle(mouse, board, index):
             )
 
     result = process_events(pygame.event.get(), mouse)
-
     return clicks, result

@@ -1,22 +1,24 @@
 import pygame
 from conts import RED, BLACK
+
 pygame.font.init()
 font = pygame.font.Font("assets/fonts/joystix monospace.ttf", 10)
 
 
 class Button:
-    def __init__(self, x, y, size, name, colour):
+    def __init__(self, x, y, size, obj):
         image = pygame.Surface((size, size))
-        image.fill(colour)
+        image.fill(obj.colour)
         self.image = image
-        self.text = name
+        self.text = obj.__name__
+        self.obj = obj
         self.x = x
         self.y = y
         self.rect = pygame.Rect((x, y, size, size))
         self.size = size
         self.clicked = False
 
-    @ property
+    @property
     def pos(self):
         return self.x, self.y
 

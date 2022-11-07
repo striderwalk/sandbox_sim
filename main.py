@@ -1,5 +1,6 @@
-import sys
+import argparse
 from os import environ
+
 environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 import pygame
 from sandbox_game import run_sim
@@ -19,6 +20,7 @@ def main(debug=False):
 
     if debug:
         run_sim(win)
+
     # normal game
     slot = menu(win)
     logging.info(f"loaded slot {slot[0]}")
@@ -40,11 +42,21 @@ def main(debug=False):
 ###############################################################
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "-d", "--debug", action="store_true", help="turn on debugging mode"
+    )
+    parser.add_argument(
+        "-i", "--info", action="store_true", help="set logging level to info"
+    )
+    args = parser.parse_args()
+
     # setup
     setup()
-
     # run
-    if len(sys.argv) > 1 and sys.argv[1] == "--debug":
+    if args.debug:
+        configer_logger(logging.DEBUG)
+    if args.info:
         configer_logger(logging.INFO)
-        main(debug=True)
-    main(debug=False)
+
+    main(args.debug)

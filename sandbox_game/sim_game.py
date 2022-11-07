@@ -4,7 +4,7 @@ import logging
 from conts import WIDTH, HEIGHT, LOWER_BOARDER, FPS, WHITE, BLACK
 from sandbox import Box, update_sim
 from sandbox.get_particles import objects
-from errors import EventNotHandled
+import errors
 from .input_handler import input_handle
 from .mouse import Mouse
 from .selection import Selection
@@ -47,7 +47,8 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False):
 
     ###### MAIN LOOP #######
     for fnum in counter:
-
+        events = []
+        clicks = []
         # make frame num stable if paused
         fnum -= pause_time
         if game.pause:
@@ -62,72 +63,70 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False):
         # mouse input
         pos = mouse.get_pos()
         mouse_pos = pos[1:] if pos[0] == "BOX" else None
-        val = mouse.update(win, board.board, index)
-        if isinstance(val, int):
-            index = val
-        elif isinstance(val, list):
-            clicks.extend(val)
-
+        _events = mouse.update(win, board.board, selection.selected)
+        events.extend(_events)
         # update index
         index = selection.update(win)
 
         # handle input
-        _clicks, event = input_handle(mouse, board, index)
+        _clicks, _event = input_handle(mouse, board, index)
         clicks.extend(_clicks)
-        if event is None:
-            pass
-        elif event["handler"] == "sim":
-            clicks.append(event)
+        events.extend(_event)
+        logging.debug(f"{events=}")
+        for event in events:
+            if not isinstance(event, dict):
+                raise ValueError(f"{event}")
+            if event["handler"] == "sim":
+                clicks.append(event)
 
-        elif event["handler"] == "game":
-            game.handle(event)
-        elif event["handler"] == "selection":
-            selection.handle(event)
+            elif event["handler"] == "game":
+                game.handle(event)
+            elif event["handler"] == "selection":
+                selection.handle(event)
 
-        elif event["type"] == "reset":  # reset game
-            board.reset()
-            pause_time += fnum  # set frames to 0
-            pygame.event.get()
+            elif event["type"] == "reset":  # reset game
+                board.reset()
+                pause_time += fnum  # set frames to 0
+                pygame.event.get()
 
-        elif event["type"] == "end":  # quit
-            return {
-                "type": "end",
-                "board": board,
-                "img": get_sub_win(win, board.board),
-            }
+            elif event["type"] == "end":  # quit
+                return {
+                    "type": "end",
+                    "board": board,
+                    "img": get_sub_win(win, board.board),
+                }
 
-        elif event["type"] == "toggle_play":  # pause game
-            game.toggle_pause()
+            elif event["type"] == "toggle_play":  # pause game
+                game.toggle_pause()
 
-        elif event["type"] == "menu":
-            return {
-                "type": "menu",
-                "board": board,
-                "img": get_sub_win(win, board.board),
-            }
-        elif event["type"] == "temp":
-            game.toggle_show_temp()
+            elif event["type"] == "menu":
+                return {
+                    "type": "menu",
+                    "board": board,
+                    "img": get_sub_win(win, board.board),
+                }
+            elif event["type"] == "temp":
+                game.toggle_show_temp()
 
-        elif event["type"] == "update":
-            pause_time -= 1
-            update_sim(board)
-        else:
-            raise EventNotHandled(event)
+            elif event["type"] == "update":
+                pause_time -= 1
+                update_sim(board)
+            else:
+                raise errors.EventNotHandled(event)
 
         update_sim(board, clicks, mouse_pos, game.pause)
-        clicks = []
         # display game data
+
         text = f"{fnum}, fps={round(clock.get_fps(), 3)}"
         colour = [255 * int(game.show_temp) for i in range(3)]
         fps_text = font.render(text, True, colour)
         win.blit(fps_text, (30, 30))
+
         if game.pause:
             paused_text = font.render("paused", True, (255, 0, 0))
             win.blit(paused_text, (WIDTH - paused_text.get_size()[0] - 10, 30))
         # update screen
 
         pygame.display.flip()
-
         win.fill(BLACK)
-
         clock.tick(FPS)

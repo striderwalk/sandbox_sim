@@ -55,7 +55,8 @@ class Water(Particle, Liquid):
         if self.y == len(board) - 1:
             return
         # update position
-        if pos := self.move(board):
+
+        if (pos := self.move(board)):
             self.moveTo(board, *pos)
 
         return self.check_temp()
