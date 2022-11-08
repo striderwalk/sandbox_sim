@@ -1,8 +1,9 @@
 import pygame
+import fonts
 from conts import RED, BLACK
 
-pygame.font.init()
-font = pygame.font.Font("assets/fonts/joystix monospace.ttf", 10)
+
+font = fonts.get_font(10)
 
 
 class Button:

@@ -31,7 +31,9 @@ class Ash(Particle, Solid):
     def update(self, board):
         if res := self.check():
             return res
-        self.update_temp(board)
+
+        others = list(self.get_others(board))
+        self.update_temp(others)
 
         # if on top of wood turn to smoke
         if self.y < len(board) - 1 and board[self.y + 1][self.x].flamable:

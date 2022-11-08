@@ -1,6 +1,5 @@
 import pygame
-
-pygame.font.init()
+import fonts
 
 
 class Slot_Button:
@@ -10,7 +9,7 @@ class Slot_Button:
      - checking for clicks
     """
 
-    font = pygame.font.SysFont(None, 24)
+    font = fonts.get_font(10)
 
     def __init__(self, x, y, xsize, ysize, name, img, mode):
         self.rect = pygame.Rect(x, y, xsize, ysize)
@@ -32,9 +31,12 @@ class Slot_Button:
         else:
             colour = (0, 0, 0)
 
-        name = Slot_Button.font.render(self.name, True, colour)
+        name = Slot_Button.font.render(self.name, False, colour)
         # draw text
-        win.blit(name, (self.x + name.get_size()[0] / 8, self.y - 15))
+        print(name.get_width() / 2)
+        x = self.x + (self.rect.width - name.get_width()) / 2
+        y = self.y - 2 - name.get_height()
+        win.blit(name, (x, y))
         # draw image (either picture of save of cross)
         win.blit(
             self.img,
