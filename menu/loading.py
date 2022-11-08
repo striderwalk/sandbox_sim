@@ -1,5 +1,6 @@
 import pygame
 import math
+import fonts
 from conts import WIDTH, HEIGHT, FPS, WHITE
 
 """
@@ -10,24 +11,25 @@ from conts import WIDTH, HEIGHT, FPS, WHITE
 
 def run(win, time=100000, slot_text=None):
     # init pygame stuff
-    font = pygame.font.SysFont(None, 50)
+    font = fonts.get_font(50)
+
     clock = pygame.time.Clock()
 
     # if slot info
     if slot_text is not None:
-        slot_text = font.render(slot_text, True, (0, 0, 0))
+        slot_text = font.render(slot_text, False, (0, 0, 0))
         slot_size = slot_text.get_size()
 
     # render loading text
-    loading_text = font.render("LOADING ", True, (160, 0, 0))
+    loading_text = font.render("LOADING ", False, (160, 0, 0))
     size = loading_text.get_size()
 
-    # angle betwwen loading dot cirle thing
+    # angle between loading dot circle thing
     theata = 0
     dtheata = math.pi / 10
 
     # find run time
-    # can be specfied but look bad if to lower than 15
+    # can be specified but look bad if to lower than 15
     run_time = min(15, time)
     for i in range(run_time):
         win.fill(WHITE)
@@ -42,7 +44,7 @@ def run(win, time=100000, slot_text=None):
             y = raidus * math.sin(angle) + ((HEIGHT) / 2)
             pygame.draw.circle(win, (colour, colour, colour), (x, y), 4)
             colour += 10
-            # raidus change cus it look better
+            # radius change -> it looks better
             raidus += 0.5
         theata += dtheata
         # draw text

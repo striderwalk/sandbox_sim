@@ -1,5 +1,6 @@
 import pygame
 from conts import FPS, WHITE
+import fonts
 from slots import get_saved, load_slot
 from buttons import Slots
 from end import end
@@ -16,7 +17,8 @@ from sandbox_game import Background
     ???clear save slot???
 
 """
-font = pygame.font.SysFont(None, 24)
+
+font = fonts.get_font(24)
 
 
 def run(win):
@@ -46,7 +48,7 @@ def run(win):
 
         clock.tick(FPS)
         text = f"fps={round(clock.get_fps(), 3)}"
-        fps_text = font.render(text, True, (0, 0, 0))
+        fps_text = font.render(text, False, (0, 0, 0))
         win.blit(fps_text, (30, 30))
         pygame.display.flip()
 

@@ -1,6 +1,5 @@
 import pygame
-
-pygame.font.init()
+import fonts
 
 
 class Button:
@@ -10,7 +9,7 @@ class Button:
      - check for clicks
     """
 
-    font = pygame.font.SysFont(None, 64)
+    font = fonts.get_font(24)
 
     def __init__(self, x, y, xsize, ysize, text, func):
         self.rect = pygame.Rect(x, y, xsize, ysize)
@@ -36,7 +35,7 @@ class Button:
         pygame.draw.rect(win, rect_colour, self.rect, border_radius=3)
 
         # draw text
-        img = Button.font.render(self.text, True, text_colour)
+        img = Button.font.render(self.text, False, text_colour)
         win.blit(
             img,
             (

@@ -14,7 +14,7 @@ def make_menu_buttons(data, xoff=0, yoff=-100):
     # find button size (max_x+50, max_y+50)
     maxx, maxy = 0, 0
     for text, _ in data:
-        x, y = Button.font.render(text, True, (0, 0, 0)).get_size()
+        x, y = Button.font.render(text, False, (0, 0, 0)).get_size()
 
         maxx = max(x, maxx)
         maxy = max(y, maxy)
