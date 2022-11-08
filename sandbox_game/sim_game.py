@@ -73,7 +73,7 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False):
         _clicks, _event = input_handle(mouse, board, selection.selected)
         clicks.extend(_clicks)
         events.extend(_event)
-        logging.debug(f"{events=}")
+        logging.debug(f"{events=}, {clicks=}")
         for event in events:
             if not isinstance(event, dict):
                 raise ValueError(f"{event}")

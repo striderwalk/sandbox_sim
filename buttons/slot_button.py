@@ -33,7 +33,6 @@ class Slot_Button:
 
         name = Slot_Button.font.render(self.name, False, colour)
         # draw text
-        print(name.get_width() / 2)
         x = self.x + (self.rect.width - name.get_width()) / 2
         y = self.y - 2 - name.get_height()
         win.blit(name, (x, y))

@@ -17,7 +17,7 @@ result_map = {
 }
 
 
-def process_events(events, mouse):
+def process_events(events, mouse, seleted):
     result = []
 
     for event in events:
@@ -73,5 +73,5 @@ def input_handle(mouse, board, seleted):
                 }
             )
 
-    result = process_events(pygame.event.get(), mouse)
+    result = process_events(pygame.event.get(), mouse, seleted)
     return clicks, result
