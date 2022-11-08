@@ -29,7 +29,7 @@ class Air(Particle):
 
         others = list(self.get_others(board))
 
-        self.update_temp(self.get_others(board))
+        self.update_temp(others)
 
         # room temp
         self.next_temp += (Air.temp - self.next_temp) * 0.1

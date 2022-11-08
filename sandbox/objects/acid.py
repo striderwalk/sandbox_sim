@@ -36,15 +36,13 @@ class Acid(Particle, Liquid):
 
     def check_other(self, others):
         # check below
-        action = False
         for other in others:
             if other.type == "solid":
                 other.health -= self.strength
-                action = True
 
     def update(self, board):
         self.life_len += 1
-        others = self.get_others(board)
+        others = list(self.get_others(board))
         self.update_temp(others)
 
         self.check_other(others)

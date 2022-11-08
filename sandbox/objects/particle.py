@@ -1,4 +1,3 @@
-import numpy as np
 from colour import Color
 from .utils import update_colour
 

@@ -66,10 +66,10 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False):
         _events = mouse.update(win, board.board, selection.selected)
         events.extend(_events)
         # update index
-        index = selection.update(win)
+        selection.update(win)
 
         # handle input
-        _clicks, _event = input_handle(mouse, board, index)
+        _clicks, _event = input_handle(mouse, board, selection.selected)
         clicks.extend(_clicks)
         events.extend(_event)
         logging.debug(f"{events=}")
