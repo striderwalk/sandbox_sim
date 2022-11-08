@@ -8,6 +8,8 @@ import fonts
 
 
 """
+
+# NOT TO BE USED YET 
 font = fonts.get_font(10)
 
 
@@ -45,3 +47,4 @@ class Button():
 class Menu():
 
     def __init__(self):
+        pass
