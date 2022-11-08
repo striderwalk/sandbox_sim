@@ -1,0 +1,4 @@
+colour==0.1.5
+numpy==1.23.4
+pygame==2.1.2
+tqdm==4.64.0
