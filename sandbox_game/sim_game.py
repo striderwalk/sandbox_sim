@@ -2,7 +2,7 @@ import pygame
 import itertools
 import logging
 import fonts
-from conts import WIDTH, HEIGHT, LOWER_BOARDER, FPS, WHITE, BLACK
+from conts import WIDTH, HEIGHT, LOWER_BOARDER, FPS, WHITE, BLACK, UPPER_BOARDER
 from sandbox import Box, update_sim
 from sandbox.get_particles import objects
 import errors
@@ -59,7 +59,7 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False):
         surf = BASE_SURF.copy()
         surf.fill(WHITE)
         surf = draw_board(surf, board.board, game.show_temp)
-        win.blit(surf, (0, 0))
+        win.blit(surf, (0, UPPER_BOARDER))
         game.draw_menu(win)
 
         # mouse input
@@ -119,10 +119,10 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False):
         update_sim(board, clicks, mouse_pos, game.pause)
         # display game data
 
-        text = f"{fnum}, fps={round(clock.get_fps(), 3)}"
-        colour = [255 * int(game.show_temp) for i in range(3)]
-        fps_text = font.render(text, True, colour)
-        win.blit(fps_text, (30, 30))
+        # text = f"{fnum}, fps={round(clock.get_fps(), 3)}"
+        # colour = [255 * int(game.show_temp) for i in range(3)]
+        # fps_text = font.render(text, True, colour)
+        # win.blit(fps_text, (30, 30))
 
         if game.pause:
             paused_text = font.render("paused", True, (255, 0, 0))

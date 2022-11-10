@@ -1,7 +1,7 @@
 import pygame
 import logging
 import errors
-from conts import RED, TEXT_COLOUR, BG_COLOUR, WIDTH
+from conts import RED, TEXT_COLOUR, BG_COLOUR, WIDTH, UPPER_BOARDER
 import fonts
 """
  deal with options menu stuff
@@ -32,7 +32,6 @@ class Button():
         self.image.fill(BG_COLOUR)
 
     def _is_clicked(self) -> bool:
-
         pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(pos):
             return pygame.mouse.get_pressed()[0]
@@ -44,7 +43,7 @@ class Button():
 
         if self._is_clicked():
             self.hook()
-            self.clicked = not self.clicked
+            self.timeout = 5
 
     def click(self):
         # allow other thing eg keyboard input
@@ -69,7 +68,7 @@ class Button():
 
 class Menu():
     pos = (0, 0)
-    size = (WIDTH, 30)
+    size = (WIDTH, UPPER_BOARDER)
 
     def __init__(self):
         self.image = pygame.Surface(Menu.size, pygame.SRCALPHA)

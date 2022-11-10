@@ -9,6 +9,8 @@ class Game:
         self.show_temp = show_temp
         self.menu = Menu()
         self.menu.add_button("pause", ("pause", "play", self.toggle_pause))
+        self.menu.add_button(
+            "temp", ("show temp", "show normal", self.toggle_show_temp))
 
     def toggle_pause(self):
         self.pause = not self.pause
@@ -16,6 +18,7 @@ class Game:
 
     def toggle_show_temp(self):
         self.show_temp = not self.show_temp
+        self.menu.toggle("temp")
 
     def draw_menu(self, win):
         self.menu.draw(win)

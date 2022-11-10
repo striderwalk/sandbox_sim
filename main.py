@@ -10,8 +10,9 @@ from menu import loading, menu, save, end
 from slots import setup
 from log import configer_logger
 
-
 ######################## A mess ##############################
+
+
 def main(debug=False):
     pygame.init()
     win = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
