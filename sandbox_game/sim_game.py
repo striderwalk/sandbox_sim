@@ -60,6 +60,7 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False):
         surf.fill(WHITE)
         surf = draw_board(surf, board.board, game.show_temp)
         win.blit(surf, (0, 0))
+        game.draw_menu(win)
 
         # mouse input
         pos = mouse.get_pos()
