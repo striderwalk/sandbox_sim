@@ -1,7 +1,6 @@
 import pygame
 import sys
 from sandbox.objects.fountain import Fountain
-from sandbox import particles
 
 result_map = {
     pygame.K_LSHIFT: {"handler": "main", "type": "toggle_play"},
@@ -31,9 +30,7 @@ def process_events(events, mouse, seleted):
         if event.type == pygame.KEYDOWN:
 
             if event.key == pygame.K_SPACE:
-                result.append(
-                    {"handler": "sim", "type": "rain", "value": seleted}
-                )
+                result.append({"handler": "sim", "type": "rain", "value": seleted})
 
             elif event.key in result_map:
                 # get rid of endless elif
@@ -55,12 +52,10 @@ def input_handle(mouse, board, seleted):
     clicks = []
 
     if keys[pygame.K_j]:
-        clicks.append({"handler": "sim", "type": "heat",
-                       "value": [50, mouse.size]})
+        clicks.append({"handler": "sim", "type": "heat", "value": [50, mouse.size]})
 
     if keys[pygame.K_k]:
-        clicks.append({"handler": "sim", "type": "heat",
-                       "value": [-50, mouse.size]})
+        clicks.append({"handler": "sim", "type": "heat", "value": [-50, mouse.size]})
 
     if keys[pygame.K_e]:  # place fountain
         if mouse_val[0] == "BOX":

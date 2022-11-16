@@ -1,5 +1,5 @@
 from .air import Air
-from random import shuffle
+from random import shuffle, random
 
 
 class Liquid:
@@ -51,10 +51,13 @@ class Liquid:
         down = self.y < len(board) - 1
         left = self.x > 0
         right = self.x < cols - 1
+        self_type = type(self)
 
         # check move down
-        if down and board[self.y + 1][self.x].mass < self.mass:
-            return (self.x, self.y + 1)
+        other = board[self.y + 1][self.x]
+        if down and other.mass < self.mass:
+            if random() > 0.1:
+                return (self.x, self.y + 1)
 
         moves = []
         if down and left and board[self.y + 1][self.x - 1].mass < self.mass:
@@ -67,7 +70,6 @@ class Liquid:
             shuffle(moves)
             return moves[-1]
 
-        self_type = type(self)
         max_x = cols - 1
         for i in range(1, self.wetness):
             left = left and self.x > i

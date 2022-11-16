@@ -18,11 +18,12 @@ class Selection:
         self.buttons = []
         # current selection
         self.index = index
-        size = LOWER_BOARDER - 5
+        size = HEIGHT - LOWER_BOARDER - 3
+
         for i, obj in enumerate(particles):
 
             x = size * i
-            y = HEIGHT - LOWER_BOARDER + 3
+            y = LOWER_BOARDER
             button = Button(x, y, size, obj)
             self.buttons.append(button)
         self.buttons[self.index].down()

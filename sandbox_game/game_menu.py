@@ -1,8 +1,9 @@
 import pygame
-import logging
 import errors
+from typing import Callable
 from conts import RED, TEXT_COLOUR, BG_COLOUR, WIDTH, UPPER_BOARDER
 import fonts
+
 """
  deal with options menu stuff
   - toggle heat map
@@ -14,10 +15,16 @@ import fonts
 
 font = fonts.get_font(10)
 
+Position = tuple[int]
+Size = tuple[int]
 
-class Button():
 
-    def __init__(self, text, alt_text, hook, pos, size) -> None:
+# class Button
+
+
+class Button:
+    # make button text obj refer to brain for reason
+    def __init__(self, text: str, alt_text: str, pos: Position, size: Size, hook: Callable = None):
         # text
         self.text = text
         self.alt_text = alt_text
@@ -42,7 +49,10 @@ class Button():
             return
 
         if self._is_clicked():
-            self.hook()
+            if self.hook:
+                self.hook()
+            else:
+                self.click()
             self.timeout = 5
 
     def click(self):
@@ -66,15 +76,16 @@ class Button():
         win.blit(image, self.pos)
 
 
-class Menu():
+class Menu:
     pos = (0, 0)
     size = (WIDTH, UPPER_BOARDER)
 
     def __init__(self):
         self.image = pygame.Surface(Menu.size, pygame.SRCALPHA)
         self.image.fill((*BG_COLOUR, 100))
+        self.menu_button = Button("≡", "x", (10, 5), (20, 20))
         self.buttons = {}
-        self.bx, self.by = 20, 5
+        self.bx, self.by = 40, 5
         self.bdx, self.bdy = 80, 0
         self.bsize = (70, 20)
 
@@ -85,7 +96,7 @@ class Menu():
         x, y = self.bx, self.by
         self.bx += self.bdx
         self.by += self.bdy
-        return Button(text, alt_text, hook, (x, y), self.bsize)
+        return Button(text, alt_text, (x, y), self.bsize, hook=hook)
 
     def add_button(self, name, dat):
         if name in self.buttons:
@@ -95,9 +106,15 @@ class Menu():
         self.buttons[name] = b
 
     def draw(self, win):
-        img = self.image.copy()
+        # if not self.menu_button.clicked:
+        if not self.menu_button.clicked:
+            img = pygame.Surface(Menu.size, pygame.SRCALPHA)
+            img.fill((0, 0, 0, 0))
+        else:
+            img = self.image.copy()
 
-        for i in self.buttons.values():
-            i.draw(img)
+            for i in self.buttons.values():
+                i.draw(img)
 
+        self.menu_button.draw(img)
         win.blit(img, Menu.pos)

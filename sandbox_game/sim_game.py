@@ -12,12 +12,12 @@ from .selection import Selection
 from .draw import draw_board
 from .game import Game
 
-BASE_SURF = pygame.Surface((WIDTH, HEIGHT - LOWER_BOARDER))
+BASE_SURF = pygame.Surface((WIDTH, LOWER_BOARDER))
 
 
 def get_sub_win(win, board):
     draw_board(win, board)
-    image = win.subsurface((0, 0, WIDTH, HEIGHT - LOWER_BOARDER)).copy()
+    image = win.subsurface((0, 0, WIDTH, LOWER_BOARDER)).copy()
     logging.info("captured image of board")
     return image
 
@@ -59,10 +59,9 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False):
         surf = BASE_SURF.copy()
         surf.fill(WHITE)
         surf = draw_board(surf, board.board, game.show_temp)
-        win.blit(surf, (0, UPPER_BOARDER))
+        win.blit(surf, (0, 0))
         game.draw_menu(win)
 
-        # mouse input
         pos = mouse.get_pos()
         mouse_pos = pos[1:] if pos[0] == "BOX" else None
         _events = mouse.update(win, board.board, selection.selected)
@@ -119,10 +118,10 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False):
         update_sim(board, clicks, mouse_pos, game.pause)
         # display game data
 
-        # text = f"{fnum}, fps={round(clock.get_fps(), 3)}"
-        # colour = [255 * int(game.show_temp) for i in range(3)]
-        # fps_text = font.render(text, True, colour)
-        # win.blit(fps_text, (30, 30))
+        text = f"{fnum}, fps={round(clock.get_fps(), 3)}"
+        colour = [255 * int(game.show_temp) for i in range(3)]
+        fps_text = font.render(text, True, colour)
+        win.blit(fps_text, (30, 30))
 
         if game.pause:
             paused_text = font.render("paused", True, (255, 0, 0))

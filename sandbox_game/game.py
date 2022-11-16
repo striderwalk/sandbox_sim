@@ -10,7 +10,8 @@ class Game:
         self.menu = Menu()
         self.menu.add_button("pause", ("pause", "play", self.toggle_pause))
         self.menu.add_button(
-            "temp", ("show temp", "show normal", self.toggle_show_temp))
+            "temp", ("show temp", "show normal", self.toggle_show_temp)
+        )
 
     def toggle_pause(self):
         self.pause = not self.pause
