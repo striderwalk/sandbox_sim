@@ -89,7 +89,8 @@ class Menu:
         self.image.fill((*BG_COLOUR, 100))
         rtext, ralt_text = make_text("=", "x")
         self.menu_button = Button(
-            rtext, ralt_text, (10, 5), (20, 20), setting=settings.showmenu)
+            rtext, ralt_text, (10, 5), (20, 20), setting=settings.showmenu
+        )
         self.buttons = {}
         self.bx, self.by = 40, 5
         self.bdx, self.bdy = 80, 0

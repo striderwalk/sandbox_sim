@@ -49,11 +49,11 @@ class Mouse:
 
     def _get_box_cords(self, x: float, y: float) -> tuple[float]:
         upper_boarder = UPPER_BOARDER if settings.showmenu.value else 0
-        size_width = (self.size - 1) * CELL_WIDTH * 2
-        size_height = (self.size - 1) * CELL_HEIGHT * 2
+        size_width = (self.size) * CELL_WIDTH * 2 - CELL_WIDTH
+        size_height = (self.size) * CELL_HEIGHT * 2 - CELL_HEIGHT
         # find topleft
-        topleft_x = CELL_WIDTH * x - size_width / 2
-        topleft_y = CELL_HEIGHT * y - size_width / 2
+        topleft_x = (x - self.size) * CELL_WIDTH + CELL_WIDTH
+        topleft_y = (y - self.size) * CELL_HEIGHT + CELL_HEIGHT
 
         if topleft_y + size_height > LOWER_BOARDER - 3:
             size_height = LOWER_BOARDER - 3 - topleft_y
@@ -81,15 +81,19 @@ class Mouse:
         state, x, y = self.get_pos()
         if state == "CORD":
             print(x, y)
-            rect = (x-CELL_WIDTH, y-CELL_HEIGHT,
+            rect = (x - CELL_WIDTH, y - CELL_HEIGHT,
                     CELL_WIDTH * 2, CELL_HEIGHT * 2)
             pygame.draw.rect(win, MOUSE_YELLOW, rect, border_radius=3)
             return
 
         # draw centre
+        rx, ry = pygame.mouse.get_pos()
+        rx %= CELL_WIDTH
+        ry %= CELL_HEIGHT
+
         center_x = (x - 0.5) * CELL_WIDTH
         center_y = (y - 0.5) * CELL_HEIGHT
-        rect = (center_x, center_y, CELL_WIDTH * 2, CELL_HEIGHT * 2)
+        rect = (center_x + rx, center_y + ry, CELL_WIDTH * 2, CELL_HEIGHT * 2)
         pygame.draw.rect(win, MOUSE_YELLOW, rect, border_radius=3)
 
         # check if out seaction is needed

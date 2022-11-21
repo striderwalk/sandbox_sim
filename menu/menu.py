@@ -47,9 +47,9 @@ def run(win):
         pygame.draw.circle(win, (255, 0, 255), pos, 5)
 
         clock.tick(FPS)
-        text = f"fps={round(clock.get_fps(), 3)}"
-        fps_text = font.render(text, False, (0, 0, 0))
-        win.blit(fps_text, (30, 30))
+        # text = f"fps={round(clock.get_fps(), 3)}"
+        # fps_text = font.render(text, False, (0, 0, 0))
+        # win.blit(fps_text, (30, 30))
         pygame.display.flip()
 
         for event in pygame.event.get():

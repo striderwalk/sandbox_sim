@@ -25,7 +25,7 @@ def get_sub_win(win, board):
 
 ######### USE **KWARGS #########
 def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False):
-    """ handle the game"""
+    """handle the game"""
 
     save_slot, board_data = slot
     # setup pygame
