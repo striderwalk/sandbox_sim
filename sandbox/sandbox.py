@@ -1,5 +1,6 @@
 import logging
 import numpy as np
+import errors
 from random import randint
 from .objects import Stone, Air
 from .objects.fountain import Fountain
@@ -10,9 +11,10 @@ from .get_particles import particles
 
 class Box:
     """
+
     a container for all particles
     use for
-    - updating\
+    - updating
     - moving
     - drawing
     - adding new particles
@@ -35,6 +37,8 @@ class Box:
             logging.info("profile board made")
 
     def scale_board(self):
+        """resize saved board to fit board size"""
+
         # check if board is to small
         row_len = len(self.board)
         col_len = len(self.board[0])
@@ -71,16 +75,21 @@ class Box:
                     continue
                 try:
                     self.add_particle(j, i, particles[index_d])
-                except IndexError:
+                except IndexError:  # this is stuid
                     pass
-        #######################################################
 
     def add_particle(self, x, y, obj, *, strict=False, place_obj=None, health=10):
+        """
+        add a particle a point (x,y)
+        - strict means only replace Air
+        - I don't know what the rest do
+        """
+
         if obj not in particles and obj not in [Fountain, Barrier]:
-            raise TypeError(f"add_particle ask to place invalid particle {obj}")
+            raise errors.InvalidParticle(obj)
 
         # add particle to board
-        # strict mean not replace non air
+        # strict means only resplace Air
         if strict and type(self.board[y, x]) != Air:
             return
 
@@ -93,25 +102,30 @@ class Box:
             self.board[y, x] = obj(x, y)
 
     def press(self, size, x, y, obj, keep=False, place_obj=None):
-        # if keep only replace Air
-        # set mouse pos to obj
+        """
+        handle mouse press
+        - keep means only replace Air
+        """
 
+        # set mouse pos to obj
         if obj == Fountain:
             self.add_particle(x, y, obj, strict=keep, place_obj=place_obj)
         else:
             self.add_particle(x, y, obj, strict=keep)
 
         # set neighbours
-        cell = self.board[y][x]
+        cell = self.board[y, x]
         for _, other in cell.get_neighbours(self.board, size):
+            pos = (other.x, other.y)
             if obj == Fountain:
-                self.add_particle(
-                    other.x, other.y, obj, strict=keep, place_obj=place_obj
-                )
+                self.add_particle(*pos, obj, strict=keep, place_obj=place_obj)
             else:
-                self.add_particle(other.x, other.y, obj, strict=keep)
+                self.add_particle(*pos, obj, strict=keep)
 
-    def update_row(self, row, types):
+    def update_row(self, row, types: tuple[str]) -> None:
+        """
+        update a single row in 2 passes to prevent some movement bias
+        """
         for item in row:
             # check if type can be updated
             if item.type not in types:
@@ -137,6 +151,9 @@ class Box:
             item.load_move(self.board)
 
     def update(self):
+        """
+        upadate board in 2 passes to prevent spredding
+        """
         # update board
         for row in self.board[::-1]:
             self.update_row(row, ["solid", "liquid"])
@@ -144,10 +161,9 @@ class Box:
         for row in self.board:
             self.update_row(row, ["gas"])
 
-        # self.fix()
-
     def debug(self) -> list:
-        # return No. of particles
+        """get list of particle counts"""
+
         vals = {}
         for i in particles:
             vals[i.__name__] = 0
@@ -159,6 +175,8 @@ class Box:
         return vals
 
     def fix(self, talk=True) -> None:
+        """fix a load of stupid bugs"""
+        logging.warning("there is a stuid bug")
         # tell each particle where there are
         for y, row in enumerate(self.board):
             for x, item in enumerate(row):
@@ -177,7 +195,7 @@ class Box:
         x, y = mouse_pos
         if 0 > y or y > ROWS or 0 > x or x > COLS:
             logging.warning(f"box cords {x=},{y=} from mouse not vaild")
-            return None
+            return
 
         for _, other in self.board[y][x].get_neighbours(self.board, size):
 
@@ -193,6 +211,7 @@ class Box:
             self.add_particle(x, y, obj)
 
     def reset(self):
+        """does this need a docstring?"""
         logging.info("reseting board")
         self.board = np.array([[Air(x, y) for x in range(COLS)] for y in range(ROWS)])
 

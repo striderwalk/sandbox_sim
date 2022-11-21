@@ -5,8 +5,7 @@ from .properties import stone_vals
 
 class Stone(Particle, Solid):
     """
-    a Particle never moves
-
+    cold solidness
     """
 
     # colour = (117, 127, 128)

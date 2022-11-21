@@ -13,6 +13,10 @@ from .selection import Selection
 from .draw import draw_board
 from .game import Game
 
+# are all of the imports used? yes
+# are they really necessary? ...probaly not
+# am I going to do anything? definitely not...
+
 BASE_SURF = pygame.Surface((WIDTH, LOWER_BOARDER))
 
 
@@ -25,11 +29,11 @@ def get_sub_win(win, board):
 
 ######### USE **KWARGS #########
 def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False):
-    """handle the game"""
+    """handle the game, its not that hard"""
 
     save_slot, board_data = slot
-    # setup pygame
 
+    # setup pygame stuff
     clock = pygame.time.Clock()
     font = fonts.get_font(24)
     # pygame.display.set_allow_screensaver()
@@ -59,7 +63,7 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False):
         # draw sim
         surf = BASE_SURF.copy()
         surf.fill(WHITE)
-        surf = draw_board(surf, board.board, settings.showtemp.value)
+        surf = draw_board(surf, board.board)
         win.blit(surf, (0, 0))
         # draw menu
         game.draw_menu(win)
@@ -84,10 +88,10 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False):
             if event["handler"] == "sim":
                 clicks.append(event)
 
-            elif event["handler"] == "game":
-                game.handle(event)
+            elif event["handler"] == "settings":
+                settings.handle_event(event)
             elif event["handler"] == "selection":
-                selection.handle(event)
+                selection.handle_event(event)
 
             elif event["type"] == "reset":  # reset game
                 board.reset()
@@ -101,17 +105,12 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False):
                     "img": get_sub_win(win, board.board),
                 }
 
-            elif event["type"] == "toggle_play":  # pause game
-                settings.pause.toggle()
-
             elif event["type"] == "menu":
                 return {
                     "type": "menu",
                     "board": board,
                     "img": get_sub_win(win, board.board),
                 }
-            elif event["type"] == "temp":
-                settings.showtemp.toggle()
 
             elif event["type"] == "update":
                 pause_time -= 1

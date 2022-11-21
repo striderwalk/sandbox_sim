@@ -12,7 +12,7 @@ class Wood(Particle, Solid):
     """
     a Particle never moves
 
-    but if on fire BURN!!!
+    but if on fire will BURN!!
      - when done turn to ash
 
     """

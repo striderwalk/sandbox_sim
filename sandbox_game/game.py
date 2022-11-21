@@ -1,6 +1,7 @@
 from .game_menu import Menu
 import settings
 import errors
+import logging
 
 
 class Game:
@@ -21,13 +22,3 @@ class Game:
 
     def draw_menu(self, win):
         self.menu.draw(win)
-
-    def handle(self, event):
-        if event["type"] == "toggle_play":  # pause game
-            settings.toggle_pause()
-
-        elif event["type"] == "temp":
-            settings.toggle_showtemp()
-
-        else:
-            raise errors.EventNotHandled(event)

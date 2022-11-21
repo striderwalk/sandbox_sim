@@ -6,17 +6,7 @@ from .properties import lava_vals
 
 class Lava(Particle, Liquid):
     """
-    a Particle that will fall
-     - down
-     - down to the left
-     - down to the left
-
-    will flow
-
-    affects Water
-     - if Below Water turn to it steam
-     - if next to Water turn to it and self stone
-
+    hot wetness
     """
 
     colour = (245, 134, 70)

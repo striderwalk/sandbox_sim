@@ -1,14 +1,17 @@
+"""
+this file cotains lots of data 
+
+"""
+
 ROOM_TEMP = 22
 MAX_TEMP = 10000
 MIN_TEMP = -10000
 
-################
+
 #
 # temp in celsius
 # mass for 1cm³ in grams
 # conduct is SHC in J/kg
-
-##############
 
 
 acid_vals = {

@@ -5,7 +5,7 @@ from .properties import gren_vals
 
 class Gren(Particle, Solid):
     """
-    gren is good
+    gren is life
 
     """
 

@@ -3,14 +3,14 @@ import sys
 from sandbox.objects.fountain import Fountain
 
 result_map = {
-    pygame.K_LSHIFT: {"handler": "main", "type": "toggle_play"},
+    pygame.K_LSHIFT: {"handler": "settings", "type": "toggle_play"},
     pygame.K_ESCAPE: {"handler": "main", "type": "menu"},
     pygame.K_RETURN: {"handler": "main", "type": "update"},
     pygame.K_TAB: {"handler": "selection", "type": "right"},
     pygame.K_LEFT: {"handler": "selection", "type": "left"},
     pygame.K_RIGHT: {"handler": "selection", "type": "right"},
     pygame.K_LCTRL: {"handler": "selection", "type": "left"},
-    pygame.K_t: {"handler": "main", "type": "temp"},
+    pygame.K_t: {"handler": "settings", "type": "temp"},
     pygame.K_r: {"handler": "main", "type": "reset"},
     pygame.K_q: {"handler": "sim", "type": "fix"},
 }

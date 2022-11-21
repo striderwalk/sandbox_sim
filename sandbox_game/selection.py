@@ -10,7 +10,7 @@ CENTER_X = WIDTH / 2
 class Selection:
     """
     handle selection buttons
-    - check for clicks
+    - stores the current selection
     - move buttons
     """
 
@@ -44,6 +44,7 @@ class Selection:
         raise errors.ObjectNotFound(obj)
 
     def shift(self, num):
+        """move all buttons and deal with overflow"""
         cur_selected = self.buttons[self.index]
         # return
         # move all buttons
@@ -55,7 +56,7 @@ class Selection:
         # handle wrapping
         buttons = moved_buttons.copy()
         for button in moved_buttons:
-            # check to far to the left
+            # to far to the left
             if button.x + button.size < 0:
                 x = buttons[-1].x + button.size
                 y = buttons[-1].y
@@ -63,6 +64,7 @@ class Selection:
                 button.move_to(x, y)
                 buttons.append(button)
 
+            # check to far to the right
             elif button.x > WIDTH:
                 x = buttons[0].x - button.size
                 y = buttons[0].y
@@ -79,7 +81,7 @@ class Selection:
         self.index = self.buttons.index(cur_selected)
 
     def update(self, win):
-        # check for clicks
+        # upadate buttons
         clicks = []
         for i, button in enumerate(self.buttons):
             if button.check_click():
@@ -90,7 +92,6 @@ class Selection:
 
         for i in self.buttons:
             i.up()
-
         self.buttons[self.index].down()
 
         index_x = self.buttons[self.index].rect.center[0]
@@ -105,7 +106,7 @@ class Selection:
 
         return self.index
 
-    def handle(self, event):
+    def handle_event(self, event):
         if event["type"] == "left":
             self.index -= 1
 

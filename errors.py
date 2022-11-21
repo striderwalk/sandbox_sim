@@ -19,3 +19,8 @@ class NameAlreadyExists(Exception):
     def __init__(self, name, names):
         self.message = f"{name=} in {names}"
         super().__init__(self.message)
+
+
+class InvalidParticle(Exception):
+    def __init__(self, particle):
+        self.message = f"particle {obj.__name__} is unknown"

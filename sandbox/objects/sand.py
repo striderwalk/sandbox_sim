@@ -7,6 +7,7 @@ class Sand(Particle, Solid):
     """
     a Particle that will fall
      - down
+     - I don't like sand - Anakin Skywalker 32 BBY
     """
 
     colour = (222, 207, 111)

@@ -8,8 +8,7 @@ from random import randint, random
 
 class Acid(Particle, Liquid):
     """
-    a Particle never moves
-
+    a liquid that it not safe for consumption
     """
 
     colour = (62, 243, 65)

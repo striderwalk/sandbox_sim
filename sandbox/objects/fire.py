@@ -17,7 +17,8 @@ class Fire(Particle, Gas):
      - wood
 
     on death
-    - turn to smoke
+    - turn to smoke (if the code works properly)
+
 
     """
 

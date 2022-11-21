@@ -5,8 +5,8 @@ from random import random, choice, randint
 class Gas:
     """
     a base class for all gasses
-     - handle flowing
-     - spreading
+     - flowing
+     - cloning
     """
 
     def __init__(self):
@@ -54,7 +54,8 @@ class Gas:
         if right and up:
             others.append(board[self.y - 1][self.x + 1])
 
-        moves = [(i.x, i.y) for i in others if i.mass < self.mass or isinstance(i, Air)]
+        moves = [(i.x, i.y)
+                 for i in others if i.mass < self.mass or isinstance(i, Air)]
 
         if len(moves) != 0:
             return choice(moves)

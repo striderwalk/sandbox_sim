@@ -35,6 +35,13 @@ class Mouse:
             self.size = new
 
     def get_pos(self):
+        """
+        get the position of the mouse -> tuple [state, x, y]
+        - state is CORD or BOX
+        - CORD is for menus
+        - BOX is for game
+        """
+
         x, y = pygame.mouse.get_pos()
         # return y of COLS*CELL_HEIGHT+10 to avoid boarder bugs
         upper_boarder = UPPER_BOARDER if settings.showmenu.value else 0
@@ -81,8 +88,7 @@ class Mouse:
         state, x, y = self.get_pos()
         if state == "CORD":
             print(x, y)
-            rect = (x - CELL_WIDTH, y - CELL_HEIGHT,
-                    CELL_WIDTH * 2, CELL_HEIGHT * 2)
+            rect = (x - CELL_WIDTH, y - CELL_HEIGHT, CELL_WIDTH * 2, CELL_HEIGHT * 2)
             pygame.draw.rect(win, MOUSE_YELLOW, rect, border_radius=3)
             return
 
@@ -132,8 +138,7 @@ class Mouse:
                 if isinstance(obj, Fountain):
                     obj = obj.obj
 
-                events.append(
-                    {"handler": "selection", "type": "press", "value": obj})
+                events.append({"handler": "selection", "type": "press", "value": obj})
 
         # safe placements
         if pygame.mouse.get_pressed()[2]:

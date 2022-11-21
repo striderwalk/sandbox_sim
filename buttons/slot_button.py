@@ -37,19 +37,12 @@ class Slot_Button:
         y = self.y - 2 - name.get_height()
         win.blit(name, (x, y))
         # draw image (either picture of save of cross)
-        win.blit(
-            self.img,
-            (self.rect.topleft[0], self.rect.topleft[1]),
-        )
+        pos = (self.rect.topleft[0], self.rect.topleft[1])
+        win.blit(self.img, pos)
 
         # draw box around image
-        pygame.draw.rect(
-            win,
-            colour,
-            (self.x - 1, self.y - 1, self.xsize + 2, self.ysize + 2),
-            width=2,
-            border_radius=3,
-        )
+        rect = (self.x - 1, self.y - 1, self.xsize + 2, self.ysize + 2)
+        pygame.draw.rect(win, colour, rect, width=2, border_radius=3)
 
     def check_click(self):
         # check for click

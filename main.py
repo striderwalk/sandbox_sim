@@ -1,19 +1,18 @@
+from log import configer_logger
+from slots import setup
+from menu import loading, menu, save, end
+from conts import WIDTH, HEIGHT
+import logging
+from sandbox_game import run_sim
+import pygame
 import argparse
 from os import environ
 
 environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
-import pygame
-from sandbox_game import run_sim
-import logging
-from conts import WIDTH, HEIGHT
-from menu import loading, menu, save, end
-from slots import setup
-from log import configer_logger
-
-######################## A mess ##############################
 
 
 def main(debug=False):
+    """this is a mess and this doc string is not useful"""
     pygame.init()
     win = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
     pygame.display.set_caption("SandBox")
@@ -39,8 +38,6 @@ def main(debug=False):
             loading(win)
             slot = menu(win)
 
-
-###############################################################
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

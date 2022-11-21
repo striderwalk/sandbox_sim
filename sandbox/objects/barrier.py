@@ -3,8 +3,8 @@ from .particle import Particle
 
 class Barrier(Particle):
     """
-    i can not be harmed by words or guns
-
+    some say stick and stone may break my bones,
+    but my code says I'm indestructible
     """
 
     colour = (255, 0, 0)

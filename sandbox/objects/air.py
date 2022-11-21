@@ -4,7 +4,7 @@ from .properties import air_vals
 
 class Air(Particle):
     """
-    DOCUMENTATION NEEDED
+    it's Air what do you want me to say
     """
 
     colour = (255, 255, 255)

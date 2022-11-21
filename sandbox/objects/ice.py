@@ -5,7 +5,7 @@ from .properties import ice_vals
 
 class Ice(Particle, Solid):
     """
-    a solid water
+    a solid variaty water
     """
 
     colour = (63, 208, 212)

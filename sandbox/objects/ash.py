@@ -6,8 +6,8 @@ from .properties import ash_vals
 
 class Ash(Particle, Solid):
     """
-    a Particle that will fall
-     - down
+    movent
+    - goes down
     """
 
     colour = (54, 69, 79)

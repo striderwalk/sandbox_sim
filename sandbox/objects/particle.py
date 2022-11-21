@@ -9,8 +9,7 @@ THRESH_HOLD = 1
 class Particle:
     """
     base class for all particles
-     - stores pos
-     - allows movement
+     - does to much 
     """
 
     # USE **KWARGS NOW
