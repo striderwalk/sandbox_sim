@@ -3,13 +3,12 @@ import errors
 from typing import Callable
 from conts import RED, TEXT_COLOUR, BG_COLOUR, WIDTH, UPPER_BOARDER
 import fonts
+import settings
 
 """
  deal with options menu stuff
   - toggle heat map
   - paused
-
-
 """
 
 
@@ -27,12 +26,12 @@ def make_text(text, alt_text, text_colour=TEXT_COLOUR, alt_text_colour=RED):
 
 class Button:
     # make button text obj refer to brain for reason
-    def __init__(self, text, alt_text, pos: Position, size: Size, hook: Callable=None):
+    def __init__(self, text, alt_text, pos: Position, size: Size, setting=None):
         # text
         self.text = text
         self.alt_text = alt_text
         # clicks
-        self.hook = hook
+        self.setting = setting
         self.rect = pygame.Rect(pos, size)
         self.clicked = False
         self.timeout = 0
@@ -52,8 +51,8 @@ class Button:
             return
 
         if self._is_clicked():
-            if self.hook:
-                self.hook()
+            if self.setting:
+                self.setting.toggle()
             else:
                 self.click()
             self.timeout = 5
@@ -65,6 +64,8 @@ class Button:
 
     def draw(self, win):
         self.check_clicked()
+        if self.setting:
+            self.clicked = self.setting.value
 
         if self.clicked:
             text = self.alt_text
@@ -87,7 +88,8 @@ class Menu:
         self.image = pygame.Surface(Menu.size, pygame.SRCALPHA)
         self.image.fill((*BG_COLOUR, 100))
         rtext, ralt_text = make_text("=", "x")
-        self.menu_button = Button(rtext, ralt_text, (10, 5), (20, 20))
+        self.menu_button = Button(
+            rtext, ralt_text, (10, 5), (20, 20), setting=settings.showmenu)
         self.buttons = {}
         self.bx, self.by = 40, 5
         self.bdx, self.bdy = 80, 0
@@ -96,18 +98,17 @@ class Menu:
     def toggle(self, name):
         self.buttons[name].click()
 
-    def make_button(self, text, alt_text, hook):
+    def make_button(self, text, alt_text, setting):
         x, y = self.bx, self.by
         self.bx += self.bdx
         self.by += self.bdy
 
         rtext, ralt_text = make_text(text, alt_text)
-        return Button(rtext, ralt_text, (x, y), self.bsize, hook=hook)
+        return Button(rtext, ralt_text, (x, y), self.bsize, setting=setting)
 
     def add_button(self, name, dat):
         if name in self.buttons:
             raise errors.NameAlreadyExists(name)
-
         b = self.make_button(*dat)
         self.buttons[name] = b
 

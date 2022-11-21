@@ -2,7 +2,8 @@ import pygame
 import itertools
 import logging
 import fonts
-from conts import WIDTH, HEIGHT, LOWER_BOARDER, FPS, WHITE, BLACK, UPPER_BOARDER
+from conts import WIDTH, LOWER_BOARDER, FPS, WHITE, BLACK
+import settings
 from sandbox import Box, update_sim
 from sandbox.get_particles import objects
 import errors
@@ -24,7 +25,7 @@ def get_sub_win(win, board):
 
 ######### USE **KWARGS #########
 def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False):
-    ################################
+    """ handle the game"""
 
     save_slot, board_data = slot
     # setup pygame
@@ -52,21 +53,25 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False):
         clicks = []
         # make frame num stable if paused
         fnum -= pause_time
-        if game.pause:
+        if settings.pause.value:
             pause_time += 1
 
-        # draw
+        # draw sim
         surf = BASE_SURF.copy()
         surf.fill(WHITE)
-        surf = draw_board(surf, board.board, game.show_temp)
+        surf = draw_board(surf, board.board, settings.showtemp.value)
         win.blit(surf, (0, 0))
+        # draw menu
+        game.draw_menu(win)
+        # update index
+        selection.update(win)
+
         pos = mouse.get_pos()
         mouse_pos = pos[1:] if pos[0] == "BOX" else None
         _events = mouse.update(
-            win, board.board, selection.selected, game.shown)
+            win, board.board, selection.selected, settings.showmenu.value
+        )
         events.extend(_events)
-        # update index
-        selection.update(win)
 
         # handle input
         _clicks, _event = input_handle(mouse, board, selection.selected)
@@ -97,7 +102,7 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False):
                 }
 
             elif event["type"] == "toggle_play":  # pause game
-                game.toggle_pause()
+                settings.pause.toggle()
 
             elif event["type"] == "menu":
                 return {
@@ -106,7 +111,7 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False):
                     "img": get_sub_win(win, board.board),
                 }
             elif event["type"] == "temp":
-                game.toggle_show_temp()
+                settings.showtemp.toggle()
 
             elif event["type"] == "update":
                 pause_time -= 1
@@ -114,7 +119,7 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False):
             else:
                 raise errors.EventNotHandled(event)
 
-        update_sim(board, clicks, mouse_pos, game.pause)
+        update_sim(board, clicks, mouse_pos, settings.pause.value)
         # display game data
 
         # text = f"{fnum}, fps={round(clock.get_fps(), 3)}"
@@ -122,9 +127,7 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False):
         # fps_text = font.render(text, True, colour)
         # win.blit(fps_text, (30, 30))
 
-        game.draw_menu(win)
-
-        if game.pause:
+        if settings.pause.value:
             paused_text = font.render("paused", True, (255, 0, 0))
             win.blit(paused_text, (WIDTH - paused_text.get_size()[0] - 10, 30))
         # update screen

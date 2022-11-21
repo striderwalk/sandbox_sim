@@ -1,17 +1,12 @@
-from enum import Enum, auto
+class Setting:
+    def __init__(self, name: str, value: bool) -> None:
+        self.name = name
+        self.value = value
+
+    def toggle(self) -> None:
+        self.value = not self.value
 
 
-class _settings(Enum):
-    # game settings
-    SHOWTEMP = auto()
-    # SELECETION = auto()/?
-    # menu settings
-    MENUSHOWN = auto()
-
-
-class GameSettings:
-    # sim settings
-    show_temp = False
-
-    # other settings
-    show_menu = False
+showtemp = Setting("temp", False)
+pause = Setting("pause", False)
+showmenu = Setting("menu", False)

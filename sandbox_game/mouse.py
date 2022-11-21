@@ -1,4 +1,5 @@
 import pygame
+import logging
 from sandbox.objects.fountain import Fountain
 from sandbox.objects import Air
 from conts import (
@@ -11,6 +12,7 @@ from conts import (
     UPPER_BOARDER,
     MOUSE_YELLOW,
 )
+import settings
 
 MAX_SIZE = 20
 
@@ -32,18 +34,21 @@ class Mouse:
         if new > 0 and new < MAX_SIZE:
             self.size = new
 
-    def get_pos(self, shift=True):
+    def get_pos(self):
         x, y = pygame.mouse.get_pos()
         # return y of COLS*CELL_HEIGHT+10 to avoid boarder bugs
-        if y > LOWER_BOARDER - 3 or y < 0:
+        upper_boarder = UPPER_BOARDER if settings.showmenu.value else 0
+        if y > LOWER_BOARDER - 3 or y < upper_boarder:
             # i think this is meant to make sure clicks happen, but could be a bug??
-            return ("CORD", x, ROWS * CELL_HEIGHT + 10)
+            return ("CORD", x, y)
+
         box_x = x // CELL_WIDTH
         box_y = y // CELL_HEIGHT
 
         return ("BOX", box_x, box_y)
 
     def _get_box_cords(self, x: float, y: float) -> tuple[float]:
+        upper_boarder = UPPER_BOARDER if settings.showmenu.value else 0
         size_width = (self.size - 1) * CELL_WIDTH * 2
         size_height = (self.size - 1) * CELL_HEIGHT * 2
         # find topleft
@@ -61,7 +66,7 @@ class Mouse:
             size_width -= diff
             topleft_x = 2
 
-        if topleft_y < 0:
+        if topleft_y < upper_boarder:
             diff = 0 - topleft_y
             size_height -= diff
             topleft_y = 2
@@ -72,21 +77,28 @@ class Mouse:
     def draw_mouse(self, win, obj, shown):
         # hide mouse
         pygame.mouse.set_visible(False)
-        # if in main area
-        state, x, y = self.get_pos(shift=False)
+
+        state, x, y = self.get_pos()
         if state == "CORD":
-            pygame.mouse.set_visible(True)
+            print(x, y)
+            rect = (x-CELL_WIDTH, y-CELL_HEIGHT,
+                    CELL_WIDTH * 2, CELL_HEIGHT * 2)
+            pygame.draw.rect(win, MOUSE_YELLOW, rect, border_radius=3)
             return
+
+        # draw centre
+        center_x = (x - 0.5) * CELL_WIDTH
+        center_y = (y - 0.5) * CELL_HEIGHT
+        rect = (center_x, center_y, CELL_WIDTH * 2, CELL_HEIGHT * 2)
+        pygame.draw.rect(win, MOUSE_YELLOW, rect, border_radius=3)
+
+        # check if out seaction is needed
+
         # find rim colour
         if obj == Air:
             colour = (0, 0, 0)
         else:
             colour = obj.colour
-        # draw centre
-        center_x = (x - 0.5) * CELL_WIDTH
-        center_y = (y - 0.5) * CELL_HEIGHT
-        rect = (center_x, center_y, CELL_WIDTH * 2, CELL_HEIGHT * 2)
-        pygame.draw.rect(win, MOUSE_YELLOW, rect)
         # draw outer section
 
         box_cords = self._get_box_cords(x, y)
