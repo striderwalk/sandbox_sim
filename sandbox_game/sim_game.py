@@ -60,11 +60,10 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False):
         surf.fill(WHITE)
         surf = draw_board(surf, board.board, game.show_temp)
         win.blit(surf, (0, 0))
-        game.draw_menu(win)
-
         pos = mouse.get_pos()
         mouse_pos = pos[1:] if pos[0] == "BOX" else None
-        _events = mouse.update(win, board.board, selection.selected)
+        _events = mouse.update(
+            win, board.board, selection.selected, game.shown)
         events.extend(_events)
         # update index
         selection.update(win)
@@ -118,10 +117,12 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False):
         update_sim(board, clicks, mouse_pos, game.pause)
         # display game data
 
-        text = f"{fnum}, fps={round(clock.get_fps(), 3)}"
-        colour = [255 * int(game.show_temp) for i in range(3)]
-        fps_text = font.render(text, True, colour)
-        win.blit(fps_text, (30, 30))
+        # text = f"{fnum}, fps={round(clock.get_fps(), 3)}"
+        # colour = [255 * int(game.show_temp) for i in range(3)]
+        # fps_text = font.render(text, True, colour)
+        # win.blit(fps_text, (30, 30))
+
+        game.draw_menu(win)
 
         if game.pause:
             paused_text = font.render("paused", True, (255, 0, 0))

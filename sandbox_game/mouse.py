@@ -69,7 +69,7 @@ class Mouse:
         box_cords = (topleft_x, topleft_y, size_width + 1, size_height + 1)
         return box_cords
 
-    def draw_mouse(self, win, obj):
+    def draw_mouse(self, win, obj, shown):
         # hide mouse
         pygame.mouse.set_visible(False)
         # if in main area
@@ -92,8 +92,8 @@ class Mouse:
         box_cords = self._get_box_cords(x, y)
         pygame.draw.rect(win, colour, box_cords, width=1)
 
-    def update(self, win, board, obj):
-        self.draw_mouse(win, obj)
+    def update(self, win, board, obj, shown_menu):
+        self.draw_mouse(win, obj, shown_menu)
         events = []
         # check for input
         # unsafe placement

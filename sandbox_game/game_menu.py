@@ -19,12 +19,15 @@ Position = tuple[int]
 Size = tuple[int]
 
 
-# class Button
+def make_text(text, alt_text, text_colour=TEXT_COLOUR, alt_text_colour=RED):
+    rtext = font.render(text, False, text_colour)
+    ralt_text = font.render(alt_text, False, alt_text_colour)
+    return rtext, ralt_text
 
 
 class Button:
     # make button text obj refer to brain for reason
-    def __init__(self, text: str, alt_text: str, pos: Position, size: Size, hook: Callable = None):
+    def __init__(self, text, alt_text, pos: Position, size: Size, hook: Callable=None):
         # text
         self.text = text
         self.alt_text = alt_text
@@ -64,10 +67,10 @@ class Button:
         self.check_clicked()
 
         if self.clicked:
-            text = font.render(self.alt_text, False, RED)
+            text = self.alt_text
 
         else:
-            text = font.render(self.text, False, TEXT_COLOUR)
+            text = self.text
 
         image = self.image.copy()
         x = (image.get_width() - text.get_width()) / 2
@@ -83,7 +86,8 @@ class Menu:
     def __init__(self):
         self.image = pygame.Surface(Menu.size, pygame.SRCALPHA)
         self.image.fill((*BG_COLOUR, 100))
-        self.menu_button = Button("≡", "x", (10, 5), (20, 20))
+        rtext, ralt_text = make_text("=", "x")
+        self.menu_button = Button(rtext, ralt_text, (10, 5), (20, 20))
         self.buttons = {}
         self.bx, self.by = 40, 5
         self.bdx, self.bdy = 80, 0
@@ -96,7 +100,9 @@ class Menu:
         x, y = self.bx, self.by
         self.bx += self.bdx
         self.by += self.bdy
-        return Button(text, alt_text, (x, y), self.bsize, hook=hook)
+
+        rtext, ralt_text = make_text(text, alt_text)
+        return Button(rtext, ralt_text, (x, y), self.bsize, hook=hook)
 
     def add_button(self, name, dat):
         if name in self.buttons:

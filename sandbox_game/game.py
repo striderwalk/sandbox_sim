@@ -1,8 +1,11 @@
-import errors
 from .game_menu import Menu
 
 
 class Game:
+    """
+    class to handle game menus/settings
+    """
+
     def __init__(self, slot=0, pause=False, show_temp=False):
         self.save_slot = slot
         self.pause = pause
@@ -12,6 +15,10 @@ class Game:
         self.menu.add_button(
             "temp", ("show temp", "show normal", self.toggle_show_temp)
         )
+
+    @property
+    def shown(self):
+        return not self.menu.menu_button.clicked
 
     def toggle_pause(self):
         self.pause = not self.pause
