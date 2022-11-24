@@ -4,7 +4,7 @@ import sys
 
 
 # handle exiting
-def end(*args):
+def end(*args, **kwargs):
     logging.info("exiting, bye!")
     pygame.quit()
     sys.exit()

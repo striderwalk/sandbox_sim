@@ -54,9 +54,8 @@ class Liquid:
         self_type = type(self)
 
         # check move down
-        other = board[self.y + 1][self.x]
 
-        if down and other.mass < self.mass:
+        if down and board[self.y + 1][self.x].mass < self.mass:
             if random() > 0.1:
                 return (self.x, self.y + 1)
 

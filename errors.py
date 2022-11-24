@@ -24,3 +24,9 @@ class NameAlreadyExists(Exception):
 class InvalidParticle(Exception):
     def __init__(self, particle):
         self.message = f"particle {obj.__name__} is unknown"
+
+
+class InvalidBoard(Exception):
+    def __init__(self, board_data):
+        self.message = f"{board_data=} is unknown"
+        super().__init__(self.message)
