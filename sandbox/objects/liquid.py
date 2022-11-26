@@ -56,8 +56,7 @@ class Liquid:
         # check move down
 
         if down and board[self.y + 1][self.x].mass < self.mass:
-            if random() > 0.1:
-                return (self.x, self.y + 1)
+            return (self.x, self.y + 1)
 
         moves = []
         if down and left and board[self.y + 1][self.x - 1].mass < self.mass:
