@@ -121,10 +121,11 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False):
         update_sim(board, clicks, mouse_pos, settings.pause.value)
         # display game data
 
-        text = f"{fnum}, fps={round(clock.get_fps(), 3)}"
-        colour = [255 * int(settings.showtemp.value) for i in range(3)]
-        fps_text = font.render(text, True, colour)
-        win.blit(fps_text, (30, 30))
+        if settings.debug.value:
+            text = f"{fnum}, fps={round(clock.get_fps(), 3)}"
+            colour = [255 * int(settings.showtemp.value) for i in range(3)]
+            fps_text = font.render(text, True, colour)
+            win.blit(fps_text, (30, 30))
 
         if settings.pause.value:
             paused_text = font.render("paused", True, (255, 0, 0))
