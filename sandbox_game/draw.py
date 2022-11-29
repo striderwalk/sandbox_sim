@@ -6,6 +6,7 @@ from sandbox.objects.fountain import Fountain
 
 
 def draw_board(surf, board, show_fountain=True):
+
     # draw all particles
     showtemp = settings.showtemp.value
     for i, row in enumerate(board):

@@ -11,6 +11,9 @@ class Setting:
     def toggle(self) -> None:
         self.value = not self.value
 
+    def set(self, value: bool) -> None:
+        self.value = value
+
 
 def handle_event(event):
     """handle events that change settings"""
@@ -26,3 +29,4 @@ def handle_event(event):
 showtemp = Setting("temp", False)
 pause = Setting("pause", False)
 showmenu = Setting("menu", False)
+debug = Setting("debug", False)

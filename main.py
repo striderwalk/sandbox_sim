@@ -3,6 +3,7 @@ from slots import setup
 from menu import loading, menu, save, end
 from conts import WIDTH, HEIGHT
 import logging
+import settings
 from sandbox_game import run_sim
 import pygame
 import argparse
@@ -61,5 +62,6 @@ if __name__ == "__main__":
         configer_logger(logging.INFO)
     elif args.debug:
         configer_logger(logging.DEBUG)
+        settings.debug.set(True)
 
     main(args.debug, args.profile_board)
