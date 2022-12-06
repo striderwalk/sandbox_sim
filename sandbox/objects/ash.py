@@ -13,7 +13,6 @@ class Ash(Particle, Solid):
     colour = (54, 69, 79)
     temp = ash_vals["start_temp"]
 
-    ### rules ###
     max_temp = ash_vals["max_temp"]
     min_temp = ash_vals["min_temp"]
     conduct = ash_vals["conduct"]

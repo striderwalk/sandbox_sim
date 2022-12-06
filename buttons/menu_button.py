@@ -21,9 +21,9 @@ class Button:
         self.xsize, self.ysize = xsize, ysize
 
     def draw(self, win):
-        # draw button on screen
+        # draw button -------------------------------->
         pos = pygame.mouse.get_pos()
-        # set colour based on mouse pos
+        # set colour
         if self.rect.collidepoint(pos):
             rect_colour = (21, 54, 66)
             text_colour = (235, 235, 235)
@@ -31,7 +31,7 @@ class Button:
             rect_colour = (235, 235, 235)
             text_colour = (21, 54, 66)
 
-        # draw box
+        # draw outter box
         pygame.draw.rect(win, rect_colour, self.rect, border_radius=3)
 
         # draw text

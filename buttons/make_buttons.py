@@ -1,17 +1,10 @@
+from typing import Callable
 from .menu_button import Button
 from conts import WIDTH, HEIGHT
 
 
-def make_menu_buttons(data, xoff=0, yoff=-100):
-    """
-    data = [text: str, func: functions]
-    buttons used for action eg start button
-    for selection slot_selction.py is used
-    """
-    button_num = len(data)
-    gap = 5
-
-    # find button size (max_x+50, max_y+50)
+def find_size(data):
+    "find size that all buttons will occupy"
     maxx, maxy = 0, 0
     for text, _ in data:
         x, y = Button.font.render(text, False, (0, 0, 0)).get_size()
@@ -22,10 +15,29 @@ def make_menu_buttons(data, xoff=0, yoff=-100):
     button_width = maxx + 50
     button_height = maxy + 50
 
+    return button_width, button_height, maxy
+
+
+def _make_button(data, xoff, yoff):
+
+    num_buttons = len(data)
+    gap = 5
+
+    button_width, button_height, maxy = find_size(data)
+
     x = WIDTH / 2 - button_width / 2 + xoff
-    top_y = HEIGHT / 2 - (maxy + gap * button_num) / 2 + yoff
+    top_y = HEIGHT / 2 - (maxy + gap * num_buttons) / 2 + yoff
     y_size = button_height + gap
-    return [
-        Button(x, top_y + y_size * index, button_width, button_height, *i)
-        for index, i in enumerate(data)
-    ]
+
+    for index, i in enumerate(data):
+        y = top_y + y_size * index
+        yield Button(x, y, button_width, button_height, *i)
+
+
+def make_menu_buttons(data: list[list[str, Callable]], xoff=0, yoff=-100):
+    """
+    buttons used for action eg start button
+    for selection slot_selction.py is used
+    """
+
+    return list(_make_button(data, xoff, yoff))

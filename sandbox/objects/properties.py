@@ -4,8 +4,8 @@ this file cotains lots of data
 """
 
 ROOM_TEMP = 22
-MAX_TEMP = 10000
-MIN_TEMP = -10000
+MAX_TEMP = 10_000
+MIN_TEMP = -2_000
 
 
 #

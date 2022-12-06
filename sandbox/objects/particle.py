@@ -9,7 +9,7 @@ THRESH_HOLD = 1
 class Particle:
     """
     base class for all particles
-     - does to much 
+     - does to much
     """
 
     # USE **KWARGS NOW
