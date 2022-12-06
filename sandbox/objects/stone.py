@@ -8,7 +8,6 @@ class Stone(Particle, Solid):
     cold solidness
     """
 
-    # colour = (117, 127, 128)
     colour = (105, 106, 106)
     temp = stone_vals["start_temp"]
 
