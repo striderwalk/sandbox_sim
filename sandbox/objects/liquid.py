@@ -1,5 +1,5 @@
 from .air import Air
-from random import shuffle, random
+from random import shuffle
 
 
 class Liquid:

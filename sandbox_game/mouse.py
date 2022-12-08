@@ -87,7 +87,6 @@ class Mouse:
 
         state, x, y = self.get_pos()
         if state == "CORD":
-            print(x, y)
             rect = (x - CELL_WIDTH, y - CELL_HEIGHT, CELL_WIDTH * 2, CELL_HEIGHT * 2)
             pygame.draw.rect(win, MOUSE_YELLOW, rect, border_radius=3)
             return
