@@ -1,8 +1,5 @@
-from colour import Color
-from .utils import update_colour
+from .utils import find_heatmap_colour, update_colour
 
-HEAT_MAP = list(Color("#0000ff").range_to(Color("#ff0000"), 501))
-HEAT_MAP = [[i * 255 for i in colour.rgb] for colour in HEAT_MAP]
 THRESH_HOLD = 1
 
 
@@ -56,7 +53,7 @@ class Particle:
         if self.temp + 100 < 0:
             colour = (0, 0, 0)
         else:
-            colour = HEAT_MAP[int(min(500, self.temp + 100))]
+            colour = find_heatmap_colour(self.temp)
 
         return colour
 

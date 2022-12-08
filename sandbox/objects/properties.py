@@ -1,7 +1,5 @@
-"""
-this file cotains lots of data 
+"this file cotains lots of data"
 
-"""
 
 ROOM_TEMP = 22
 MAX_TEMP = 10_000

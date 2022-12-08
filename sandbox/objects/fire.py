@@ -3,8 +3,8 @@ from .gas import Gas
 from .smoke import Smoke
 from .air import Air
 from random import random, randint, choice
-from colour import Color
 from .properties import fire_vals
+from .utils import FIRE_COLOURS
 
 
 class Fire(Particle, Gas):
@@ -24,8 +24,7 @@ class Fire(Particle, Gas):
 
     base_colour = "#fc9803"
     colour = (252, 152, 3)
-    colours = list(Color(base_colour).range_to(Color("#fc0b03"), 5))
-    colours = [[i * 255 for i in colour.rgb] for colour in colours]
+    colours = FIRE_COLOURS
     temp = fire_vals["start_temp"]
 
     ### rules ###
