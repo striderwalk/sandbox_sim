@@ -1,5 +1,6 @@
 from .air import Air
 from random import shuffle
+import logging
 
 
 class Liquid:
@@ -38,11 +39,12 @@ class Liquid:
         - move down left/ down right
         - move left/ right
         """
+
         if self.has_moved != 0:
+
+            self.has_moved -= 1
             if self.check_air(board):
                 self.has_moved = 0
-            else:
-                self.has_moved -= 1
 
             return
 
