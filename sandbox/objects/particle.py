@@ -58,21 +58,19 @@ class Particle:
         return colour
 
     def get_others(self, board):
+        others = []
         if self.y > 0:  # above
-            yield board[self.y - 1, self.x]
-            # others.append(other)
+            others.append(board[self.y - 1, self.x])
 
         if self.y < len(board) - 1:  # below
-            yield board[self.y + 1, self.x]
-            # others.append(other)
+            others.append(board[self.y + 1, self.x])
 
         if self.x > 0:  # left
-            yield board[self.y, self.x - 1]
-            # others.append(other)
+            others.append(board[self.y, self.x - 1])
 
         if self.x < len(board[self.y]) - 1:  # right
-            yield board[self.y, self.x + 1]
-            # others.append(other)
+            others.append(board[self.y, self.x + 1])
+        return others
 
     def update_temp(self, others):
         # profiler.start()

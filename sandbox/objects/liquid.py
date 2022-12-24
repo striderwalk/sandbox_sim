@@ -54,7 +54,6 @@ class Liquid:
         down = self.y < len(board) - 1
         left = self.x > 0
         right = self.x < cols - 1
-        self_type = type(self)
 
         # check move down
 
@@ -74,32 +73,31 @@ class Liquid:
 
         max_x = cols - 1
         for i in range(1, self.wetness):
-            left = left and self.x > i
+            left, right = self.check_move(board, left, right, moves, max_x, i)
 
-            right = right and self.x < max_x
+        # choose move
+        if moves:
+            shuffle(moves)
+            return moves[-1]
+        else:
+            # don't move for 3 times cus speed
+            self.has_moved += 3
 
-            if left:
-                left_item = board[self.y, self.x - 1]
-                if isinstance(left_item, Air):
-                    moves.append(left_item.pos)
-                    left = False
+    def check_move(self, board, left, right, moves, max_x, i):
+        left = left and self.x > i
+        right = right and self.x < max_x
 
-                elif not isinstance(left_item, self_type) or isinstance(left_item, Air):
-                    left = False
+        left = self._check_item(board, moves, left, -1) if left else left
+        right = self._check_item(board, moves, left, +1) if right else right
 
-            if right:
-                right_item = board[self.y, self.x + 1]
-                if isinstance(right_item, Air):
-                    moves.append(right_item.pos)
-                    right = False
+        return left, right
 
-                elif not isinstance(right_item, self_type):
-                    right = False
+    def _check_item(self, board, moves, dir_bool, adder):
+        other_item = board[self.y, self.x + adder]
+        if isinstance(other_item, Air):
+            moves.append(other_item.pos)
+            dir_bool = False
 
-            # choose move
-            if moves:
-                shuffle(moves)
-                return moves[-1]
-            else:
-                # don't move for 3 times cus speed
-                self.has_moved += 3
+        elif not isinstance(other_item, self.__class__):
+            dir_bool = False
+        return dir_bool

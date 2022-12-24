@@ -1,6 +1,6 @@
-from random import choice, randint, random
-
+import logging
 from .air import Air
+from random import random, choice, randint
 
 
 class Gas:
@@ -24,21 +24,20 @@ class Gas:
             # so if pos out of board no
             y_axis = 0 <= self.y + yoff < len(board)
             x_axis = 0 <= self.x + xoff < len(board[0])
-            if y_axis and x_axis:
 
-                if type(board[self.y + yoff, self.x + xoff]) == Air:
+            if not y_axis or not x_axis:
+                continue
+            if not isinstance(board[self.y + yoff, self.x + xoff], Air):
+                continue
+            x = self.x + xoff
+            y = self.y + yoff
+            thick = self.thickness * split_ratio
+            temp = self.next_temp
 
-                    x = self.x + xoff
-                    y = self.y + yoff
-                    thick = self.thickness * split_ratio
-                    temp = self.next_temp
+            board[y, x] = self.__class__(x, y, thick=thick, temp=temp)
 
-                    board[self.y + yoff, self.x + xoff] = type(self)(
-                        x, y, thick=thick, temp=temp
-                    )
-
-                self.thickness *= 1 - split_ratio
-                return
+            self.thickness *= 1 - split_ratio
+            break
 
     def move(self, board):
         left = self.x > 0

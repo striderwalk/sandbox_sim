@@ -12,9 +12,6 @@ class Steam(Particle, Gas):
      - up to the left
      - up to the left
 
-    has a random chance of splitting
-     - lowers thickness of self
-     - copy self to random free tile in 3x3 square
 
     condense self
      - turn to Water

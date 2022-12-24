@@ -37,7 +37,7 @@ def run(win, board, img):
     while True:
         win.fill(WHITE)
         background.update(win)
-        for i, button in enumerate(menu_buttons):
+        for _, button in enumerate(menu_buttons):
             button.draw(win)
             # handle clicks
             if res := button.check_click():

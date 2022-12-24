@@ -73,15 +73,18 @@ class Box:
         step = COLS // len(particles)
         index_d = 0
         for i in range(ROWS):
-            for j in range(COLS):
-                index_d = j // step
-                if j % step < 2:
-                    self.add_particle(j, i, Barrier)
-                    continue
-                try:
-                    self.add_particle(j, i, particles[index_d])
-                except IndexError:  # this is stuid
-                    pass
+            index_d = self.set_profiling_row(step, i, index_d)
+
+    def set_profiling_row(self, step, i, index_d):
+        for j in range(COLS):
+            index_d = j // step
+            if j % step < 2:
+                self.add_particle(j, i, Barrier)
+                continue
+            if index_d < len(particles) and index_d > 0:
+                self.add_particle(j, i, particles[index_d])
+
+        return index_d
 
     def add_particle(self, x, y, obj, *, strict=False, place_obj=None, health=10):
         """

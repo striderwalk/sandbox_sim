@@ -50,6 +50,10 @@ def run(win):
         pygame.display.flip()
 
         for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN:
-                    return index, buttons[0].click()(index)
+            if val := process_event(event, index, buttons):
+                return val
+
+
+def process_event(event, index, buttons):
+    if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
+        return index, buttons[0].click()(index)

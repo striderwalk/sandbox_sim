@@ -17,8 +17,9 @@ def update_sim(board, events=[], mouse_pos=None, pause=False):
 
         elif event["type"] == "fix":  # debuging thing
             board.fix()
-            if mouse_pos:
-                x, y = mouse_pos
-                logging.info(f"{board.board[y, x]} really at {x=}, {y=}")
+            if not mouse_pos:
+                pass
+            x, y = mouse_pos
+            logging.info(f"{board.board[y, x]} really at {x=}, {y=}")
 
     return board

@@ -52,13 +52,10 @@ def run(win, time=100000, slot_text=None):
         # draw text
         win.blit(loading_text, ((WIDTH - size[0]) / 2, (HEIGHT - size[1]) / 2))
         if slot_text is not None:
-            win.blit(
-                slot_text,
-                (
-                    (WIDTH - slot_size[0]) / 2,
-                    (HEIGHT - slot_size[1]) / 2 + size[1] * 1.4,
-                ),
-            )
+            _x = (WIDTH - slot_size[0]) / 2
+            _y = (HEIGHT - slot_size[1]) / 2 + size[1] * 1.4
+            win.blit(slot_text, (_x, _y))
+
         # update screen
         pygame.display.flip()
         clock.tick(FPS)

@@ -47,18 +47,20 @@ class Wood(Particle, Solid):
         # if neighbour is water start to rot
         rot = any([type(i) == Water for i in others])
 
-        if rot:
-            if self.fire_count > 0:
-                self.fire_count = -10
-            else:
-                self.fire_count -= 1
+        if not rot:
+            return
 
-            self.colour = (self.colour[0], self.colour[1] + 2, self.colour[2])
+        if self.fire_count > 0:
+            self.fire_count = -10
+        else:
+            self.fire_count -= 1
+
+        self.colour = (self.colour[0], self.colour[1] + 2, self.colour[2])
 
     def check_extinguish(self, others):
 
         for other in others:
-            if type(other) == Air:
+            if isinstance(other, Air):
                 break
             elif other.type == "liquid":
                 self.fire_count = -1
@@ -95,20 +97,7 @@ class Wood(Particle, Solid):
             self.check_extinguish(others)
 
         if self.fire_count > 0:
-            for other in others:
-                if isinstance(other, Air):
-                    if random() > 0.5:
-                        board[other.y, other.x] = Fire(other.x, other.y)
-                    else:
-                        board[other.y, other.x] = Smoke(other.x, other.y)
-
-                    self.fire_count -= 1
-                    self.colour = (
-                        self.colour[0] - 1,
-                        self.colour[1] - 1,
-                        self.colour[2],
-                    )
-                    break
+            self.fire_ig(board, others)
 
         elif self.fire_count == 0:
             if random() > 0.4:
@@ -117,3 +106,21 @@ class Wood(Particle, Solid):
                 return {"type": "dies"}
 
         return self.check_temp()
+
+    def fire_ig(self, board, others):
+        for other in others:
+            if not isinstance(other, Air):
+                continue
+
+            if random() > 0.5:
+                board[other.y, other.x] = Fire(other.x, other.y)
+            else:
+                board[other.y, other.x] = Smoke(other.x, other.y)
+
+            self.fire_count -= 1
+            self.colour = (
+                self.colour[0] - 1,
+                self.colour[1] - 1,
+                self.colour[2],
+            )
+            break

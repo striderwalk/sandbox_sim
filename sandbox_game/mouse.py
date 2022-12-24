@@ -6,10 +6,8 @@ import settings
 from conts import (
     CELL_HEIGHT,
     CELL_WIDTH,
-    HEIGHT,
     LOWER_BOARDER,
     MOUSE_YELLOW,
-    ROWS,
     UPPER_BOARDER,
     WIDTH,
 )
