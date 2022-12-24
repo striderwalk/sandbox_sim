@@ -1,7 +1,9 @@
 import pygame
-from .slot_button import Slot_Button
+
+from conts import HEIGHT, LOWER_BOARDER, WIDTH
 from end import end
-from conts import WIDTH, HEIGHT, LOWER_BOARDER
+
+from .slot_button import Slot_Button
 
 
 class Slots:

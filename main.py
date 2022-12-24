@@ -1,13 +1,15 @@
-from log import configer_logger
-import slots
-from menu import loading, menu, save, end
-from conts import WIDTH, HEIGHT
-import logging
-import settings
-from sandbox_game import run_sim
-import pygame
 import argparse
+import logging
 from os import environ
+
+import pygame
+
+import settings
+import slots
+from conts import HEIGHT, WIDTH
+from log import configer_logger
+from menu import end, loading, menu, save
+from sandbox_game import run_sim
 
 environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 

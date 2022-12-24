@@ -1,7 +1,8 @@
-from .game_menu import Menu
-import settings
-import errors
 import logging
+
+import settings
+
+from .game_menu import Menu
 
 
 class Game:

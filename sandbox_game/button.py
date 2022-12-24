@@ -1,7 +1,7 @@
 import pygame
-import fonts
-from conts import RED, BLACK
 
+import fonts
+from conts import BLACK, RED
 
 font = fonts.get_font(10)
 
@@ -39,9 +39,11 @@ class Button:
     def check_click(self):
         action = False
         pos = pygame.mouse.get_pos()
-        if self.rect.collidepoint(pos):
-            if pygame.mouse.get_pressed()[0] and not self.clicked:
-                action = True
+        if not self.rect.collidepoint(pos):
+            return action
+
+        if pygame.mouse.get_pressed()[0] and not self.clicked:
+            action = True
         return action
 
     def move(self, new_x, new_y):

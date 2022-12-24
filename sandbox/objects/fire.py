@@ -1,9 +1,10 @@
-from .particle import Particle
-from .gas import Gas
-from .smoke import Smoke
+from random import choice, randint, random
+
 from .air import Air
-from random import random, randint, choice
+from .gas import Gas
+from .particle import Particle
 from .properties import fire_vals
+from .smoke import Smoke
 from .utils import FIRE_COLOURS
 
 

@@ -1,12 +1,11 @@
 import pygame
-from conts import FPS, WHITE
-import fonts
-from slots import get_saved, load_slot
-from buttons import Slots
-from end import end
-from buttons import make_menu_buttons
-from sandbox_game import Background
 
+import fonts
+from buttons import Slots, make_menu_buttons
+from conts import FPS, WHITE
+from end import end
+from sandbox_game import Background
+from slots import get_saved, load_slot
 
 """
  menu for start of game loop
@@ -48,8 +47,6 @@ def run(win):
 
         clock.tick(FPS)
         # text = f"fps={round(clock.get_fps(), 3)}"
-        # fps_text = font.render(text, False, (0, 0, 0))
-        # win.blit(fps_text, (30, 30))
         pygame.display.flip()
 
         for event in pygame.event.get():

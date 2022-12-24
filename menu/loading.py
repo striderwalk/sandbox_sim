@@ -1,7 +1,9 @@
-import pygame
 import math
+
+import pygame
+
 import fonts
-from conts import WIDTH, HEIGHT, FPS, WHITE
+from conts import FPS, HEIGHT, WHITE, WIDTH
 
 """
  loading screen for transitions

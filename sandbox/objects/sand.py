@@ -1,6 +1,6 @@
 from .particle import Particle
-from .solid import Solid
 from .properties import sand_vals
+from .solid import Solid
 
 
 class Sand(Particle, Solid):

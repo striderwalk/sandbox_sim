@@ -1,5 +1,6 @@
 # base classes
 from .particle import Particle
+from .fountain import Fountain
 from .solid import Solid
 from .gas import Gas
 from .liquid import Liquid

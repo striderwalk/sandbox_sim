@@ -1,18 +1,20 @@
-import pygame
 import logging
-from sandbox.objects.fountain import Fountain
-from sandbox.objects import Air
+
+import pygame
+
+import settings
 from conts import (
-    CELL_WIDTH,
     CELL_HEIGHT,
-    ROWS,
-    WIDTH,
+    CELL_WIDTH,
     HEIGHT,
     LOWER_BOARDER,
-    UPPER_BOARDER,
     MOUSE_YELLOW,
+    ROWS,
+    UPPER_BOARDER,
+    WIDTH,
 )
-import settings
+from sandbox.objects import Air
+from sandbox.objects.fountain import Fountain
 
 MAX_SIZE = 20
 

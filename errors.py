@@ -1,5 +1,5 @@
 """
-    where all custom exception are
+where all custom exception are
 """
 
 
@@ -23,7 +23,7 @@ class NameAlreadyExists(Exception):
 
 class InvalidParticle(Exception):
     def __init__(self, particle):
-        self.message = f"particle {obj.__name__} is unknown"
+        self.message = f"particle {particle.__name__} is unknown"
 
 
 class InvalidBoard(Exception):

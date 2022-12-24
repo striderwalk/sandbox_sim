@@ -1,11 +1,13 @@
-from .particle import Particle
+from random import random
+
 from .air import Air
 from .ash import Ash
-from .water import Water
 from .fire import Fire
-from .solid import Solid
+from .particle import Particle
 from .properties import wood_vals
-from random import random
+from .smoke import Smoke
+from .solid import Solid
+from .water import Water
 
 
 class Wood(Particle, Solid):
@@ -53,7 +55,7 @@ class Wood(Particle, Solid):
 
             self.colour = (self.colour[0], self.colour[1] + 2, self.colour[2])
 
-    def check_extinguish(self, board, others):
+    def check_extinguish(self, others):
 
         for other in others:
             if type(other) == Air:
@@ -90,12 +92,16 @@ class Wood(Particle, Solid):
             self.rot(others)
 
         if self.fire_count > 0:
-            self.check_extinguish(board, others)
+            self.check_extinguish(others)
 
         if self.fire_count > 0:
             for other in others:
                 if isinstance(other, Air):
-                    board[other.y, other.x] = Fire(other.x, other.y)
+                    if random() > 0.5:
+                        board[other.y, other.x] = Fire(other.x, other.y)
+                    else:
+                        board[other.y, other.x] = Smoke(other.x, other.y)
+
                     self.fire_count -= 1
                     self.colour = (
                         self.colour[0] - 1,

@@ -1,7 +1,9 @@
 import math
-from conts import LOWER_BOARDER, HEIGHT, WIDTH
-from sandbox import particles
+
 import errors
+from conts import HEIGHT, LOWER_BOARDER, WIDTH
+from sandbox import particles
+
 from .button import Button
 
 CENTER_X = WIDTH / 2

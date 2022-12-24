@@ -1,12 +1,15 @@
 import logging
-import numpy as np
-import errors
 from random import randint
-from .objects import Stone, Air
-from .objects.fountain import Fountain
-from .objects.barrier import Barrier
-from conts import ROWS, COLS
+
+import numpy as np
+
+import errors
+from conts import COLS, ROWS
+
 from .get_particles import particles
+from .objects import Air, Stone
+from .objects.barrier import Barrier
+from .objects.fountain import Fountain
 
 
 class Box:
@@ -200,6 +203,8 @@ class Box:
             return
 
         for _, other in self.board[y][x].get_neighbours(self.board, size):
+            if isinstance(other, Fountain):
+                continue
 
             # check for correct temp range
             cool = other.temp < type(other).max_temp

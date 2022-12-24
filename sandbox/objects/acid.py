@@ -1,9 +1,10 @@
-from .particle import Particle
-from .liquid import Liquid
+from random import randint, random
+
 from .air import Air
 from .fume import Fume
+from .liquid import Liquid
+from .particle import Particle
 from .properties import acid_vals
-from random import randint, random
 
 
 class Acid(Particle, Liquid):

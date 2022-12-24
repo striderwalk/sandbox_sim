@@ -1,9 +1,9 @@
 import pygame
+
 import errors
-from typing import Callable
-from conts import RED, TEXT_COLOUR, BG_COLOUR, WIDTH, UPPER_BOARDER
 import fonts
 import settings
+from conts import BG_COLOUR, RED, TEXT_COLOUR, UPPER_BOARDER, WIDTH
 
 """
  deal with options menu stuff
@@ -120,9 +120,7 @@ class Menu:
             img.fill((0, 0, 0, 0))
         else:
             img = self.image.copy()
-
-            for i in self.buttons.values():
-                i.draw(img)
+            map(lambda x: x.draw(img), self.buttons.values())
 
         self.menu_button.draw(img)
         win.blit(img, Menu.pos)

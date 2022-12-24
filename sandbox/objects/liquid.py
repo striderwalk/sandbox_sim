@@ -39,7 +39,8 @@ class Liquid:
         - move down left/ down right
         - move left/ right
         """
-
+        if self.y >= len(board) - 1:
+            return
         if self.has_moved != 0:
 
             self.has_moved -= 1

@@ -1,7 +1,9 @@
 import json
-import os
 import logging
+import os
+
 import numpy as np
+
 from .key import keys
 
 inverted_keys = {key: value for (value, key) in keys.items()}
@@ -14,7 +16,7 @@ def convert_data(data):
         board.append([])
         for x, i in enumerate(row):
             # save key
-            if type(i) == list:
+            if isinstance(i, list):
                 new = inverted_keys[i[0]](x, y, inverted_keys[i[1]])
             else:
                 new = inverted_keys[i](x, y)
@@ -35,6 +37,7 @@ def load_path(path: str):
             logging.info("save loaded")
         except IndexError:
             logging.warning("save loaded but conversion failed - using empty board")
+            return "empty"
     return data
 
 
@@ -42,7 +45,7 @@ def load_slot(slot: int):
     # check for valid slot id
     if type(slot) != int or slot < 0 or slot > 9:
         logging.warning(f"invalid slot when trying to load save {slot=}")
-        return None
+        return "empty"
 
     # check for empty save
     file_name = f"./saves/slot_{slot}/board.json"

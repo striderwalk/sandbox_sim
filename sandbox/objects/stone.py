@@ -1,6 +1,6 @@
 from .particle import Particle
-from .solid import Solid
 from .properties import stone_vals
+from .solid import Solid
 
 
 class Stone(Particle, Solid):

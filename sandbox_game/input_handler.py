@@ -1,5 +1,7 @@
-import pygame
 import sys
+
+import pygame
+
 from sandbox.objects.fountain import Fountain
 
 result_map = {
@@ -16,45 +18,51 @@ result_map = {
 }
 
 
-def process_events(events, mouse, seleted):
+def process_event(event, mouse, selected):
     result = []
+    if event.type == pygame.QUIT:
+        pygame.quit()
+        sys.exit()
 
-    for event in events:
-        #################
-        # refactor this #
-        #################
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
+    if event.type == pygame.KEYDOWN:
 
-        if event.type == pygame.KEYDOWN:
+        if event.key == pygame.K_SPACE:
+            result.append({"handler": "sim", "type": "rain", "value": selected})
 
-            if event.key == pygame.K_SPACE:
-                result.append({"handler": "sim", "type": "rain", "value": seleted})
+        elif event.key in result_map:
+            # get rid of endless elif
+            result.append(result_map[event.key])
 
-            elif event.key in result_map:
-                # get rid of endless elif
-                result.append(result_map[event.key])
+    # change press size
+    if event.type == pygame.MOUSEBUTTONDOWN:
+        # up
+        if event.button == 4:
+            mouse.scale(1)
+        if event.button == 5:
+            mouse.scale(-1)
 
-        # change press size
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            # up
-            if event.button == 4:
-                mouse.scale(1)
-            if event.button == 5:
-                mouse.scale(-1)
     return result
 
 
-def input_handle(mouse, board, seleted):
+def process_events(events, mouse, selected):
+    result = []
+
+    _process_event = lambda event: process_event(event, mouse, selected)
+    for i in list(map(_process_event, events)):
+        result.extend(i)
+
+    return result
+
+
+def input_handle(mouse, board, selected):
     mouse_val = mouse.get_pos()
     keys = pygame.key.get_pressed()
     clicks = []
 
-    if keys[pygame.K_j]:
+    if keys[pygame.K_k]:
         clicks.append({"handler": "sim", "type": "heat", "value": [50, mouse.size]})
 
-    if keys[pygame.K_k]:
+    if keys[pygame.K_j]:
         clicks.append({"handler": "sim", "type": "heat", "value": [-50, mouse.size]})
 
     if keys[pygame.K_e]:  # place fountain
@@ -64,9 +72,9 @@ def input_handle(mouse, board, seleted):
                 {
                     "handler": "sim",
                     "type": "press",
-                    "value": (mouse.size, x, y, Fountain, False, seleted),
+                    "value": (mouse.size, x, y, Fountain, False, selected),
                 }
             )
-
-    result = process_events(pygame.event.get(), mouse, seleted)
+    events = list(pygame.event.get())
+    result = process_events(events, mouse, selected)
     return clicks, result

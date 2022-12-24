@@ -1,6 +1,8 @@
 from typing import Callable
+
+from conts import HEIGHT, WIDTH
+
 from .menu_button import Button
-from conts import WIDTH, HEIGHT
 
 
 def find_size(data):

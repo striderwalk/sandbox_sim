@@ -1,5 +1,6 @@
+from random import choice, randint, random
+
 from .air import Air
-from random import random, choice, randint
 
 
 class Gas:

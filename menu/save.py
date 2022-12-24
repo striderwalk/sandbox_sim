@@ -1,10 +1,10 @@
 import pygame
-from buttons import Slots
+
+from buttons import Slots, make_menu_buttons
 from conts import FPS, WHITE
-from slots import save_slot, get_saved, get_empty
 from end import end
-from buttons import make_menu_buttons
 from sandbox_game import Background
+from slots import get_empty, get_saved, save_slot
 
 """
 GUI for saving board

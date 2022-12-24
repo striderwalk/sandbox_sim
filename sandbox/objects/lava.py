@@ -1,7 +1,7 @@
-from .particle import Particle
 from .liquid import Liquid
-from .stone import Stone
+from .particle import Particle
 from .properties import lava_vals
+from .stone import Stone
 
 
 class Lava(Particle, Liquid):

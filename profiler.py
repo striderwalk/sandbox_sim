@@ -1,9 +1,11 @@
 # profiler for project
 import cProfile
-import pstats
 import os
-from sandbox import Box, update_sim
+import pstats
+
 from tqdm import tqdm
+
+from sandbox import Box, update_sim
 
 
 def time():

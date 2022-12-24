@@ -1,5 +1,6 @@
-import sandbox.objects as objects
 from inspect import getmembers, isclass
+
+import sandbox.objects as objects
 
 
 def sort_by_state(particles: list) -> list:

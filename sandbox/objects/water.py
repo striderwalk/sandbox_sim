@@ -52,9 +52,6 @@ class Water(Particle, Liquid):
         # time since created
         self.life_len += 1
 
-        # check not at bottom of board
-        if self.y == len(board) - 1:
-            return
         # update position
 
         if pos := self.move(board):

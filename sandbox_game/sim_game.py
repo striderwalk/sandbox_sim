@@ -1,17 +1,20 @@
-import pygame
 import itertools
 import logging
+
+import pygame
+
+import errors
 import fonts
-from conts import WIDTH, LOWER_BOARDER, FPS, WHITE, BLACK
 import settings
+from conts import BLACK, FPS, LOWER_BOARDER, WHITE, WIDTH
 from sandbox import Box, update_sim
 from sandbox.get_particles import objects
-import errors
+
+from .draw import draw_board
+from .game import Game
 from .input_handler import input_handle
 from .mouse import Mouse
 from .selection import Selection
-from .draw import draw_board
-from .game import Game
 
 # are all of the imports used? yes
 # are they really necessary? ...probaly not

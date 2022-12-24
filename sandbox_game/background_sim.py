@@ -1,10 +1,11 @@
-from slots import load_path
 from sandbox import Box, update_sim
+from slots import load_path
+
 from .draw import draw_board
 
-############
-## fix me ##
-############
+#############
+## save me ##
+#############
 
 
 class Background:

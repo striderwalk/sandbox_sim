@@ -1,6 +1,6 @@
 from .particle import Particle
-from .solid import Solid
 from .properties import ice_vals
+from .solid import Solid
 
 
 class Ice(Particle, Solid):

@@ -1,7 +1,8 @@
-from .particle import Particle
+from random import randint, random
+
 from .gas import Gas
+from .particle import Particle
 from .properties import fume_vals
-from random import random, randint
 
 
 class Fume(Particle, Gas):
