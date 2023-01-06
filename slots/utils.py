@@ -16,11 +16,14 @@ def get_saved():
         ## allow for slot with no img but board for debug / dev
         if not os.path.exists(f"./saves/slot_{i}/board.json"):
             yield "./assets/cross.png"
+            continue
 
         if os.path.exists(f"./saves/slot_{i}/board.png"):
             yield f"./saves/slot_{i}/board.png"
+            continue
         else:
             yield "./assets/empty.png"
+            continue
 
 
 def setup():
