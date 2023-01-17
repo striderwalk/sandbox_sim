@@ -121,6 +121,4 @@ class Menu:
         else:
             img = self.image.copy()
             map(lambda x: x.draw(img), self.buttons.values())
-
-        self.menu_button.draw(img)
         win.blit(img, Menu.pos)
