@@ -31,7 +31,7 @@ def get_sub_win(win, board):
 
 
 ######### USE **KWARGS #########
-def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False):
+def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3):
     """handle the game, its not that hard"""
 
     save_slot, board_data = slot
@@ -42,7 +42,7 @@ def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3, pause=False):
     # pygame.display.set_allow_screensaver()
 
     # setup
-    game = Game(slot=save_slot, pause=pause, show_temp=False)
+    game = Game(slot=save_slot)
     board = Box(board_data)
     mouse = Mouse(size)
     selection = Selection(index)

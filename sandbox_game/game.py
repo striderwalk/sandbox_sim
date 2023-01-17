@@ -10,7 +10,7 @@ class Game:
     class to handle game menus/settings
     """
 
-    def __init__(self, slot=0, pause=False, show_temp=False):
+    def __init__(self, slot=0):
         self.save_slot = slot
         self.menu = Menu()
         self.menu.add_button("pause", ("pause", "play", settings.pause))
