@@ -20,107 +20,77 @@ from .selection import Selection
 # are they really necessary? ...probaly not
 # am I going to do anything? definitely not...
 
-BASE_SURF = pygame.Surface((WIDTH, LOWER_BOARDER))
-
 
 def get_sub_win(win, board):
-    draw_board(win, board)
+    draw_board(win, board.board)
     image = win.subsurface((0, 0, WIDTH, LOWER_BOARDER)).copy()
     logging.info("captured image of board")
     return image
 
 
-######### USE **KWARGS #########
-def run_sim(win, slot=(0, "empty"), RAIN=False, index=0, size=3):
+def run_sim(win, slot=(0, "empty"), index=0, size=3):
     """handle the game, its not that hard"""
 
     save_slot, board_data = slot
 
-    # setup pygame stuff
+    # setup pygame
     clock = pygame.time.Clock()
     font = fonts.get_font(24)
-    # pygame.display.set_allow_screensaver()
 
-    # setup
-    game = Game(slot=save_slot)
+    # setup sim
+    game = Game(size, index, slot=save_slot)
     board = Box(board_data)
-    mouse = Mouse(size)
-    selection = Selection(index)
-    # make it rain
-    if RAIN:
-        board.rain_type(objects.Water)
 
     pause_time = 0
     clicks = []
-    counter = itertools.count()
-
-    ###### MAIN LOOP #######
-    for fnum in counter:
+    # main loop -------------------------------->
+    for fnum in itertools.count():
         events = []
         clicks = []
+
         # make frame num stable if paused
         fnum -= pause_time
         if settings.pause.value:
             pause_time += 1
 
         # draw sim
-        surf = BASE_SURF.copy()
-        surf.fill(WHITE)
-        surf = draw_board(surf, board.board)
-        win.blit(surf, (0, 0))
-        # draw menu
-        game.draw_menu(win)
-        # update index
-        selection.update(win)
+        draw_board(win, board.board)
 
-        pos = mouse.get_pos()
-        mouse_pos = pos[1:] if pos[0] == "BOX" else None
-        _events = mouse.update(
-            win, board.board, selection.selected, settings.showmenu.value
-        )
+        _events = game.update(win, board)
         events.extend(_events)
-
-        # handle input
-        _clicks, _event = input_handle(mouse, board, selection.selected)
+        # handle input -------------------------------->
+        _clicks, _event = input_handle(game)
         clicks.extend(_clicks)
         events.extend(_event)
         logging.debug(f"{events=}, {clicks=}")
         for event in events:
-            if not isinstance(event, dict):
-                raise ValueError(f"{event}")
             if event["handler"] == "sim":
                 clicks.append(event)
 
             elif event["handler"] == "settings":
                 settings.handle_event(event)
             elif event["handler"] == "selection":
-                selection.handle_event(event)
+                game.handle_event(event)
 
             elif event["type"] == "reset":  # reset game
                 board.reset()
                 pause_time += fnum  # set frames to 0
                 pygame.event.get()
 
-            elif event["type"] == "end":  # quit
+            elif event["type"] in ["end", "menu"]:  # quit
                 return {
-                    "type": "end",
+                    "type": event["type"],
                     "board": board,
-                    "img": get_sub_win(win, board.board),
+                    "img": get_sub_win(win, board),
                 }
-
-            elif event["type"] == "menu":
-                return {
-                    "type": "menu",
-                    "board": board,
-                    "img": get_sub_win(win, board.board),
-                }
-
             elif event["type"] == "update":
                 pause_time -= 1
                 update_sim(board)
             else:
                 raise errors.EventNotHandled(event)
 
+        pos = game.mouse.get_pos()
+        mouse_pos = pos[1:] if pos[0] == "BOX" else None
         update_sim(board, clicks, mouse_pos, settings.pause.value)
         # display game data
 

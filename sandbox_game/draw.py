@@ -1,11 +1,13 @@
 import pygame
 
 import settings
-from conts import CELL_HEIGHT, CELL_WIDTH
+from conts import CELL_HEIGHT, CELL_WIDTH, LOWER_BOARDER, WHITE, WIDTH
 from sandbox.objects import Air
 from sandbox.objects.fountain import Fountain
 
 flame_glow = pygame.Surface((CELL_WIDTH * 2, CELL_HEIGHT * 2), pygame.SRCALPHA)
+BASE_SURF = pygame.Surface((WIDTH, LOWER_BOARDER))
+BASE_SURF.fill(WHITE)
 
 
 def draw_row(surf, i, row, showtemp, show_fountain):
@@ -25,7 +27,8 @@ def draw_row(surf, i, row, showtemp, show_fountain):
         pygame.draw.rect(surf, colour, rect)
 
 
-def draw_board(surf, board, show_fountain=True):
+def draw_board(win, board, show_fountain=True):
+    surf = BASE_SURF.copy()
 
     # draw all particles
     showtemp = settings.showtemp.value
@@ -40,4 +43,5 @@ def draw_board(surf, board, show_fountain=True):
                 glow = flame_glow.copy()
                 glow.fill((*item.colour, 10))
                 surf.blit(glow, (x, y), special_flags=pygame.BLEND_ALPHA_SDL2)
-    return surf
+
+    win.blit(surf, (0, 0))

@@ -31,7 +31,7 @@ class Lava(Particle, Liquid):
         return None
 
     def to_solid(self):
-        # logging.debug(f"Lava of temp {self.temp} fell to stone")
+
         return Stone
 
     def update(self, board):

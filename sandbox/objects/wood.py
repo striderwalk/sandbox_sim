@@ -96,7 +96,6 @@ class Wood(Particle, Solid):
         if self.fire_count > 0:
             self.check_extinguish(others)
 
-        if self.fire_count > 0:
             self.fire_ig(board, others)
 
         elif self.fire_count == 0:

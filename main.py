@@ -2,6 +2,7 @@ import argparse
 import logging
 from os import environ
 
+environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 import pygame
 
 import settings
@@ -10,8 +11,6 @@ from conts import HEIGHT, WIDTH
 from log import configer_logger
 from menu import end, loading, menu, save
 from sandbox_game import run_sim
-
-environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 
 
 def main(debug=False, profile_board=False):
@@ -22,7 +21,6 @@ def main(debug=False, profile_board=False):
 
     if debug:  # debugging
         run_sim(win)
-
     elif profile_board:  # profiling
         slot = (0, "profiling")
     else:  # normal
@@ -60,7 +58,7 @@ def process_args():
         "-p",
         "--profile_board",
         action="store_true",
-        help="load profiler board (to profile see profile.py)",
+        help="load profiler board- to profile use profile.py",
     )
     return parser.parse_args()
 
