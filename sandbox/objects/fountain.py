@@ -21,10 +21,10 @@ class Fountain(Particle):
     def update(self, board):
         for _, other in self.get_neighbours(board, 3):
             if self.obj != Air:
-                if type(other) == Air:
+                if isinstance(other, Air):
                     board[other.y, other.x] = self.obj(other.x, other.y)
-            elif type(other) != Fountain:
+            elif not isinstance(other, Fountain):
                 board[other.y, other.x] = self.obj(other.x, other.y)
 
     def __repr__(self):
-        return f"{type(self).__name__} of object {self.obj.__name__}"
+        return f"{self.__class__.__name__} of object {self.obj.__name__}"

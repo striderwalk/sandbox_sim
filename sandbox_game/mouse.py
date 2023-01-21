@@ -133,7 +133,7 @@ class Mouse:
             pos = self.get_pos()
             if pos[0] == "BOX":
                 x, y = pos[1:]
-                obj = type(board[y, x])
+                obj = board[y, x].__class__
                 if isinstance(obj, Fountain):
                     obj = obj.obj
 

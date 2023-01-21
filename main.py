@@ -15,9 +15,8 @@ environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 
 
 def main(debug=False, profile_board=False):
-    """this is a mess and this docstring is not useful"""
     pygame.init()
-    win = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
+    win = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("SandBox")
     pygame.mouse.set_visible(False)
 

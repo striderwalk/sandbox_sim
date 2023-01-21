@@ -22,6 +22,7 @@ class Particle:
         obj=None,
     ):  # USE **KWARGS
         # USE **KWARGS DO IT
+        # MAYBE DON'T ITS KINNA HARD JUST GET RID OF KWARGS
         self.x = x
         self.y = y
         self.mass = mass
@@ -40,9 +41,9 @@ class Particle:
         if obj is not None:
             self.next_temp = obj.temp
         else:
-            self.next_temp = type(self).temp
+            self.next_temp = self.__class__.temp
 
-        self.colour = update_colour(type(self).colour)
+        self.colour = update_colour(self.__class__.colour)
 
     @property
     def pos(self):
@@ -83,10 +84,11 @@ class Particle:
 
         temp = 0
         for other in others:
-            if type(other).__name__ == "Fountain":
+            # can't use isstance here because can't import fountain
+            if other.__class__.__name__ == "Fountain":
                 continue
             else:
-                conduct = type(other).conduct * type(other).mass
+                conduct = other.__class__.conduct * other.__class__.mass
 
             temp += other.temp * conduct
             total += conduct
@@ -142,4 +144,4 @@ class Particle:
         self.load = None
 
     def __repr__(self):
-        return f"{type(self).__name__} mass={self.mass} temp={self.temp} health={self.health} pos={self.x},{self.y}"
+        return f"{self.__class__.__name__} mass={self.mass} temp={self.temp} health={self.health} pos={self.x},{self.y}"

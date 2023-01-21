@@ -52,7 +52,7 @@ class Fire(Particle, Gas):
         from .wood import Wood
 
         for other in others:
-            if type(other) == Wood:
+            if isinstance(other, Wood):
                 if other.fire_count > 0:
                     break
                 elif self.player_made:

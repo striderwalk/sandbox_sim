@@ -25,7 +25,7 @@ class Box:
 
     def __init__(self, board_data):
         # setup board
-        if type(board_data) != str:  # loaded board from file
+        if not isinstance(board_data, str):  # loaded board from file
             self.board = board_data
             if len(self.board) != ROWS or len(self.board[0]) != COLS:
                 logging.warning("board sized incorrectly resizing")
@@ -98,7 +98,7 @@ class Box:
 
         # add particle to board
         # strict means only resplace Air
-        if strict and type(self.board[y, x]) != Air:
+        if strict and not isinstance(self.board[y, x], Air):
             return
 
         if obj == Fountain:
@@ -178,7 +178,7 @@ class Box:
 
         for row in self.board:
             for thing in row:
-                vals[type(thing).__name__] = vals[type(thing).__name__] + 1
+                vals[thing.__class__.__name__] = vals[thing.__class__.__name__] + 1
 
         return vals
 
@@ -188,7 +188,7 @@ class Box:
         # tell each particle where there areq
         for y, row in enumerate(self.board):
             for x, item in enumerate(row):
-                if type(item) == Air:
+                if isinstance(item, Air):
                     continue
                 if item.y != y or item.x != x and talk:
                     logging.warning(f"{item=} pos needed fixing to {x=}, {y=}")
@@ -210,8 +210,8 @@ class Box:
                 continue
 
             # check for correct temp range
-            cool = other.temp < type(other).max_temp
-            warm = other.temp > type(other).min_temp
+            cool = other.temp < other.__class__.max_temp
+            warm = other.temp > other.__class__.min_temp
             if cool and warm:
                 other.temp += change_temp
 

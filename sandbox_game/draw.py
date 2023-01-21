@@ -11,12 +11,12 @@ flame_glow = pygame.Surface((CELL_WIDTH * 2, CELL_HEIGHT * 2), pygame.SRCALPHA)
 def draw_row(surf, i, row, showtemp, show_fountain):
     for j, item in enumerate(row):
         # if air don't draw to save time
-        if type(item) == Air and not showtemp:
+        if isinstance(item, Air) and not showtemp:
             continue
 
         if showtemp:
             colour = item.temp_colour
-        elif type(item) == Fountain and not show_fountain:
+        elif isinstance(item, Fountain) and not show_fountain:
             colour = item.obj.colour
         else:
             colour = item.colour
