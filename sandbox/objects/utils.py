@@ -16,7 +16,7 @@ try:
     FIRE_COLOURS = [[i * 255 for i in colour.rgb] for colour in FIRE_COLOURS]
 except ModuleNotFoundError:  # probaly dont need this module
     HEAT_MAP = [(255, 255, 0) for i in range(600)]
-    FIRE_COLOURS = [(255,0,0)]
+    FIRE_COLOURS = [(255, 0, 0)]
 
 
 def update_colour(colour):

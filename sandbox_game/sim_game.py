@@ -6,7 +6,18 @@ import pygame
 import errors
 import fonts
 import settings
-from conts import BLACK, FPS, LOWER_BOARDER, WHITE, WIDTH
+from conts import (
+    BLACK,
+    CELL_HEIGHT,
+    CELL_WIDTH,
+    COLS,
+    FPS,
+    LOWER_BOARDER,
+    ROWS,
+    WHITE,
+    WIDTH,
+    YOFFSET,
+)
 from sandbox import Box, update_sim
 from sandbox.get_particles import objects
 
@@ -54,7 +65,9 @@ def run_sim(win, slot=(0, "empty"), index=0, size=3):
             pause_time += 1
 
         # draw sim
-        draw_board(win, board.board)
+        surf = pygame.Surface((COLS * CELL_WIDTH, ROWS * CELL_HEIGHT))
+        draw_board(surf, board.board)
+        win.blit(surf, (0, YOFFSET))
 
         _events = game.update(win, board)
         events.extend(_events)
@@ -92,8 +105,8 @@ def run_sim(win, slot=(0, "empty"), index=0, size=3):
         pos = game.mouse.get_pos()
         mouse_pos = pos[1:] if pos[0] == "BOX" else None
         update_sim(board, clicks, mouse_pos, settings.pause.value)
-        # display game data
 
+        # display game data
         if settings.debug.value:
             text = f"{fnum}, fps={round(clock.get_fps(), 3)}"
             colour = [255 * int(settings.showtemp.value) for i in range(3)]
@@ -103,8 +116,8 @@ def run_sim(win, slot=(0, "empty"), index=0, size=3):
         if settings.pause.value:
             paused_text = font.render("paused", True, (255, 0, 0))
             win.blit(paused_text, (WIDTH - paused_text.get_size()[0] - 10, 30))
-        # update screen
 
+        # update screen
         pygame.display.flip()
         win.fill(BLACK)
         clock.tick(FPS)

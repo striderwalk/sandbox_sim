@@ -10,6 +10,7 @@ from conts import (
     MOUSE_YELLOW,
     UPPER_BOARDER,
     WIDTH,
+    YOFFSET,
 )
 from sandbox.objects import Air
 from sandbox.objects.fountain import Fountain
@@ -50,7 +51,7 @@ class Mouse:
             return ("CORD", x, y)
 
         box_x = x // CELL_WIDTH
-        box_y = y // CELL_HEIGHT
+        box_y = (y - YOFFSET) // CELL_HEIGHT
 
         return ("BOX", box_x, box_y)
 
@@ -60,7 +61,7 @@ class Mouse:
         size_height = (self.size) * CELL_HEIGHT * 2 - CELL_HEIGHT
         # find topleft
         topleft_x = (x - self.size) * CELL_WIDTH + CELL_WIDTH
-        topleft_y = (y - self.size) * CELL_HEIGHT + CELL_HEIGHT
+        topleft_y = (y - self.size) * CELL_HEIGHT + CELL_HEIGHT+YOFFSET
 
         if topleft_y + size_height > LOWER_BOARDER - 3:
             size_height = LOWER_BOARDER - 3 - topleft_y
@@ -78,16 +79,19 @@ class Mouse:
             size_height -= diff
             topleft_y = 2
 
-        box_cords = (topleft_x, topleft_y, size_width + 1, size_height + 1)
+        box_cords = (topleft_x, topleft_y,
+                     size_width + 1, size_height + 1)
         return box_cords
 
-    def draw_mouse(self, win, obj, shown):
+    def draw_mouse(self, win, obj):
         # hide mouse
         pygame.mouse.set_visible(False)
 
         state, x, y = self.get_pos()
+
         if state == "CORD":
-            rect = (x - CELL_WIDTH, y - CELL_HEIGHT, CELL_WIDTH * 2, CELL_HEIGHT * 2)
+            rect = (x - CELL_WIDTH, y - CELL_HEIGHT,
+                    CELL_WIDTH * 2, CELL_HEIGHT * 2)
             pygame.draw.rect(win, MOUSE_YELLOW, rect, border_radius=3)
             return
 
@@ -98,10 +102,9 @@ class Mouse:
 
         center_x = (x - 0.5) * CELL_WIDTH
         center_y = (y - 0.5) * CELL_HEIGHT
-        rect = (center_x + rx, center_y + ry, CELL_WIDTH * 2, CELL_HEIGHT * 2)
+        rect = (int(center_x + rx), int(center_y + ry)+YOFFSET,
+                CELL_WIDTH * 2, CELL_HEIGHT * 2)
         pygame.draw.rect(win, MOUSE_YELLOW, rect, border_radius=3)
-
-        # check if out seaction is needed
 
         # find rim colour
         if obj == Air:
@@ -113,14 +116,16 @@ class Mouse:
         box_cords = self._get_box_cords(x, y)
         pygame.draw.rect(win, colour, box_cords, width=1)
 
-    def update(self, win, board, obj, shown_menu):
-        self.draw_mouse(win, obj, shown_menu)
+    def update(self, win, board, obj):
+        self.draw_mouse(win, obj)
         events = []
         # check for input
         # unsafe placement
         if pygame.mouse.get_pressed()[0]:
             pos = self.get_pos()
             if pos[0] == "BOX":
+                x, y = pos[1:]
+                y += YOFFSET
                 events.append(
                     {
                         "handler": "sim",
@@ -137,7 +142,8 @@ class Mouse:
                 if isinstance(obj, Fountain):
                     obj = obj.obj
 
-                events.append({"handler": "selection", "type": "press", "value": obj})
+                events.append(
+                    {"handler": "selection", "type": "press", "value": obj})
 
         # safe placements
         if pygame.mouse.get_pressed()[2]:

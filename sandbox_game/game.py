@@ -19,8 +19,7 @@ class Game:
         self.save_slot = slot
         self.menu = Menu()
         self.menu.add_button("pause", ("pause", "play", settings.pause))
-        self.menu.add_button(
-            "temp", ("show temp", "show normal", settings.showtemp))
+        self.menu.add_button("temp", ("show temp", "show normal", settings.showtemp))
         self.mouse = Mouse(size)
         self.selection = Selection(index)
 
@@ -30,14 +29,12 @@ class Game:
         return settings.showmenu
 
     def update(self, win, board):
-        surf = pygame.Surface((WIDTH, HEIGHT-LOWER_BOARDER))
+        surf = pygame.Surface((WIDTH, HEIGHT - LOWER_BOARDER))
         self.selection.update(surf)
-        win.blit(surf, (0, LOWER_BOARDER+CELL_HEIGHT))
+        win.blit(surf, (0, LOWER_BOARDER + CELL_HEIGHT))
         self.menu.draw(win)
 
-        _events = self.mouse.update(
-            win, board.board, self.selection.selected, settings.showmenu.value
-        )
+        _events = self.mouse.update(win, board.board, self.selection.selected)
         return _events
 
     def handle_event(self, event):
