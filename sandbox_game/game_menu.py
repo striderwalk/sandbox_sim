@@ -14,8 +14,8 @@ from conts import BG_COLOUR, RED, TEXT_COLOUR, UPPER_BOARDER, WIDTH
 
 font = fonts.get_font(10)
 
-Position = tuple[int]
-Size = tuple[int]
+Position = tuple
+Size = tuple
 
 
 def make_text(text, alt_text, text_colour=TEXT_COLOUR, alt_text_colour=RED):

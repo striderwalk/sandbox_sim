@@ -130,7 +130,7 @@ class Box:
             else:
                 self.add_particle(*pos, obj, strict=keep)
 
-    def update_row(self, row, types: tuple[str]) -> None:
+    def update_row(self, row, types: tuple) -> None:
         """
         update a single row in 2 passes to prevent some movement bias
         """

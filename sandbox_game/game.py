@@ -26,6 +26,7 @@ class Game:
         return settings.showmenu
 
     def update(self, win, board):
+        surf = pygame.Surface((WIDTH, HEIHT-LOWERFREDSA)
         self.selection.update(win)
         self.menu.draw(win)
 

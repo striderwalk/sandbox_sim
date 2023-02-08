@@ -36,7 +36,7 @@ def _make_button(data, xoff, yoff):
         yield Button(x, y, button_width, button_height, *i)
 
 
-def make_menu_buttons(data: list[list[str, Callable]], xoff=0, yoff=-100):
+def make_menu_buttons(data: list, xoff=0, yoff=-100):
     """
     buttons used for action eg start button
     for selection slot_selction.py is used

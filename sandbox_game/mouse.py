@@ -54,7 +54,7 @@ class Mouse:
 
         return ("BOX", box_x, box_y)
 
-    def _get_box_cords(self, x: float, y: float) -> tuple[float]:
+    def _get_box_cords(self, x: float, y: float) -> tuple:
         upper_boarder = UPPER_BOARDER if settings.showmenu.value else 0
         size_width = (self.size) * CELL_WIDTH * 2 - CELL_WIDTH
         size_height = (self.size) * CELL_HEIGHT * 2 - CELL_HEIGHT
