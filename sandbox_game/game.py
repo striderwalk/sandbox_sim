@@ -1,7 +1,7 @@
 import logging
 
 import pygame
-from conts import HEIGHT, LOWER_BOARDER, WIDTH
+from conts import CELL_HEIGHT, HEIGHT, LOWER_BOARDER, WIDTH
 from sandbox_game.mouse import Mouse
 from sandbox_game.selection import Selection
 import errors
@@ -32,7 +32,7 @@ class Game:
     def update(self, win, board):
         surf = pygame.Surface((WIDTH, HEIGHT-LOWER_BOARDER))
         self.selection.update(surf)
-        win.blit(surf, (0, LOWER_BOARDER+3))
+        win.blit(surf, (0, LOWER_BOARDER+CELL_HEIGHT))
         self.menu.draw(win)
 
         _events = self.mouse.update(

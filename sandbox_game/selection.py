@@ -1,7 +1,7 @@
 import math
 
 import errors
-from conts import HEIGHT, LOWER_BOARDER, WIDTH
+from conts import CELL_HEIGHT, HEIGHT, LOWER_BOARDER, WIDTH
 from sandbox import particles
 
 from .button import Button
@@ -20,12 +20,12 @@ class Selection:
         self.buttons = []
         # current selection
         self.index = index
-        size = HEIGHT - LOWER_BOARDER - 3
+        size = HEIGHT - LOWER_BOARDER - CELL_HEIGHT
 
         for i, obj in enumerate(particles):
 
             x = size * i
-            y = 0
+            y = LOWER_BOARDER
             button = Button(x, y, size, obj)
             self.buttons.append(button)
         self.buttons[self.index].down()

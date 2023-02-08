@@ -21,7 +21,7 @@ class Button:
 
     @property
     def pos(self):
-        return self.x, self.y
+        return self.x, 0
 
     def draw(self, win):
         if self.clicked:
