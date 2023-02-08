@@ -1,4 +1,7 @@
 import logging
+
+import pygame
+from conts import HEIGHT, LOWER_BOARDER, WIDTH
 from sandbox_game.mouse import Mouse
 from sandbox_game.selection import Selection
 import errors
@@ -16,7 +19,8 @@ class Game:
         self.save_slot = slot
         self.menu = Menu()
         self.menu.add_button("pause", ("pause", "play", settings.pause))
-        self.menu.add_button("temp", ("show temp", "show normal", settings.showtemp))
+        self.menu.add_button(
+            "temp", ("show temp", "show normal", settings.showtemp))
         self.mouse = Mouse(size)
         self.selection = Selection(index)
 
@@ -26,8 +30,9 @@ class Game:
         return settings.showmenu
 
     def update(self, win, board):
-        surf = pygame.Surface((WIDTH, HEIHT-LOWERFREDSA)
-        self.selection.update(win)
+        surf = pygame.Surface((WIDTH, HEIGHT-LOWER_BOARDER))
+        self.selection.update(surf)
+        win.blit(surf, (0, LOWER_BOARDER+3))
         self.menu.draw(win)
 
         _events = self.mouse.update(
