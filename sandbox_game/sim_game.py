@@ -64,18 +64,22 @@ def run_sim(win, slot=(0, "empty"), index=0, size=3):
         if settings.pause.value:
             pause_time += 1
 
-        # draw sim
+        # draw sim -------------------------------->
         surf = pygame.Surface((COLS * CELL_WIDTH, ROWS * CELL_HEIGHT))
         draw_board(surf, board.board)
         win.blit(surf, (0, YOFFSET))
 
         _events = game.update(win, board)
         events.extend(_events)
+
         # handle input -------------------------------->
         _clicks, _event = input_handle(game)
         clicks.extend(_clicks)
         events.extend(_event)
-        logging.debug(f"{events=}, {clicks=}")
+
+        if not settings.pause.value or clicks or events:
+            logging.debug(f"{events=}, {clicks=}")
+
         for event in events:
             if event["handler"] == "sim":
                 clicks.append(event)

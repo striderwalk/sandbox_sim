@@ -44,6 +44,7 @@ class Button:
         pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(pos):
             return pygame.mouse.get_pressed()[0]
+        return False
 
     def check_clicked(self):
         if self.timeout > 0:
@@ -109,18 +110,17 @@ class Menu:
 
     def add_button(self, name, dat):
         if name in self.buttons:
-            raise errors.NameAlreadyExists(name)
+            raise errors.NameAlreadyExists(name, self.buttons)
         b = self.make_button(*dat)
         self.buttons[name] = b
 
     def draw(self, win):
-        # if not self.menu_button.clicked:
         if not self.menu_button.clicked:
             img = pygame.Surface(Menu.size, pygame.SRCALPHA)
             img.fill((0, 0, 0, 0))
         else:
             img = self.image.copy()
-            draw = lambda x: x.draw(img)
+            def draw(x): return x.draw(img)
             list(map(draw, self.buttons.values()))
 
         self.menu_button.draw(img)

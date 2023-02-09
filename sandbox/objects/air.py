@@ -32,4 +32,4 @@ class Air(Particle):
         self.update_temp(others)
 
         # room temp
-        self.next_temp += (Air.temp - self.next_temp) * 0.1
+        self.next_temp += (Air.temp - self.next_temp) * 0.01

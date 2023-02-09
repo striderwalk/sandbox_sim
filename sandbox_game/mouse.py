@@ -46,7 +46,7 @@ class Mouse:
         x, y = pygame.mouse.get_pos()
         # return y of COLS*CELL_HEIGHT+10 to avoid boarder bugs
         upper_boarder = UPPER_BOARDER if settings.showmenu.value else 0
-        if y > LOWER_BOARDER - 3 or y < upper_boarder:
+        if y > LOWER_BOARDER or y < upper_boarder:
             # i think this is meant to make sure clicks happen, but could be a bug??
             return ("CORD", x, y)
 

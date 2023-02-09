@@ -26,7 +26,7 @@ air_vals = {
     "min_temp": MIN_TEMP,
     "max_temp": MAX_TEMP,
     "mass": 0.01,
-    "conduct": 1,
+    "conduct": 1.2,
 }
 
 

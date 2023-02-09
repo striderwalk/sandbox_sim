@@ -17,7 +17,7 @@ class ObjectNotFound(Exception):
 
 class NameAlreadyExists(Exception):
     def __init__(self, name, names):
-        self.message = f"{name=} in {names}"
+        self.message = f"{name=} in {names=}"
         super().__init__(self.message)
 
 
