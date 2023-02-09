@@ -1,9 +1,19 @@
 import pygame
+from pygame import Vector2
 
 import errors
 import fonts
 import settings
-from conts import BG_COLOUR, RED, TEXT_COLOUR, UPPER_BOARDER, WIDTH
+from conts import (
+    BG_COLOUR,
+    CELL_HEIGHT,
+    CELL_WIDTH,
+    EMPTY_COLOUR,
+    RED,
+    TEXT_COLOUR,
+    UPPER_BOARDER,
+    WIDTH,
+)
 
 """
  deal with options menu stuff
@@ -14,8 +24,8 @@ from conts import BG_COLOUR, RED, TEXT_COLOUR, UPPER_BOARDER, WIDTH
 
 font = fonts.get_font(10)
 
-Position = tuple
-Size = tuple
+Position = Vector2
+Size = Vector2
 
 
 def make_text(text, alt_text, text_colour=TEXT_COLOUR, alt_text_colour=RED):
@@ -84,44 +94,39 @@ class Button:
 class Menu:
     pos = (0, 0)
     size = (WIDTH, UPPER_BOARDER)
+    image = pygame.Surface(size, pygame.SRCALPHA)
+    image.fill(EMPTY_COLOUR)
 
     def __init__(self):
         self.image = pygame.Surface(Menu.size, pygame.SRCALPHA)
-        self.image.fill((*BG_COLOUR, 100))
-        rtext, ralt_text = make_text("=", "x")
-        self.menu_button = Button(
-            rtext, ralt_text, (10, 5), (20, 20), setting=settings.showmenu
-        )
+        self.image.fill(EMPTY_COLOUR)
         self.buttons = {}
-        self.bx, self.by = 40, 5
-        self.bdx, self.bdy = 80, 0
-        self.bsize = (70, 20)
+        self.bx, self.by = CELL_WIDTH, CELL_HEIGHT * 1.5
+        self.bheight = CELL_HEIGHT * 2.5
+        self.bdx, self.bdy = CELL_WIDTH, 0
 
     def toggle(self, name):
         self.buttons[name].click()
 
     def make_button(self, text, alt_text, setting):
-        x, y = self.bx, self.by
-        self.bx += self.bdx
-        self.by += self.bdy
 
+        x, y = self.bx, self.by
         rtext, ralt_text = make_text(text, alt_text)
-        return Button(rtext, ralt_text, (x, y), self.bsize, setting=setting)
+        xsize = max(rtext.get_width(), ralt_text.get_width()) * 1.6
+        self.bx += self.bdx + xsize
+        self.by += self.bdy
+        return Button(rtext, ralt_text, (x, y), (xsize, self.bheight), setting=setting)
 
     def add_button(self, name, dat):
         if name in self.buttons:
             raise errors.NameAlreadyExists(name, self.buttons)
-        b = self.make_button(*dat)
-        self.buttons[name] = b
+        self.buttons[name] = self.make_button(*dat)
 
     def draw(self, win):
-        if not self.menu_button.clicked:
-            img = pygame.Surface(Menu.size, pygame.SRCALPHA)
-            img.fill((0, 0, 0, 0))
-        else:
-            img = self.image.copy()
-            def draw(x): return x.draw(img)
-            list(map(draw, self.buttons.values()))
 
-        self.menu_button.draw(img)
+        img = Menu.image.copy()
+        img = self.image.copy()
+        for i in self.buttons.values():
+            i.draw(img)
+
         win.blit(img, Menu.pos)

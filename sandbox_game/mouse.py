@@ -35,6 +35,12 @@ class Mouse:
         if new > 0 and new < MAX_SIZE:
             self.size = new
 
+    @property
+    def colour(self):
+        if any(pygame.mouse.get_pressed()):
+            return (255, 0, 0)
+        return MOUSE_YELLOW
+
     def get_pos(self):
         """
         get the position of the mouse -> tuple [state, x, y]
@@ -44,10 +50,8 @@ class Mouse:
         """
 
         x, y = pygame.mouse.get_pos()
-        # return y of COLS*CELL_HEIGHT+10 to avoid boarder bugs
-        upper_boarder = UPPER_BOARDER if settings.showmenu.value else 0
-        if y > LOWER_BOARDER or y < upper_boarder:
-            # i think this is meant to make sure clicks happen, but could be a bug??
+
+        if LOWER_BOARDER < y or y < UPPER_BOARDER:  # in menu bar
             return ("CORD", x, y)
 
         box_x = x // CELL_WIDTH
@@ -56,12 +60,12 @@ class Mouse:
         return ("BOX", box_x, box_y)
 
     def _get_box_cords(self, x: float, y: float) -> tuple:
-        upper_boarder = UPPER_BOARDER if settings.showmenu.value else 0
+
         size_width = (self.size) * CELL_WIDTH * 2 - CELL_WIDTH
         size_height = (self.size) * CELL_HEIGHT * 2 - CELL_HEIGHT
         # find topleft
         topleft_x = (x - self.size) * CELL_WIDTH + CELL_WIDTH
-        topleft_y = (y - self.size) * CELL_HEIGHT + CELL_HEIGHT+YOFFSET
+        topleft_y = (y - self.size) * CELL_HEIGHT + CELL_HEIGHT + YOFFSET
 
         if topleft_y + size_height > LOWER_BOARDER - 3:
             size_height = LOWER_BOARDER - 3 - topleft_y
@@ -74,37 +78,41 @@ class Mouse:
             size_width -= diff
             topleft_x = 2
 
-        if topleft_y < upper_boarder:
-            diff = 0 - topleft_y
+        if topleft_y < UPPER_BOARDER:
+            diff = UPPER_BOARDER - topleft_y
             size_height -= diff
-            topleft_y = 2
+            topleft_y = UPPER_BOARDER + 2
 
-        box_cords = (topleft_x, topleft_y,
-                     size_width + 1, size_height + 1)
+        box_cords = (topleft_x, topleft_y, size_width + 1, size_height + 1)
         return box_cords
 
     def draw_mouse(self, win, obj):
+
+        if not pygame.mouse.get_focused():
+            return
+
         # hide mouse
-        pygame.mouse.set_visible(False)
+        pygame.mouse.set_visible(settings.debug.value)
 
         state, x, y = self.get_pos()
 
         if state == "CORD":
-            rect = (x - CELL_WIDTH, y - CELL_HEIGHT,
-                    CELL_WIDTH * 2, CELL_HEIGHT * 2)
-            pygame.draw.rect(win, MOUSE_YELLOW, rect, border_radius=3)
+            pygame.draw.circle(win, self.colour, (x, y), 6)
             return
 
         # draw centre
-        rx, ry = pygame.mouse.get_pos()
-        rx %= CELL_WIDTH
-        ry %= CELL_HEIGHT
 
-        center_x = (x - 0.5) * CELL_WIDTH
-        center_y = (y - 0.5) * CELL_HEIGHT
-        rect = (int(center_x + rx), int(center_y + ry)+YOFFSET,
-                CELL_WIDTH * 2, CELL_HEIGHT * 2)
-        pygame.draw.rect(win, MOUSE_YELLOW, rect, border_radius=3)
+        rx, ry = pygame.mouse.get_pos()
+
+        # snap to grid
+        rx = rx - rx % CELL_WIDTH
+        ry = ry - ry % CELL_HEIGHT
+        size_mult = 1.75
+        w, h = CELL_WIDTH * size_mult, CELL_HEIGHT * size_mult
+        rect = (rx - (CELL_WIDTH)/4,
+                ry - (CELL_HEIGHT)/4, w, h)
+
+        pygame.draw.rect(win, self.colour, rect)
 
         # find rim colour
         if obj == Air:

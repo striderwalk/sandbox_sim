@@ -1,7 +1,7 @@
 import logging
 
 import pygame
-from conts import CELL_HEIGHT, HEIGHT, LOWER_BOARDER, WIDTH
+from conts import CELL_HEIGHT, HEIGHT, LOWER_BOARDER, UPPER_BOARDER, WIDTH
 from sandbox_game.mouse import Mouse
 from sandbox_game.selection import Selection
 import errors
@@ -29,15 +29,21 @@ class Game:
         return settings.showmenu
 
     def update(self, win, board):
+        # draw particle selection
         surf = pygame.Surface((WIDTH, HEIGHT - LOWER_BOARDER))
         self.selection.update(surf)
         win.blit(surf, (0, LOWER_BOARDER + CELL_HEIGHT))
-        self.menu.draw(win)
+
+        # draw menu
+        surf = pygame.Surface((WIDTH, UPPER_BOARDER))
+        self.menu.draw(surf)
+        win.blit(surf, (0, 0))
 
         _events = self.mouse.update(win, board.board, self.selection.selected)
         return _events
 
     def handle_event(self, event):
+
         if event["handler"] == "selection":
             self.selection.handle_event(event)
         else:
