@@ -34,7 +34,7 @@ class Water(Particle, Liquid):
         super().__init__(x, y, mass=Water.mass)
         Liquid.__init__(self)
 
-        self.wetness = 10
+        self.wetness = 15
         self.temp = temp
 
     def to_gas(self):

@@ -13,6 +13,7 @@ from conts import (
     TEXT_COLOUR,
     UPPER_BOARDER,
     WIDTH,
+    YOFFSET,
 )
 
 """
@@ -47,8 +48,9 @@ class Button:
         self.timeout = 0
         # drawing
         self.pos = pos
-        self.image = pygame.Surface(size)
-        self.image.fill(BG_COLOUR)
+        self.image = pygame.Surface(size, pygame.SRCALPHA)
+        self.image.fill(EMPTY_COLOUR)
+        pygame.draw.rect(self.image, BG_COLOUR, (0, 0, *size), border_radius=4)
 
     def _is_clicked(self) -> bool:
         pos = pygame.mouse.get_pos()
@@ -101,8 +103,8 @@ class Menu:
         self.image = pygame.Surface(Menu.size, pygame.SRCALPHA)
         self.image.fill(EMPTY_COLOUR)
         self.buttons = {}
-        self.bx, self.by = CELL_WIDTH, CELL_HEIGHT * 1.5
-        self.bheight = CELL_HEIGHT * 2.5
+        self.bx, self.by = CELL_WIDTH, YOFFSET / 4
+        self.bheight = YOFFSET / 2
         self.bdx, self.bdy = CELL_WIDTH, 0
 
     def toggle(self, name):

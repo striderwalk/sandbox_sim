@@ -1,22 +1,11 @@
+import json
 from random import randint
 
+with open("./assets/colour_data.json") as file:
+    dat = json.load(file)
 
-cbase = "#fc9803"
-try:
-    from colour import Color
-
-    # heatmap
-    HEAT_MAP = list(Color("#0000ff").range_to(Color("#ff0000"), 501))
-    HEAT_MAP = [[i * 255 for i in colour.rgb] for colour in HEAT_MAP]
-
-    # fire stuff
-    base = Color(cbase)
-    FIRE_COLOURS = base.range_to(Color("#fc0b03"), 5)
-    FIRE_COLOURS = list(FIRE_COLOURS)
-    FIRE_COLOURS = [[i * 255 for i in colour.rgb] for colour in FIRE_COLOURS]
-except ModuleNotFoundError:  # probaly dont need this module
-    HEAT_MAP = [(255, 255, 0) for i in range(600)]
-    FIRE_COLOURS = [(255, 0, 0)]
+HEAT_MAP = dat["HEAT_MAP"]
+FIRE_COLOURS = dat["FIRE_COLOURS"]
 
 
 def update_colour(colour):
@@ -29,4 +18,8 @@ def update_colour(colour):
 
 
 def find_heatmap_colour(temperature):
-    return HEAT_MAP[int(min(500, temperature + 100))]
+    temperature += 25
+    temperature = min(len(HEAT_MAP)-1, int(temperature))
+    if temperature < 0:
+        return (0, 0, 0)
+    return HEAT_MAP[temperature]

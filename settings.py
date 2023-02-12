@@ -1,17 +1,23 @@
+import logging
 import errors
 
 
 class Setting:
-    """store one setting (thats probaly the word)"""
-
-    def __init__(self, name: str, value: bool) -> None:
+    def __init__(self, name: str, value: bool, editable: bool = True):
         self.name = name
         self.value = value
+        self.editable = editable
 
-    def toggle(self) -> None:
-        self.value = not self.value
+    def toggle(self):
+        if self.editable:
+            self.value = not self.value
+        else:
+            logging.warning(f"{self} is not editable")
 
-    def set(self, value: bool) -> None:
+    def __repr__(self) -> str:
+        return f"{self.name} setting set to {self.value}"
+
+    def set(self, value: bool):
         self.value = value
 
 
@@ -28,5 +34,4 @@ def handle_event(event):
 
 showtemp = Setting("temp", False)
 pause = Setting("pause", False)
-showmenu = Setting("menu", False)
 debug = Setting("debug", False)

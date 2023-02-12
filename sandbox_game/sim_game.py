@@ -4,28 +4,14 @@ import logging
 import pygame
 
 import errors
-import fonts
 import settings
-from conts import (
-    BLACK,
-    CELL_HEIGHT,
-    CELL_WIDTH,
-    COLS,
-    FPS,
-    LOWER_BOARDER,
-    ROWS,
-    WHITE,
-    WIDTH,
-    YOFFSET,
-)
+from conts import (BLACK, CELL_HEIGHT, CELL_WIDTH, COLS, FPS, LOWER_BOARDER,
+                   ROWS, WIDTH, YOFFSET)
 from sandbox import Box, update_sim
-from sandbox.get_particles import objects
 
 from .draw import draw_board
 from .game import Game
 from .input_handler import input_handle
-from .mouse import Mouse
-from .selection import Selection
 
 # are all of the imports used? yes
 # are they really necessary? ...probaly not
@@ -46,7 +32,6 @@ def run_sim(win, slot=(0, "empty"), index=0, size=3):
 
     # setup pygame
     clock = pygame.time.Clock()
-    font = fonts.get_font(24)
 
     # setup sim
     game = Game(size, index, slot=save_slot)
@@ -88,7 +73,6 @@ def run_sim(win, slot=(0, "empty"), index=0, size=3):
                 settings.handle_event(event)
             elif event["handler"] == "selection":
                 game.handle_event(event)
-
             elif event["type"] == "reset":  # reset game
                 board.reset()
                 pause_time += fnum  # set frames to 0
@@ -110,18 +94,8 @@ def run_sim(win, slot=(0, "empty"), index=0, size=3):
         mouse_pos = pos[1:] if pos[0] == "BOX" else None
         update_sim(board, clicks, mouse_pos, settings.pause.value)
 
-        # display game data
-        if settings.debug.value:
-            text = f"{fnum}, fps={round(clock.get_fps(), 3)}"
-            colour = [255 * int(settings.showtemp.value) for i in range(3)]
-            fps_text = font.render(text, True, colour)
-            win.blit(fps_text, (30, 30))
-
-        if settings.pause.value:
-            paused_text = font.render("paused", True, (255, 0, 0))
-            win.blit(paused_text, (WIDTH - paused_text.get_size()[0] - 10, 30))
-
         # update screen
+        pygame.display.set_caption(f"Sandbox | fps={clock.get_fps():.2f}")
         pygame.display.flip()
         win.fill(BLACK)
         clock.tick(FPS)

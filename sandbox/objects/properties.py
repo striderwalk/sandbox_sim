@@ -25,8 +25,8 @@ air_vals = {
     "start_temp": ROOM_TEMP,
     "min_temp": MIN_TEMP,
     "max_temp": MAX_TEMP,
-    "mass": 0.01,
-    "conduct": 1.2,
+    "mass": 0.0005,
+    "conduct": 10000,
 }
 
 

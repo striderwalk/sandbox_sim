@@ -23,7 +23,7 @@ class Lava(Particle, Liquid):
         super().__init__(x, y, mass=Lava.mass, is_flame=True)
         Liquid.__init__(self)
 
-        self.wetness = 3
+        self.wetness = 4
 
         self.temp = temp
 

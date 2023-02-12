@@ -1,16 +1,15 @@
+from sandbox_game import run_sim
+from menu import end, loading, menu, save
+from log import configer_logger
+from conts import HEIGHT, WIDTH
+import slots
+import settings
+import pygame
 import argparse
 import logging
 from os import environ
 
 environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
-import pygame
-
-import settings
-import slots
-from conts import HEIGHT, WIDTH
-from log import configer_logger
-from menu import end, loading, menu, save
-from sandbox_game import run_sim
 
 
 def main(debug=False, profile_board=False):
@@ -20,6 +19,8 @@ def main(debug=False, profile_board=False):
     pygame.mouse.set_visible(False)
 
     if debug:  # debugging
+        slot = (0, "profiling")
+
         run_sim(win)
     elif profile_board:  # profiling
         slot = (0, "profiling")
@@ -76,5 +77,9 @@ if __name__ == "__main__":
         configer_logger(logging.DEBUG)
 
         settings.debug.set(True)
+    try:
+        import colour_util
+    except ModuleNotFoundError:
+        logging.warning("mdoule colour not found using saved colour values")
 
     main(args.debug, args.profile_board)

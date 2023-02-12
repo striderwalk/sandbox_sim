@@ -109,8 +109,7 @@ class Mouse:
         ry = ry - ry % CELL_HEIGHT
         size_mult = 1.75
         w, h = CELL_WIDTH * size_mult, CELL_HEIGHT * size_mult
-        rect = (rx - (CELL_WIDTH)/4,
-                ry - (CELL_HEIGHT)/4, w, h)
+        rect = (rx - (CELL_WIDTH) / 4, ry - (CELL_HEIGHT) / 4, w, h)
 
         pygame.draw.rect(win, self.colour, rect)
 
@@ -150,8 +149,7 @@ class Mouse:
                 if isinstance(obj, Fountain):
                     obj = obj.obj
 
-                events.append(
-                    {"handler": "selection", "type": "press", "value": obj})
+                events.append({"handler": "selection", "type": "press", "value": obj})
 
         # safe placements
         if pygame.mouse.get_pressed()[2]:
