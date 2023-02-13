@@ -33,5 +33,5 @@ def handle_event(event):
 
 
 showtemp = Setting("temp", False)
-pause = Setting("pause", False)
+pause = Setting("pause", True)
 debug = Setting("debug", False)

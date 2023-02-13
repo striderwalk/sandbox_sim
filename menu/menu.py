@@ -34,7 +34,7 @@ def run(win):
         win.fill(WHITE)
         background.update(win)
         # check menu buttons
-        for i, button in enumerate(buttons):
+        for button in buttons:
             button.draw(win)
             if res := button.check_click():
                 return index, res(index)

@@ -9,22 +9,27 @@ import argparse
 import logging
 from os import environ
 
+from slots import load_slot
 environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 
 
-def main(debug=False, profile_board=False):
+def main(debug, profile_board, slot):
+    if slot:
+        slot = (int(slot), load_slot(int(slot)))
+
     pygame.init()
     win = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("SandBox")
     pygame.mouse.set_visible(False)
-
     if debug:  # debugging
-        slot = (0, "profiling")
+        if not slot:
+            slot = (0, "profiling")
 
-        run_sim(win)
+        run_sim(win, slot)
+
     elif profile_board:  # profiling
         slot = (0, "profiling")
-    else:  # normal
+    elif not slot:
         slot = menu(win)
 
     logging.info(f"loaded slot {slot[0]}")
@@ -61,6 +66,9 @@ def process_args():
         action="store_true",
         help="load profiler board- to profile use profile.py",
     )
+    parser.add_argument("-s", "--slot",
+                        action="store")
+
     return parser.parse_args()
 
 
@@ -82,4 +90,4 @@ if __name__ == "__main__":
     except ModuleNotFoundError:
         logging.warning("mdoule colour not found using saved colour values")
 
-    main(args.debug, args.profile_board)
+    main(args.debug, args.profile_board, args.slot)
