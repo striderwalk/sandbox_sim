@@ -5,8 +5,17 @@ import pygame
 
 import errors
 import settings
-from conts import (BLACK, CELL_HEIGHT, CELL_WIDTH, COLS, FPS, LOWER_BOARDER,
-                   ROWS, WIDTH, YOFFSET)
+from conts import (
+    BLACK,
+    CELL_HEIGHT,
+    CELL_WIDTH,
+    COLS,
+    FPS,
+    LOWER_BOARDER,
+    ROWS,
+    WIDTH,
+    YOFFSET,
+)
 from sandbox import Box, update_sim
 
 from .draw import draw_board
@@ -25,60 +34,45 @@ def get_sub_win(win, board):
     return image
 
 
-def run_sim(win, slot=(0, "empty"), index=0, size=3):
-    """handle the game, its not that hard"""
+def update(frame, win, clock, game, board):
 
-    save_slot, board_data = slot
-
-    # setup pygame
-    clock = pygame.time.Clock()
-
-    # setup sim
-    game = Game(size, index, slot=save_slot)
-    board = Box(board_data)
-
-    pause_time = 0
+    events = []
     clicks = []
-    # main loop -------------------------------->
-    for fnum in itertools.count():
-        events = []
-        clicks = []
 
-        # make frame num stable if paused
-        fnum -= pause_time
-        if settings.pause.value:
-            pause_time += 1
+    # make frame num stable if paused
+    frame -= game.pause_time
 
-        # draw sim -------------------------------->
-        surf = pygame.Surface((COLS * CELL_WIDTH, ROWS * CELL_HEIGHT))
-        draw_board(surf, board.board)
-        win.blit(surf, (0, YOFFSET))
+    # draw sim -------------------------------->
+    surf = pygame.Surface((COLS * CELL_WIDTH, ROWS * CELL_HEIGHT))
+    draw_board(surf, board.board)
+    win.blit(surf, (0, YOFFSET))
 
-        _events = game.update(win, board)
-        events.extend(_events)
+    _clicks = game.update(win, board)
+    clicks.extend(_clicks)
 
-        # handle input -------------------------------->
-        _clicks, _event = input_handle(game)
-        clicks.extend(_clicks)
-        events.extend(_event)
+    # handle input -------------------------------->
+    _clicks, _event = input_handle(game)
+    clicks.extend(_clicks)
+    events.extend(_event)
 
-        if not settings.pause.value or clicks or events:
-            logging.debug(f"{events=}, {clicks=}")
+    if not settings.pause.value or clicks or events:
+        logging.debug(f"{events=}, {clicks=}")
 
-        for event in events:
-            if event["handler"] == "sim":
-                clicks.append(event)
+    event_handlers = {
+        "settings": lambda event: settings.handle_event(event),
+        "selection": lambda event: game.handle_event(event),
+    }
 
-            elif event["handler"] == "settings":
-                settings.handle_event(event)
-            elif event["handler"] == "selection":
-                game.handle_event(event)
-            elif event["type"] == "reset":  # reset game
+    for event in events:
+        handler = event["handler"]
+        if handler == "main":
+            if event["type"] == "reset":  # reset game
                 board.reset()
-                pause_time += fnum  # set frames to 0
+                pause_time += frame  # set frames to 0
                 pygame.event.get()
 
             elif event["type"] in ["end", "menu"]:  # quit
+                settings.showtemp.reset()
                 return {
                     "type": event["type"],
                     "board": board,
@@ -89,13 +83,42 @@ def run_sim(win, slot=(0, "empty"), index=0, size=3):
                 update_sim(board)
             else:
                 raise errors.EventNotHandled(event)
+        else:
+            event_handlers[handler](event)
 
-        pos = game.mouse.get_pos()
-        mouse_pos = pos[1:] if pos[0] == "BOX" else None
-        update_sim(board, clicks, mouse_pos, settings.pause.value)
+    if not settings.sim_running.value:
+        return {
+            "type": "menu",
+            "board": board,
+            "img": get_sub_win(win, board),
+        }
 
-        # update screen
-        pygame.display.set_caption(f"Sandbox | fps={clock.get_fps():.2f}")
-        pygame.display.flip()
-        win.fill(BLACK)
-        clock.tick(FPS)
+    # update sim -------------------------------->
+    pos = game.mouse.get_pos()
+    mouse_pos = pos[1:] if pos[0] == "BOX" else None
+    update_sim(board, clicks, mouse_pos, settings.pause.value)
+
+    # update screen -------------------------------->
+    pygame.display.set_caption(f"Sandbox | fps={clock.get_fps():.2f}")
+    pygame.display.flip()
+    win.fill(BLACK)
+    clock.tick(FPS)
+
+
+def run_sim(win, slot=(0, "empty"), index=0, size=3):
+    """handle the game, its not that hard"""
+
+    settings.sim_running.set(True)
+
+    save_slot, board_data = slot
+
+    # setup -------------------------------->
+    clock = pygame.time.Clock()
+    game = Game(size, index, slot=save_slot)
+    board = Box(board_data)
+
+    # main loop -------------------------------->
+
+    for frame in itertools.count():
+        if return_dat := update(frame, win, clock, game, board):
+            return return_dat

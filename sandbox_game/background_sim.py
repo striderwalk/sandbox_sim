@@ -1,3 +1,5 @@
+import pygame
+from conts import CELL_HEIGHT, CELL_WIDTH, COLS, ROWS, YOFFSET
 from sandbox import Box, update_sim
 from slots import load_path
 
@@ -16,4 +18,7 @@ class Background:
     def update(self, win):
         self.fnum += 1
         update_sim(self.board)
-        draw_board(win, self.board.board, show_fountain=False)
+
+        surf = pygame.Surface((COLS * CELL_WIDTH, ROWS * CELL_HEIGHT))
+        draw_board(surf, self.board.board, show_fountain=False)
+        win.blit(surf, (0, YOFFSET))

@@ -19,8 +19,7 @@ HEAT_MAP = [[round(i * 255, 2) for i in colour.rgb] for colour in HEAT_MAP]
 base = Color(cbase)
 FIRE_COLOURS = base.range_to(Color("#fc0b03"), 5)
 FIRE_COLOURS = list(FIRE_COLOURS)
-FIRE_COLOURS = [[round(i * 255, 2) for i in colour.rgb]
-                for colour in FIRE_COLOURS]
+FIRE_COLOURS = [[round(i * 255, 2) for i in colour.rgb] for colour in FIRE_COLOURS]
 
 colour_values = {"FIRE_COLOURS": FIRE_COLOURS, "HEAT_MAP": HEAT_MAP}
 with open("D:/sandbox_sim/assets/colour_data.json", "w") as file:

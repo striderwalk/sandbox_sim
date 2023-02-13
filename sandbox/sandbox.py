@@ -50,8 +50,7 @@ class Box:
 
         if row_len < ROWS:
             diff = ROWS - row_len
-            adder = [[Air(j, i, temp=22) for i in range(col_len)]
-                     for j in range(diff)]
+            adder = [[Air(j, i, temp=22) for i in range(col_len)] for j in range(diff)]
             self.board = np.append(self.board, adder, 0)
 
         elif row_len > ROWS:
@@ -65,15 +64,13 @@ class Box:
         elif col_len > COLS:
             self.board = self.board[:COLS, :]
 
-        logging.info(
-            f"resized board of size {row_len}x{col_len} to {ROWS}x{COLS}")
+        logging.info(f"resized board of size {row_len}x{col_len} to {ROWS}x{COLS}")
 
         self.fix(talk=False)
 
     def set_profiling_board(self):
         # i don't like this code but done care enough to fix it
-        self.board = np.array([[Air(x, y) for x in range(COLS)]
-                              for y in range(ROWS)])
+        self.board = np.array([[Air(x, y) for x in range(COLS)] for y in range(ROWS)])
         step = COLS // len(particles)
         index_d = 0
         for i in range(ROWS):
@@ -149,13 +146,11 @@ class Box:
             # check for death in particle
             elif result["type"] == "dies":
                 item.load_move(self.board)
-                self.board[item.y, item.x] = Air(
-                    item.x, item.y, temp=item.next_temp)
+                self.board[item.y, item.x] = Air(item.x, item.y, temp=item.next_temp)
             # if particle wants to go though a major change
             elif result["type"] is not None:
                 obj = result["type"]
-                self.board[item.y, item.x] = obj(
-                    item.x, item.y, temp=item.next_temp)
+                self.board[item.y, item.x] = obj(item.x, item.y, temp=item.next_temp)
 
         # move items
         for item in row[::2]:
@@ -228,8 +223,7 @@ class Box:
     def reset(self):
         """does this need a docstring?"""
         logging.info("reseting board")
-        self.board = np.array([[Air(x, y) for x in range(COLS)]
-                              for y in range(ROWS)])
+        self.board = np.array([[Air(x, y) for x in range(COLS)] for y in range(ROWS)])
 
 
 def make_empty():

@@ -37,14 +37,16 @@ def make_text(text, alt_text, text_colour=TEXT_COLOUR, alt_text_colour=RED):
 
 class Button:
     # make button text obj refer to brain for reason
-    def __init__(self, text, alt_text, pos: Position, size: Size, setting=None):
+    def __init__(
+        self, text, alt_text, pos: Position, size: Size, setting=None, default=False
+    ):
         # text
         self.text = text
         self.alt_text = alt_text
         # clicks
         self.setting = setting
         self.rect = pygame.Rect(pos, size)
-        self.clicked = False
+        self.clicked = default
         self.timeout = 0
         # drawing
         self.pos = pos
@@ -110,19 +112,27 @@ class Menu:
     def toggle(self, name):
         self.buttons[name].click()
 
-    def make_button(self, text, alt_text, setting):
+    def make_button(self, text, alt_text, setting, default):
 
         x, y = self.bx, self.by
-        rtext, ralt_text = make_text(text, alt_text)
-        xsize = max(rtext.get_width(), ralt_text.get_width()) * 1.6
+        colour = RED if not default else TEXT_COLOUR
+        rtext, ralt_text = make_text(text, alt_text, alt_text_colour=colour)
+        xsize = max((max(rtext.get_width(), ralt_text.get_width()) * 1.8), 30)
         self.bx += self.bdx + xsize
         self.by += self.bdy
-        return Button(rtext, ralt_text, (x, y), (xsize, self.bheight), setting=setting)
+        return Button(
+            rtext,
+            ralt_text,
+            (x, y),
+            (xsize, self.bheight),
+            setting=setting,
+            default=default,
+        )
 
-    def add_button(self, name, dat):
+    def add_button(self, name, dat, default=False):
         if name in self.buttons:
             raise errors.NameAlreadyExists(name, self.buttons)
-        self.buttons[name] = self.make_button(*dat)
+        self.buttons[name] = self.make_button(*dat, default)
 
     def draw(self, win):
 

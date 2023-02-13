@@ -10,6 +10,7 @@ import logging
 from os import environ
 
 from slots import load_slot
+
 environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 
 
@@ -66,8 +67,7 @@ def process_args():
         action="store_true",
         help="load profiler board- to profile use profile.py",
     )
-    parser.add_argument("-s", "--slot",
-                        action="store")
+    parser.add_argument("-s", "--slot", action="store")
 
     return parser.parse_args()
 

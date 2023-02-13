@@ -19,7 +19,7 @@ def update_colour(colour):
 
 def find_heatmap_colour(temperature):
     temperature += 25
-    temperature = min(len(HEAT_MAP)-1, int(temperature))
+    temperature = min(len(HEAT_MAP) - 1, int(temperature))
     if temperature < 0:
         return (0, 0, 0)
     return HEAT_MAP[temperature]

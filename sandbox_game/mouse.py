@@ -125,7 +125,7 @@ class Mouse:
 
     def update(self, win, board, obj):
         self.draw_mouse(win, obj)
-        events = []
+        clicks = []
         # check for input
         # unsafe placement
         if pygame.mouse.get_pressed()[0]:
@@ -133,7 +133,7 @@ class Mouse:
             if pos[0] == "BOX":
                 x, y = pos[1:]
                 y += YOFFSET
-                events.append(
+                clicks.append(
                     {
                         "handler": "sim",
                         "type": "press",
@@ -149,13 +149,13 @@ class Mouse:
                 if isinstance(obj, Fountain):
                     obj = obj.obj
 
-                events.append({"handler": "selection", "type": "press", "value": obj})
+                clicks.append({"handler": "selection", "type": "press", "value": obj})
 
         # safe placements
         if pygame.mouse.get_pressed()[2]:
             pos = self.get_pos()
             if pos[0] == "BOX":
-                events.append(
+                clicks.append(
                     {
                         "handler": "sim",
                         "type": "press",
@@ -163,4 +163,4 @@ class Mouse:
                     }
                 )
 
-        return events
+        return clicks

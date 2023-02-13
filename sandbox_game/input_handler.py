@@ -13,8 +13,6 @@ result_map = {
     pygame.K_RIGHT: {"handler": "selection", "type": "right"},
     pygame.K_LCTRL: {"handler": "selection", "type": "left"},
     pygame.K_t: {"handler": "settings", "type": "temp"},
-    pygame.K_r: {"handler": "main", "type": "reset"},
-    pygame.K_q: {"handler": "sim", "type": "fix"},
 }
 
 
@@ -49,7 +47,9 @@ def process_event(event, game):
 def process_events(events, game):
     result = []
 
-    _process_event = lambda event: process_event(event, game)
+    def _process_event(event):
+        return process_event(event, game)
+
     for i in list(map(_process_event, events)):
         result.extend(i)
 
@@ -88,6 +88,9 @@ def input_handle(game):
                     ),
                 }
             )
+    if keys[pygame.K_q]:
+        clicks.append({"handler": "sim", "type": "fix"})
+
     events = list(pygame.event.get())
     result = process_events(events, game)
     return clicks, result
