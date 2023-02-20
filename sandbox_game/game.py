@@ -21,6 +21,7 @@ class Game:
         self.menu.add_button("menu", ("=", "=", settings.sim_running), default=True)
         self.menu.add_button("pause", ("pause", "play", settings.pause))
         self.menu.add_button("temp", ("show temp", "show normal", settings.showtemp))
+        self.menu.add_button("reset", ("reset", "reset", settings.reset_board))
         self.mouse = Mouse(size)
         self.selection = Selection(index)
         self.pause_time = 0

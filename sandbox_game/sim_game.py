@@ -34,7 +34,7 @@ def get_sub_win(win, board):
     return image
 
 
-def update(frame, win, clock, game, board):
+def update(frame, win, clock, game, board, event_handlers):
 
     events = []
     clicks = []
@@ -58,17 +58,17 @@ def update(frame, win, clock, game, board):
     if not settings.pause.value or clicks or events:
         logging.debug(f"{events=}, {clicks=}")
 
-    event_handlers = {
-        "settings": lambda event: settings.handle_event(event),
-        "selection": lambda event: game.handle_event(event),
-    }
+    # check for board reset
+    if settings.reset_board.value:
+        events.append({"handler": "main", "type": "reset"})
+        settings.reset_board.toggle()
 
     for event in events:
         handler = event["handler"]
         if handler == "main":
             if event["type"] == "reset":  # reset game
                 board.reset()
-                pause_time += frame  # set frames to 0
+                game.pause_time += frame  # set frames to 0
                 pygame.event.get()
 
             elif event["type"] in ["end", "menu"]:  # quit
@@ -117,8 +117,13 @@ def run_sim(win, slot=(0, "empty"), index=0, size=3):
     game = Game(size, index, slot=save_slot)
     board = Box(board_data)
 
+    event_handlers = {
+        "settings": lambda event: settings.handle_event(event),
+        "selection": lambda event: game.handle_event(event),
+    }
+
     # main loop -------------------------------->
 
     for frame in itertools.count():
-        if return_dat := update(frame, win, clock, game, board):
+        if return_dat := update(frame, win, clock, game, board, event_handlers):
             return return_dat

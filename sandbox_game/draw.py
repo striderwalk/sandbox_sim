@@ -13,8 +13,8 @@ BASE_SURF.fill(WHITE)
 def draw_row(surf, i, row, showtemp, show_fountain):
     for j, item in enumerate(row):
         # if air don't draw to save time
-        if isinstance(item, Air) and not showtemp:
-            continue
+        # if isinstance(item, Air) and not showtemp:
+        # continue
 
         if showtemp:
             colour = item.temp_colour

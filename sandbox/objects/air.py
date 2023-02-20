@@ -1,5 +1,6 @@
 from .particle import Particle
 from .properties import air_vals
+from .utils import update_colour
 
 
 class Air(Particle):
@@ -19,7 +20,7 @@ class Air(Particle):
     def __init__(self, x, y, temp=temp):
         super().__init__(x, y, mass=Air.mass)
         self.type = "gas"
-        self.colour = tuple(Air.colour)
+        self.colour = Air.colour
         self.temp = temp
 
     def to_liquid(self):

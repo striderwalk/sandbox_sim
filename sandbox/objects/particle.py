@@ -10,17 +10,7 @@ class Particle:
     """
 
     # USE **KWARGS NOW
-    def __init__(
-        self,
-        x,
-        y,
-        mass=0,
-        static=False,
-        flamable=False,
-        is_flame=False,
-        health=100,
-        obj=None,
-    ):  # USE **KWARGS
+    def __init__(self, x, y, mass=0, static=False, flamable=False, is_flame=False, health=100, obj=None):  # USE **KWARGS
         # USE **KWARGS DO IT
         # MAYBE DON'T ITS KINNA HARD JUST GET RID OF KWARGS
         self.x = x

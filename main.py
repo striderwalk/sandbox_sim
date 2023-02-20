@@ -1,22 +1,20 @@
+from slots import load_slot
+import logging
+import argparse
+import pygame
 from sandbox_game import run_sim
 from menu import end, loading, menu, save
 from log import configer_logger
 from conts import HEIGHT, WIDTH
 import slots
 import settings
-import pygame
-import argparse
-import logging
 from os import environ
-
-from slots import load_slot
 
 environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 
 
 def main(debug, profile_board, slot):
-    if slot:
-        slot = (int(slot), load_slot(int(slot)))
+    slot = (int(slot), load_slot(int(slot))) if slot else False
 
     pygame.init()
     win = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -88,6 +86,6 @@ if __name__ == "__main__":
     try:
         import colour_util
     except ModuleNotFoundError:
-        logging.warning("mdoule colour not found using saved colour values")
+        logging.warning("Module colour not found using saved colour values")
 
     main(args.debug, args.profile_board, args.slot)
