@@ -30,7 +30,7 @@ def load_path(path: str):
         return "empty"
 
     # get save
-    with open(path, "r") as file:
+    with open(path, "r", encoding="UTF-8") as file:
         data = json.load(file)
         try:
             data = convert_data(data)

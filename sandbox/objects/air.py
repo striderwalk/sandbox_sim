@@ -1,3 +1,4 @@
+from conts import HEIGHT, WIDTH
 from .particle import Particle
 from .properties import air_vals
 from .utils import update_colour
@@ -27,10 +28,6 @@ class Air(Particle):
         self.temp = Air.min_temp
 
     def update(self, board):
-
         others = list(self.get_others(board))
-
         self.update_temp(others)
-
-        # room temp
         self.next_temp += (Air.temp - self.next_temp) * 0.01

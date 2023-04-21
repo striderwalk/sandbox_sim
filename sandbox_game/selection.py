@@ -20,7 +20,7 @@ class Selection:
         self.buttons = []
         # current selection
         self.index = index
-        size = HEIGHT - LOWER_BOARDER - CELL_HEIGHT
+        size = HEIGHT - LOWER_BOARDER - CELL_HEIGHT*2
 
         for i, obj in enumerate(particles):
 

@@ -37,7 +37,6 @@ def get_sub_win(win, board):
 def update(frame, win, clock, game, board, event_handlers):
 
     events = []
-    clicks = []
 
     # make frame num stable if paused
     frame -= game.pause_time
@@ -47,22 +46,22 @@ def update(frame, win, clock, game, board, event_handlers):
     draw_board(surf, board.board)
     win.blit(surf, (0, YOFFSET))
 
-    _clicks = game.update(win, board)
-    clicks.extend(_clicks)
+    _events = game.update(win, board)
+    events.extend(_events)
 
     # handle input -------------------------------->
-    _clicks, _event = input_handle(game)
-    clicks.extend(_clicks)
-    events.extend(_event)
+    _events = input_handle(game)
+    events.extend(_events)
 
-    if not settings.pause.value or clicks or events:
-        logging.debug(f"{events=}, {clicks=}")
+    if not settings.pause.value or events:
+        logging.debug(f"{events=}")
 
     # check for board reset
     if settings.reset_board.value:
         events.append({"handler": "main", "type": "reset"})
         settings.reset_board.toggle()
 
+    sim_events = []
     for event in events:
         handler = event["handler"]
         if handler == "main":
@@ -83,6 +82,8 @@ def update(frame, win, clock, game, board, event_handlers):
                 update_sim(board)
             else:
                 raise errors.EventNotHandled(event)
+        elif handler == "sim":
+            sim_events.append(event)
         else:
             event_handlers[handler](event)
 
@@ -96,7 +97,7 @@ def update(frame, win, clock, game, board, event_handlers):
     # update sim -------------------------------->
     pos = game.mouse.get_pos()
     mouse_pos = pos[1:] if pos[0] == "BOX" else None
-    update_sim(board, clicks, mouse_pos, settings.pause.value)
+    update_sim(board, sim_events, mouse_pos, settings.pause.value)
 
     # update screen -------------------------------->
     pygame.display.set_caption(f"Sandbox | fps={clock.get_fps():.2f}")

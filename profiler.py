@@ -3,7 +3,24 @@ import cProfile
 import os
 import pstats
 
-from tqdm import tqdm
+try:
+    from tqdm import tqdm
+except ModuleNotFoundError:
+    class tqdm:
+        def __init__(self, iter):
+            self.iter = iter
+            
+
+        def __next__(self):
+            val = next(self.iter)
+            print(val)
+            val
+        def __iter__(self):
+            for i in self.iter:
+                time_percent = i/self.iter.stop
+                if time_percent %  0.1 == 0:
+                    print(time_percent)
+                yield i
 
 from sandbox import Box, update_sim
 from sandbox_game.draw import draw_board
@@ -31,5 +48,10 @@ print("timeing ended")
 
 st = pstats.Stats(pr)
 st.sort_stats(pstats.SortKey.TIME)
-st.dump_stats(filename="data.prof")
-os.system("snakeviz ./data.prof")
+st.print_stats()
+
+try:
+    st.dump_stats(filename="data.prof")
+    os.system("snakeviz ./data.prof")
+except:
+    print("exiting bye")

@@ -16,7 +16,7 @@ result_map = {
 }
 
 
-def process_event(event, game):
+def process_event(event, game) -> list:
     result = []
     if event.type == pygame.QUIT:
         pygame.quit()
@@ -47,9 +47,7 @@ def process_event(event, game):
 def process_events(events, game):
     result = []
 
-    def _process_event(event):
-        return process_event(event, game)
-
+    _process_event = lambda event: process_event(event, game)
     for i in list(map(_process_event, events)):
         result.extend(i)
 
@@ -59,22 +57,22 @@ def process_events(events, game):
 def input_handle(game):
     mouse_val = game.mouse.get_pos()
     keys = pygame.key.get_pressed()
-    clicks = []
+    events = []
 
     if keys[pygame.K_k]:
-        clicks.append(
+        events.append(
             {"handler": "sim", "type": "heat", "value": [50, game.mouse.size]}
         )
 
     if keys[pygame.K_j]:
-        clicks.append(
+        events.append(
             {"handler": "sim", "type": "heat", "value": [-50, game.mouse.size]}
         )
 
     if keys[pygame.K_e]:  # place fountain
         if mouse_val[0] == "BOX":
             x, y = mouse_val[1:]
-            clicks.append(
+            events.append(
                 {
                     "handler": "sim",
                     "type": "press",
@@ -89,8 +87,10 @@ def input_handle(game):
                 }
             )
     if keys[pygame.K_q]:
-        clicks.append({"handler": "sim", "type": "fix"})
+        events.append({"handler": "sim", "type": "fix"})
 
-    events = list(pygame.event.get())
-    result = process_events(events, game)
-    return clicks, result
+    pygame_events = list(pygame.event.get())
+
+    events = process_events(pygame_events, game)
+
+    return events

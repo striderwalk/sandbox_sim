@@ -1,14 +1,17 @@
-from slots import load_slot
-import logging
 import argparse
-import pygame
-from sandbox_game import run_sim
-from menu import end, loading, menu, save
-from log import configer_logger
-from conts import HEIGHT, WIDTH
-import slots
-import settings
+import logging
 from os import environ
+
+import pygame
+
+import colour_util
+import settings
+import slots
+from conts import HEIGHT, WIDTH
+from log import configer_logger
+from menu import end, loading, menu, save
+from sandbox_game import run_sim
+from slots import load_slot
 
 environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 
@@ -71,10 +74,10 @@ def process_args():
 
 
 if __name__ == "__main__":
-
-    args = process_args()
     # setup
     slots.setup()
+    colour_util.setup()
+    args = process_args()
 
     # set up logging ------------------------------->
     if args.info:
@@ -83,9 +86,5 @@ if __name__ == "__main__":
         configer_logger(logging.DEBUG)
 
         settings.debug.set(True)
-    try:
-        import colour_util
-    except ModuleNotFoundError:
-        logging.warning("Module colour not found using saved colour values")
 
     main(args.debug, args.profile_board, args.slot)

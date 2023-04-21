@@ -40,10 +40,10 @@ def save_slot(board, slot, img):
     try:
         save_data = convert_board(board)
     except IndexError:
-        logging.error("board convertion failed board data lost")
+        logging.critical("board convertion failed board data lost")
 
     # save slot
-    with open(board_name, "w") as file:
+    with open(board_name, "w", encoding="UTF-8") as file:
         json.dump(save_data, file)
 
         logging.info(f"save board to slot {slot}")

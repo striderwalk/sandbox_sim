@@ -61,7 +61,11 @@ class Particle:
 
         if self.x < len(board[self.y]) - 1:  # right
             others.append(board[self.y, self.x + 1])
+        
         return others
+
+
+    
 
     def update_temp(self, others):
         # profiler.start()

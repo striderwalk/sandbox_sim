@@ -30,12 +30,11 @@ def draw_row(surf, i, row, showtemp, show_fountain):
 def draw_board(win, board, show_fountain=True):
     surf = BASE_SURF.copy()
 
-    # draw all particles
+    # draw all of the particles
     showtemp = settings.showtemp.value
     for i, row in enumerate(board):
         draw_row(surf, i, row, showtemp, show_fountain)
 
-    # idk about thids
     for i, row in enumerate(board):
         for j, item in enumerate(row):
             if item.is_flame:

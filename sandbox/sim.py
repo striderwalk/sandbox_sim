@@ -6,6 +6,7 @@ def update_sim(board, events=[], mouse_pos=None, pause=False):
         board.update()
 
     for event in events:
+
         if event["type"] == "press":
             board.press(*event["value"])
 

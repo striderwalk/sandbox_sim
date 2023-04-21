@@ -15,7 +15,7 @@ class Acid(Particle, Liquid):
     colour = (62, 243, 65)
     temp = acid_vals["start_temp"]
 
-    ### rules ###
+    # rules
     max_temp = acid_vals["max_temp"]
     min_temp = acid_vals["min_temp"]
     conduct = acid_vals["conduct"]

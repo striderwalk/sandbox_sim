@@ -5,7 +5,7 @@ from .solid import Solid
 from .gas import Gas
 from .liquid import Liquid
 
-# real thingz
+# real classes
 from .air import Air
 from .ash import Ash
 from .smoke import Smoke

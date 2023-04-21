@@ -126,41 +126,37 @@ class Mouse:
     def update(self, win, board, obj):
         self.draw_mouse(win, obj)
         clicks = []
+
         # check for input
-        # unsafe placement
-        if pygame.mouse.get_pressed()[0]:
-            pos = self.get_pos()
-            if pos[0] == "BOX":
-                x, y = pos[1:]
-                y += YOFFSET
-                clicks.append(
-                    {
-                        "handler": "sim",
-                        "type": "press",
-                        "value": (self.size, *pos[1:], obj, False, None),
-                    }
-                )
+        # left click- replace all
+        pos = self.get_pos()
+        if pygame.mouse.get_pressed()[0] and pos[0] == "BOX":
 
-        if pygame.mouse.get_pressed()[1]:
-            pos = self.get_pos()
-            if pos[0] == "BOX":
-                x, y = pos[1:]
-                obj = board[y, x].__class__
-                if isinstance(obj, Fountain):
-                    obj = obj.obj
+            clicks.append(
+                {
+                    "handler": "sim",
+                    "type": "press",
+                    "value": (self.size, *pos[1:], obj, False, None),
+                }
+            )
 
-                clicks.append({"handler": "selection", "type": "press", "value": obj})
+        if pygame.mouse.get_pressed()[1] and pos[0] == "BOX":
+            x, y = pos[1:]
+            obj = board[y, x].__class__
+            if isinstance(obj, Fountain):
+                obj = obj.obj
 
-        # safe placements
-        if pygame.mouse.get_pressed()[2]:
-            pos = self.get_pos()
-            if pos[0] == "BOX":
-                clicks.append(
-                    {
-                        "handler": "sim",
-                        "type": "press",
-                        "value": (self.size, *pos[1:], obj, True, None),
-                    }
-                )
+            clicks.append({"handler": "selection", "type": "press", "value": obj})
+
+        # right click- only replace air
+        if pygame.mouse.get_pressed()[2] and pos[0] == "BOX":
+
+            clicks.append(
+                {
+                    "handler": "sim",
+                    "type": "press",
+                    "value": (self.size, *pos[1:], obj, True, None),
+                }
+            )
 
         return clicks

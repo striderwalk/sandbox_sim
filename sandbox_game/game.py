@@ -38,15 +38,14 @@ class Game:
         # draw particle selection
         surf = pygame.Surface((WIDTH, HEIGHT - LOWER_BOARDER))
         self.selection.update(surf)
-        win.blit(surf, (0, LOWER_BOARDER + CELL_HEIGHT))
+        win.blit(surf, (0, LOWER_BOARDER + CELL_HEIGHT * 2))
 
         # draw menu
         surf = pygame.Surface((WIDTH, UPPER_BOARDER))
         self.menu.draw(surf)
         win.blit(surf, (0, 0))
 
-        _clicks = self.mouse.update(win, board.board, self.selection.selected)
-        return _clicks
+        return self.mouse.update(win, board.board, self.selection.selected)
 
     def handle_event(self, event):
 
